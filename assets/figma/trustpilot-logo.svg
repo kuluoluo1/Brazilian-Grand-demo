@@ -1,0 +1,8 @@
+<svg width="232" height="30" viewBox="0 0 232 30" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="trustpilotLogoTitle">
+  <title id="trustpilotLogoTitle">Trustpilot 13,578 reviews</title>
+  <path d="M24 1.5L29.1 11.9L40.6 13.6L32.3 21.7L34.3 33L24 27.6L13.7 33L15.7 21.7L7.4 13.6L18.9 11.9L24 1.5Z" fill="#04DA8D" transform="translate(-2 -2) scale(.94)"/>
+  <text x="43" y="21" fill="#FFFFFF" font-family="Manrope, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="0">Trustpilot</text>
+  <a href="#" aria-label="13,578 reviews">
+    <text x="145" y="21" fill="#DDDDDD" font-family="Manrope, Arial, sans-serif" font-size="14" font-weight="400" text-decoration="underline" letter-spacing="0">13,578 reviews</text>
+  </a>
+</svg>

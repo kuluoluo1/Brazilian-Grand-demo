@@ -1,0 +1,12 @@
+{
+  "name": "brazil-demo-brp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build && node scripts/copy-static-assets.mjs"
+  },
+  "devDependencies": {
+    "vite": "^7.0.6"
+  }
+}
