@@ -27,113 +27,113 @@ const state = {
 };
 
 const products = [
-  { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-01.png" },
-  { tag: "Photo + phrase", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-02.png", review: true },
-  { tag: "Photo + text", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-03.png" },
-  { tag: "Name + portrait", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-04.png" },
-  { tag: "Pet portrait", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-05.png" },
-  { tag: "Photo + quote", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-06.png" },
-  { tag: "Name + date", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-07.png" },
-  { tag: "Couple photo", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-08.png" },
-  { tag: "Dog lover", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-09.png" },
-  { tag: "Cat lover", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-10.png" },
+  { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-01.webp" },
+  { tag: "Photo + phrase", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-02.webp", review: true },
+  { tag: "Photo + text", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-03.webp" },
+  { tag: "Name + portrait", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-04.webp" },
+  { tag: "Pet portrait", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-05.webp" },
+  { tag: "Photo + quote", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-06.webp" },
+  { tag: "Name + date", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-07.webp" },
+  { tag: "Couple photo", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-08.webp" },
+  { tag: "Dog lover", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-09.webp" },
+  { tag: "Cat lover", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-10.webp" },
 ];
 
 const homeFilterProductCatalog = {
   "Pai/Avô": products,
   "Mãe/Avó": [
-    { tag: "Name + portrait", name: "Caneca personalizada para Mãe e Avó Caneca personalizada", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Photo + quote", name: "Lembrança personalizada para Avó Caneca personalizada", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Photo + phrase", name: "Caneca personalizada com frase para Mãe", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Nome + foto", name: "Presente personalizado para Mãe com foto", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Photo + text", name: "Quadro de lembranças para Avó personalizado", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Name + date", name: "Presente com data especial para Mãe", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Couple photo", name: "Caneca família personalizada para Avós", price: "R$ 59,90", image: "home-product-08.png" },
-    { tag: "Pet portrait", name: "Retrato pet para mãe de pet personalizada", price: "R$ 59,90", image: "home-product-05.png" },
-    { tag: "Cat lover", name: "Presente carinhoso para mãe de gato", price: "R$ 59,90", image: "home-product-10.png" },
-    { tag: "Dog lover", name: "Presente carinhoso para mãe de cachorro", price: "R$ 59,90", image: "home-product-09.png" },
+    { tag: "Name + portrait", name: "Caneca personalizada para Mãe e Avó Caneca personalizada", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Photo + quote", name: "Lembrança personalizada para Avó Caneca personalizada", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Photo + phrase", name: "Caneca personalizada com frase para Mãe", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Nome + foto", name: "Presente personalizado para Mãe com foto", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Photo + text", name: "Quadro de lembranças para Avó personalizado", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Name + date", name: "Presente com data especial para Mãe", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Couple photo", name: "Caneca família personalizada para Avós", price: "R$ 59,90", image: "home-product-08.webp" },
+    { tag: "Pet portrait", name: "Retrato pet para mãe de pet personalizada", price: "R$ 59,90", image: "home-product-05.webp" },
+    { tag: "Cat lover", name: "Presente carinhoso para mãe de gato", price: "R$ 59,90", image: "home-product-10.webp" },
+    { tag: "Dog lover", name: "Presente carinhoso para mãe de cachorro", price: "R$ 59,90", image: "home-product-09.webp" },
   ],
   "Família": [
-    { tag: "Photo + text", name: "Presente personalizado para toda família", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Couple photo", name: "Caneca personalizada com foto da família", price: "R$ 59,90", image: "home-product-08.png" },
-    { tag: "Name + date", name: "Lembrança personalizada de data especial", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Nome + foto", name: "Caneca com foto para família", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Photo + quote", name: "Quadro personalizado com mensagem familiar", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Photo + phrase", name: "Caneca personalizada com frase de família", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Name + portrait", name: "Retrato familiar personalizado para presente", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Pet portrait", name: "Presente família e pet personalizado", price: "R$ 59,90", image: "home-product-05.png" },
-    { tag: "Dog lover", name: "Presente para família que ama cachorro", price: "R$ 59,90", image: "home-product-09.png" },
-    { tag: "Cat lover", name: "Presente para família que ama gato", price: "R$ 59,90", image: "home-product-10.png" },
+    { tag: "Photo + text", name: "Presente personalizado para toda família", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Couple photo", name: "Caneca personalizada com foto da família", price: "R$ 59,90", image: "home-product-08.webp" },
+    { tag: "Name + date", name: "Lembrança personalizada de data especial", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Nome + foto", name: "Caneca com foto para família", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Photo + quote", name: "Quadro personalizado com mensagem familiar", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Photo + phrase", name: "Caneca personalizada com frase de família", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Name + portrait", name: "Retrato familiar personalizado para presente", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Pet portrait", name: "Presente família e pet personalizado", price: "R$ 59,90", image: "home-product-05.webp" },
+    { tag: "Dog lover", name: "Presente para família que ama cachorro", price: "R$ 59,90", image: "home-product-09.webp" },
+    { tag: "Cat lover", name: "Presente para família que ama gato", price: "R$ 59,90", image: "home-product-10.webp" },
   ],
   Casal: [
-    { tag: "Couple photo", name: "Caneca personalizada para casal com foto", price: "R$ 59,90", image: "home-product-08.png" },
-    { tag: "Photo + quote", name: "Presente personalizado romântico para casal", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Name + date", name: "Lembrança de data especial para casal", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Photo + phrase", name: "Caneca com frase para casal", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Nome + foto", name: "Caneca personalizada com foto do casal", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Photo + text", name: "Presente com texto personalizado para casal", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Name + portrait", name: "Retrato personalizado para casal", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Pet portrait", name: "Presente casal com pet personalizado", price: "R$ 59,90", image: "home-product-05.png" },
-    { tag: "Dog lover", name: "Presente para casal que ama cachorro", price: "R$ 59,90", image: "home-product-09.png" },
-    { tag: "Cat lover", name: "Presente para casal que ama gato", price: "R$ 59,90", image: "home-product-10.png" },
+    { tag: "Couple photo", name: "Caneca personalizada para casal com foto", price: "R$ 59,90", image: "home-product-08.webp" },
+    { tag: "Photo + quote", name: "Presente personalizado romântico para casal", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Name + date", name: "Lembrança de data especial para casal", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Photo + phrase", name: "Caneca com frase para casal", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Nome + foto", name: "Caneca personalizada com foto do casal", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Photo + text", name: "Presente com texto personalizado para casal", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Name + portrait", name: "Retrato personalizado para casal", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Pet portrait", name: "Presente casal com pet personalizado", price: "R$ 59,90", image: "home-product-05.webp" },
+    { tag: "Dog lover", name: "Presente para casal que ama cachorro", price: "R$ 59,90", image: "home-product-09.webp" },
+    { tag: "Cat lover", name: "Presente para casal que ama gato", price: "R$ 59,90", image: "home-product-10.webp" },
   ],
   Você: [
-    { tag: "Photo + quote", name: "Presente personalizado para guardar lembranças", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Pet portrait", name: "Retrato pet personalizado para você", price: "R$ 59,90", image: "home-product-05.png" },
-    { tag: "Nome + foto", name: "Caneca personalizada com sua foto", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Photo + phrase", name: "Caneca personalizada com sua frase", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Photo + text", name: "Presente personalizado com seu texto", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Name + portrait", name: "Retrato personalizado do seu jeito", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Name + date", name: "Lembrança personalizada com sua data", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Dog lover", name: "Presente para quem ama cachorros", price: "R$ 59,90", image: "home-product-09.png" },
-    { tag: "Cat lover", name: "Presente para quem ama gatos", price: "R$ 59,90", image: "home-product-10.png" },
-    { tag: "Couple photo", name: "Caneca personalizada para momentos especiais", price: "R$ 59,90", image: "home-product-08.png" },
+    { tag: "Photo + quote", name: "Presente personalizado para guardar lembranças", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Pet portrait", name: "Retrato pet personalizado para você", price: "R$ 59,90", image: "home-product-05.webp" },
+    { tag: "Nome + foto", name: "Caneca personalizada com sua foto", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Photo + phrase", name: "Caneca personalizada com sua frase", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Photo + text", name: "Presente personalizado com seu texto", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Name + portrait", name: "Retrato personalizado do seu jeito", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Name + date", name: "Lembrança personalizada com sua data", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Dog lover", name: "Presente para quem ama cachorros", price: "R$ 59,90", image: "home-product-09.webp" },
+    { tag: "Cat lover", name: "Presente para quem ama gatos", price: "R$ 59,90", image: "home-product-10.webp" },
+    { tag: "Couple photo", name: "Caneca personalizada para momentos especiais", price: "R$ 59,90", image: "home-product-08.webp" },
   ],
   "Amantes de Pets": [
-    { tag: "Pet portrait", name: "Retrato personalizado para amantes de pets", price: "R$ 59,90", image: "home-product-05.png" },
-    { tag: "Dog lover", name: "Caneca personalizada para amantes de cães", price: "R$ 59,90", image: "home-product-09.png" },
-    { tag: "Cat lover", name: "Caneca personalizada para amantes de gatos", price: "R$ 59,90", image: "home-product-10.png" },
-    { tag: "Nome + foto", name: "Caneca personalizada com foto do pet", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Photo + phrase", name: "Caneca pet com frase personalizada", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Photo + text", name: "Presente pet com texto personalizado", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Name + portrait", name: "Retrato pet com nome personalizado", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Photo + quote", name: "Lembrança personalizada para pet", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Name + date", name: "Presente pet com data especial", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Couple photo", name: "Presente para casal e pet", price: "R$ 59,90", image: "home-product-08.png" },
+    { tag: "Pet portrait", name: "Retrato personalizado para amantes de pets", price: "R$ 59,90", image: "home-product-05.webp" },
+    { tag: "Dog lover", name: "Caneca personalizada para amantes de cães", price: "R$ 59,90", image: "home-product-09.webp" },
+    { tag: "Cat lover", name: "Caneca personalizada para amantes de gatos", price: "R$ 59,90", image: "home-product-10.webp" },
+    { tag: "Nome + foto", name: "Caneca personalizada com foto do pet", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Photo + phrase", name: "Caneca pet com frase personalizada", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Photo + text", name: "Presente pet com texto personalizado", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Name + portrait", name: "Retrato pet com nome personalizado", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Photo + quote", name: "Lembrança personalizada para pet", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Name + date", name: "Presente pet com data especial", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Couple photo", name: "Presente para casal e pet", price: "R$ 59,90", image: "home-product-08.webp" },
   ],
   "Melhores Amigos": [
-    { tag: "Photo + text", name: "Presente personalizado para melhor amigo", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Photo + phrase", name: "Caneca com frase para amizade", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Couple photo", name: "Lembrança personalizada para amigos", price: "R$ 59,90", image: "home-product-08.png" },
-    { tag: "Nome + foto", name: "Caneca com foto para melhor amigo", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Name + portrait", name: "Retrato personalizado para amigos", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Photo + quote", name: "Quadro personalizado de amizade", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Name + date", name: "Presente de amizade com data", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Dog lover", name: "Presente para amigo que ama cachorro", price: "R$ 59,90", image: "home-product-09.png" },
-    { tag: "Cat lover", name: "Presente para amigo que ama gato", price: "R$ 59,90", image: "home-product-10.png" },
-    { tag: "Pet portrait", name: "Presente pet para amigo especial", price: "R$ 59,90", image: "home-product-05.png" },
+    { tag: "Photo + text", name: "Presente personalizado para melhor amigo", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Photo + phrase", name: "Caneca com frase para amizade", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Couple photo", name: "Lembrança personalizada para amigos", price: "R$ 59,90", image: "home-product-08.webp" },
+    { tag: "Nome + foto", name: "Caneca com foto para melhor amigo", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Name + portrait", name: "Retrato personalizado para amigos", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Photo + quote", name: "Quadro personalizado de amizade", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Name + date", name: "Presente de amizade com data", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Dog lover", name: "Presente para amigo que ama cachorro", price: "R$ 59,90", image: "home-product-09.webp" },
+    { tag: "Cat lover", name: "Presente para amigo que ama gato", price: "R$ 59,90", image: "home-product-10.webp" },
+    { tag: "Pet portrait", name: "Presente pet para amigo especial", price: "R$ 59,90", image: "home-product-05.webp" },
   ],
   "Crianças/Bebês": [
-    { tag: "Name + date", name: "Presente personalizado para crianças e bebês", price: "R$ 59,90", image: "home-product-07.png" },
-    { tag: "Nome + foto", name: "Caneca com foto para criança", price: "R$ 59,90", image: "home-product-01.png" },
-    { tag: "Photo + text", name: "Lembrança personalizada para bebê", price: "R$ 59,90", image: "home-product-03.png" },
-    { tag: "Photo + phrase", name: "Presente infantil com frase personalizada", price: "R$ 59,90", image: "home-product-02.png" },
-    { tag: "Name + portrait", name: "Retrato personalizado para criança", price: "R$ 59,90", image: "home-product-04.png" },
-    { tag: "Pet portrait", name: "Presente fofo com pet para criança", price: "R$ 59,90", image: "home-product-05.png" },
-    { tag: "Photo + quote", name: "Quadro infantil personalizado", price: "R$ 59,90", image: "home-product-06.png" },
-    { tag: "Couple photo", name: "Lembrança personalizada da família", price: "R$ 59,90", image: "home-product-08.png" },
-    { tag: "Dog lover", name: "Presente infantil com cachorro", price: "R$ 59,90", image: "home-product-09.png" },
-    { tag: "Cat lover", name: "Presente infantil com gato", price: "R$ 59,90", image: "home-product-10.png" },
+    { tag: "Name + date", name: "Presente personalizado para crianças e bebês", price: "R$ 59,90", image: "home-product-07.webp" },
+    { tag: "Nome + foto", name: "Caneca com foto para criança", price: "R$ 59,90", image: "home-product-01.webp" },
+    { tag: "Photo + text", name: "Lembrança personalizada para bebê", price: "R$ 59,90", image: "home-product-03.webp" },
+    { tag: "Photo + phrase", name: "Presente infantil com frase personalizada", price: "R$ 59,90", image: "home-product-02.webp" },
+    { tag: "Name + portrait", name: "Retrato personalizado para criança", price: "R$ 59,90", image: "home-product-04.webp" },
+    { tag: "Pet portrait", name: "Presente fofo com pet para criança", price: "R$ 59,90", image: "home-product-05.webp" },
+    { tag: "Photo + quote", name: "Quadro infantil personalizado", price: "R$ 59,90", image: "home-product-06.webp" },
+    { tag: "Couple photo", name: "Lembrança personalizada da família", price: "R$ 59,90", image: "home-product-08.webp" },
+    { tag: "Dog lover", name: "Presente infantil com cachorro", price: "R$ 59,90", image: "home-product-09.webp" },
+    { tag: "Cat lover", name: "Presente infantil com gato", price: "R$ 59,90", image: "home-product-10.webp" },
   ],
 };
 
 const recipients = [
-  ["Dia das Crianças", "recipient-kids.png", "r1"],
-  ["Amantes de Cachorros", "recipient-dog-lovers.png", "r2"],
-  ["Amantes de Gatos", "recipient-cat-lovers.png", "r3"],
-  ["Pai de Cachorro", "recipient-dog-dad.png", "r4"],
-  ["Mãe de Cachorro", "recipient-dog-mom.png", "r5"],
-  ["Casais com Pets", "recipient-pet-couples.png", "r6"],
+  ["Dia das Crianças", "recipient-kids.webp", "r1"],
+  ["Amantes de Cachorros", "recipient-dog-lovers.webp", "r2"],
+  ["Amantes de Gatos", "recipient-cat-lovers.webp", "r3"],
+  ["Pai de Cachorro", "recipient-dog-dad.webp", "r4"],
+  ["Mãe de Cachorro", "recipient-dog-mom.webp", "r5"],
+  ["Casais com Pets", "recipient-pet-couples.webp", "r6"],
 ];
 
 const trendingTerms = [
@@ -170,12 +170,12 @@ const searchRecommendationCatalog = [
 ];
 
 const firstLevelDrawerItems = [
-  { label: "Para quem-2", image: "drawer-nav-01.png", target: "categoryLevel2", categoryKey: "paraQuem" },
-  { label: "Ocasiões-3", image: "drawer-nav-02.png", target: "categoryFlatList" },
-  { label: "Produtos", image: "drawer-nav-03.png", target: "categoryLevel2", categoryKey: "produtos" },
-  { label: "Coleções", image: "drawer-nav-04.png", target: "categoryLevel2", categoryKey: "colecoes" },
-  { label: "Destaques", image: "drawer-nav-05.png", target: "categoryLevel2", categoryKey: "destaques" },
-  { label: "Buscador de presentes", image: "drawer-nav-06.png", target: "giftStep1" },
+  { label: "Para quem-2", image: "drawer-nav-01.webp", target: "categoryLevel2", categoryKey: "paraQuem" },
+  { label: "Ocasiões-3", image: "drawer-nav-02.webp", target: "categoryFlatList" },
+  { label: "Produtos", image: "drawer-nav-03.webp", target: "categoryLevel2", categoryKey: "produtos" },
+  { label: "Coleções", image: "drawer-nav-04.webp", target: "categoryLevel2", categoryKey: "colecoes" },
+  { label: "Destaques", image: "drawer-nav-05.webp", target: "categoryLevel2", categoryKey: "destaques" },
+  { label: "Buscador de presentes", image: "drawer-nav-06.webp", target: "giftStep1" },
 ];
 
 const flatDrawerCategories = [
@@ -259,12 +259,31 @@ const assetIcons = {
   trackOrder: "./assets/figma/icon-track-order.svg",
 };
 
+function rasterImageSrc(name) {
+  return `./assets/figma/${name.replace(/\.(png|jpe?g)$/i, ".webp")}`;
+}
+
+function imageTag(name, { className = "", alt = "", loading = "lazy", fetchpriority = "", width = "", height = "" } = {}) {
+  const attrs = [
+    `src="${rasterImageSrc(name)}"`,
+    className ? `class="${className}"` : "",
+    `alt="${escapeHtml(alt)}"`,
+    `loading="${loading}"`,
+    'decoding="async"',
+    fetchpriority ? `fetchpriority="${fetchpriority}"` : "",
+    width ? `width="${width}"` : "",
+    height ? `height="${height}"` : "",
+  ].filter(Boolean);
+
+  return `<img ${attrs.join(" ")} />`;
+}
+
 const finderImages = [
-  "gift-finder-1.png",
-  "gift-finder-3.png",
-  "gift-finder-5.png",
-  "gift-finder-2.png",
-  "gift-finder-4.png",
+  "gift-finder-1.webp",
+  "gift-finder-3.webp",
+  "gift-finder-5.webp",
+  "gift-finder-2.webp",
+  "gift-finder-4.webp",
 ];
 
 const screens = {
@@ -609,7 +628,7 @@ function renderHome(options = {}) {
       ${searchBar()}
       <section class="hero">
         <button class="hero-link" type="button" data-action="navigate" data-target="giftStep1" aria-label="Encontrar um presente">
-          <img class="hero-frame" src="./assets/figma/banner_pic.png" alt="Tem presente que vira lembrança. Encontrar um presente" />
+          ${imageTag("banner_pic.webp", { className: "hero-frame", alt: "Tem presente que vira lembrança. Encontrar um presente", loading: "eager", fetchpriority: "high", width: 366, height: 458 })}
         </button>
       </section>
       ${renderHomeTrustBar()}
@@ -621,7 +640,7 @@ function renderHome(options = {}) {
         <div class="recipient-grid">
           ${recipients.map(([name, image, slot]) => `
             <button class="recipient-card ${slot}" type="button" data-action="navigate" data-target="listPage">
-              <img src="./assets/figma/${image}" alt="" />
+              ${imageTag(image, { width: 100, height: 112 })}
               <strong>${name}</strong>
             </button>
           `).join("")}
@@ -638,8 +657,8 @@ function renderHome(options = {}) {
         <h2 class="section-heading">Compre com Confiança</h2>
         ${renderTrustBadges()}
       </section>
-      ${renderCollection("summer", "Aproveite Cada Momento do Verão", "Celebre quem você ama com presentes inspirados no sol e nos sorrisos.", "collection-summer.png")}
-      ${renderCollection("pets", "Celebre o Amor de Quatro Patas", "Transforme fotos dos seus pets em presentes cheios de carinho.", "collection-pets.png")}
+      ${renderCollection("summer", "Aproveite Cada Momento do Verão", "Celebre quem você ama com presentes inspirados no sol e nos sorrisos.", "collection-summer.webp")}
+      ${renderCollection("pets", "Celebre o Amor de Quatro Patas", "Transforme fotos dos seus pets em presentes cheios de carinho.", "collection-pets.webp")}
       <section class="recipient-filter section-block">
         <div class="section-title">
           <h2>Para quem você está comprando hoje?</h2>
@@ -710,7 +729,7 @@ function renderCollection(kind, title, copy, image) {
   return `
     <section class="collection ${kind} section-block">
       <div class="collection-tab">
-        <img src="./assets/figma/${image}" alt="" />
+        ${imageTag(image, { width: 366, height: 160 })}
         <div class="collection-copy">
           <h2>${title}</h2>
           <p>${copy}</p>
@@ -747,7 +766,7 @@ function renderFinderStrip() {
   return `
     <div class="finder-strip">
       <div class="finder-track">
-        ${finderLoopImages.map((image) => `<div class="finder-photo"><img src="./assets/figma/${image}" alt="" /></div>`).join("")}
+        ${finderLoopImages.map((image) => `<div class="finder-photo">${imageTag(image, { width: 110, height: 146 })}</div>`).join("")}
       </div>
     </div>
   `;
@@ -757,7 +776,7 @@ function renderProductCard(product, { size = "small", withReview = false } = {})
   const classes = `product-card ${size === "large" ? "large-card" : "small-card"} ${withReview ? "with-review" : ""}`;
   return `
     <article class="${classes}">
-      <img class="product-image" src="./assets/figma/${product.image}" alt="" />
+      ${imageTag(product.image, { className: "product-image", width: size === "large" ? 175 : 152, height: size === "large" ? 175 : 152 })}
       ${withReview ? `<div class="stars">${renderRatingStars()}<em>(99+)</em></div>` : ""}
       <p class="tag">${product.tag}</p>
       <h3>${product.name}</h3>
@@ -801,7 +820,7 @@ function renderPagination() {
 function renderReviewCards(count) {
   return Array.from({ length: count }, (_, index) => `
     <article class="review-card">
-      <img src="./assets/figma/review-one.png" alt="" />
+      ${imageTag("review-one.webp", { width: 130, height: 130 })}
       <div class="review-copy">
         <div class="verified">
           <img src="./assets/figma/icon-verified.svg" alt="" />
@@ -904,7 +923,7 @@ function renderCategoryDrawer() {
 function renderFirstLevelDrawerItem(item) {
   return `
     <button class="drawer-nav-item" type="button" data-action="navigate" data-target="${item.target}" data-category-key="${item.categoryKey || ""}">
-      <img class="drawer-thumb" src="./assets/figma/${item.image}" alt="" />
+      ${imageTag(item.image, { className: "drawer-thumb", width: 52, height: 52 })}
       <span>${escapeHtml(item.label)}</span>
       ${icon("drawerNavChevron")}
     </button>

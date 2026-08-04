@@ -1,14 +1,32 @@
 ﻿import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { statSync } from "node:fs";
 
 const htmlPath = resolve("demo.html");
 const cssPath = resolve("demo.css");
 const jsPath = resolve("demo.js");
+const indexPath = resolve("index.html");
 
 const filesExist = existsSync(htmlPath) && existsSync(cssPath) && existsSync(jsPath);
 const html = existsSync(htmlPath) ? readFileSync(htmlPath, "utf8") : "";
 const css = existsSync(cssPath) ? readFileSync(cssPath, "utf8") : "";
 const js = existsSync(jsPath) ? readFileSync(jsPath, "utf8") : "";
+const indexHtml = existsSync(indexPath) ? readFileSync(indexPath, "utf8") : "";
+
+const webpBudget = [
+  ["banner_pic.webp", 120],
+  ...Array.from({ length: 10 }, (_, index) => [`home-product-${String(index + 1).padStart(2, "0")}.webp`, 40]),
+  ...Array.from({ length: 6 }, (_, index) => [`drawer-nav-${String(index + 1).padStart(2, "0")}.webp`, 10]),
+  ...Array.from({ length: 5 }, (_, index) => [`gift-finder-${index + 1}.webp`, 20]),
+  ["collection-summer.webp", 30],
+  ["collection-pets.webp", 30],
+  ["review-one.webp", 8],
+];
+
+function webpAssetIsWithinBudget(name, maxKb) {
+  const file = resolve("assets/figma", name);
+  return existsSync(file) && statSync(file).size <= maxKb * 1024;
+}
 
 const requiredScreens = [
   "home",
@@ -131,12 +149,17 @@ const checks = [
       /\.app-viewport\s*{[\s\S]*height:\s*var\(--app-height\)/.test(css),
   ],
   ["demo no longer renders frame screenshots", !/screenImage|hotspot|assets\/demo/i.test(html + css + js)],
-  ["banner uses provided desktop banner image", js.includes("./assets/figma/banner_pic.png")],
+  [
+    "banner uses provided desktop banner image as WebP",
+    /imageTag\("banner_pic\.webp"[\s\S]*loading:\s*"eager"[\s\S]*fetchpriority:\s*"high"/.test(js) &&
+      existsSync(resolve("assets/figma/banner_pic.png")) &&
+      existsSync(resolve("assets/figma/banner_pic.webp")),
+  ],
   ["provided banner asset exists", existsSync(resolve("assets/figma/banner_pic.png"))],
   [
     "home product cards use refreshed Figma product images",
     Array.from({ length: 10 }, (_, index) => {
-      const file = `home-product-${String(index + 1).padStart(2, "0")}.png`;
+      const file = `home-product-${String(index + 1).padStart(2, "0")}.webp`;
       return js.includes(`image: "${file}"`) && existsSync(resolve("assets/figma", file));
     }).every(Boolean),
   ],
@@ -199,7 +222,7 @@ const checks = [
   ],
   [
     "gift finder strip follows Figma image order",
-    /const finderImages = \[\s*"gift-finder-1\.png",\s*"gift-finder-3\.png",\s*"gift-finder-5\.png",\s*"gift-finder-2\.png",\s*"gift-finder-4\.png"/.test(js),
+    /const finderImages = \[\s*"gift-finder-1\.webp",\s*"gift-finder-3\.webp",\s*"gift-finder-5\.webp",\s*"gift-finder-2\.webp",\s*"gift-finder-4\.webp"/.test(js),
   ],
   [
     "vertical product grids render ten cards and include pagination",
@@ -524,11 +547,14 @@ const checks = [
     /\.category-drawer/.test(css) &&
       /const firstLevelDrawerItems = \[/.test(js) &&
       ["Para quem-2", "Ocasiões-3", "Produtos", "Coleções", "Destaques", "Buscador de presentes"].every((label) => js.includes(label)) &&
-      Array.from({ length: 6 }, (_, index) => existsSync(resolve("assets/figma", `drawer-nav-${String(index + 1).padStart(2, "0")}.png`))).every(Boolean) &&
+      Array.from({ length: 6 }, (_, index) => {
+        const base = `drawer-nav-${String(index + 1).padStart(2, "0")}`;
+        return existsSync(resolve("assets/figma", `${base}.png`)) && existsSync(resolve("assets/figma", `${base}.webp`));
+      }).every(Boolean) &&
       /function renderFirstLevelDrawerItem/.test(js) &&
       /class="drawer-first-list"/.test(js) &&
       /class="drawer-nav-item"/.test(js) &&
-      /class="drawer-thumb"/.test(js) &&
+      /className:\s*"drawer-thumb"/.test(js) &&
       /class="drawer-service"/.test(js) &&
       /data-action="navigate" data-target="\$\{item\.target\}"/.test(js) &&
       /\.category-drawer\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*left:\s*0[\s\S]*top:\s*0[\s\S]*width:\s*350px/.test(css) &&
@@ -729,6 +755,18 @@ const checks = [
       /background:\s*#ffffff/.test(getCssRule(".search.is-active input")) &&
       /background:\s*var\(--red\)/.test(getCssRule('.search.is-active:not(.result-query-search) button[type="submit"]')),
   ],
+  [
+    "raster images are served as WebP with mobile loading hints",
+    webpBudget.every(([name, maxKb]) => webpAssetIsWithinBudget(name, maxKb)) &&
+      /function rasterImageSrc\(name\)/.test(js) &&
+      /function imageTag\(name,/.test(js) &&
+      js.includes('name.replace(/\\.(png|jpe?g)$/i, ".webp")') &&
+      /rel="preload" as="image" href="\.\/assets\/figma\/banner_pic\.webp" fetchpriority="high"/.test(html) &&
+      /loading="\$\{loading\}"/.test(js) &&
+      /decoding="async"/.test(js) &&
+      !/<img[^>]+src="\.\/assets\/figma\/[^"]+\.png/.test(js),
+  ],
+  ["static index raster image paths use WebP", !/<img[^>]+src="\.\/assets\/figma\/[^"]+\.png/.test(indexHtml)],
   ["search overlay starts below the search bar", /class="overlay search-overlay"/.test(js) && /\.search-overlay\s*{[\s\S]*inset:\s*104px 0 0/i.test(css)],
   ["search supports fuzzy suggestions", /searchQuery/.test(js) && /filteredSuggestions/.test(js)],
   [

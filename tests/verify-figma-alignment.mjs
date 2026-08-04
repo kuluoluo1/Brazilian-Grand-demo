@@ -8,8 +8,8 @@ const reviewRowCount = (html.match(/class="review-row"/g) || []).length;
 const reviewCardCount = (html.match(/class="review-card"/g) || []).length;
 
 const checks = [
-  ["banner uses exported Figma frame PNG", html.includes("./assets/figma/banner-frame.png")],
-  ["banner PNG asset exists", existsSync(resolve("assets/figma/banner-frame.png"))],
+  ["banner uses exported Figma frame WebP", html.includes("./assets/figma/banner-frame.webp")],
+  ["banner source PNG and WebP assets exist", existsSync(resolve("assets/figma/banner-frame.png")) && existsSync(resolve("assets/figma/banner-frame.webp"))],
   ["banner no longer rebuilds overlay text as DOM", !/<section class="hero">[\s\S]*<h1>/.test(html)],
   ["menu icon is SVG", html.includes("./assets/figma/icon-menu.svg")],
   ["bag icon is SVG", html.includes("./assets/figma/icon-bag.svg")],
