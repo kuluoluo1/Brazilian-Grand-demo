@@ -1543,6 +1543,35 @@ function syncHomeFilterLayout() {
   homeScreen.style.minHeight = `${screenHeight}px`;
 }
 
+function lockSearchScrollPosition() {
+  if (state.currentScreenId !== "searchTrending" && state.currentScreenId !== "searchSuggest") {
+    return;
+  }
+  appViewport.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo({ left: 0, top: 0 });
+}
+
+function focusSearchInputWithoutScroll() {
+  requestAnimationFrame(() => {
+    const input = document.querySelector("#searchInput");
+    if (!input) {
+      return;
+    }
+    try {
+      input.focus({ preventScroll: true });
+    } catch {
+      input.focus();
+    }
+    input.setSelectionRange(input.value.length, input.value.length);
+    lockSearchScrollPosition();
+    requestAnimationFrame(lockSearchScrollPosition);
+    window.setTimeout(lockSearchScrollPosition, 120);
+    window.setTimeout(lockSearchScrollPosition, 320);
+  });
+}
+
 function render(options = {}) {
   const screen = screens[state.currentScreenId] || screens.home;
   const previousScrollTop = appViewport.scrollTop;
@@ -1559,13 +1588,7 @@ function render(options = {}) {
   }
 
   if (options.focusSearch) {
-    requestAnimationFrame(() => {
-      const input = document.querySelector("#searchInput");
-      if (input) {
-        input.focus();
-        input.setSelectionRange(input.value.length, input.value.length);
-      }
-    });
+    focusSearchInputWithoutScroll();
   }
 }
 

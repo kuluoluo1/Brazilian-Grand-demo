@@ -396,6 +396,10 @@ body[data-current-screen="categoryFlatList"] .overlay {
   border-color: var(--red);
 }
 
+.search.is-active {
+  background: #ffffff;
+}
+
 .search input {
   background: transparent;
   border: 0;
@@ -410,6 +414,10 @@ body[data-current-screen="categoryFlatList"] .overlay {
   position: absolute;
   top: 0;
   width: 282px;
+}
+
+.search.is-active input {
+  background: #ffffff;
 }
 
 .search input::placeholder {
@@ -2911,6 +2919,11 @@ body[data-render-motion="static"] .search-layer {
   top: 0;
   width: 390px;
   z-index: 30;
+}
+
+body[data-current-screen="searchTrending"],
+body[data-current-screen="searchSuggest"] {
+  overflow: hidden;
 }
 
 .search-layer {

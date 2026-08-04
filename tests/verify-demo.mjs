@@ -707,12 +707,27 @@ const checks = [
       !/class="phone-keyboard"/.test(js),
   ],
   [
+    "search input focus does not let mobile browsers scroll the demo shell",
+    /function focusSearchInputWithoutScroll\(\)/.test(js) &&
+      /input\.focus\(\{ preventScroll:\s*true \}\)/.test(js) &&
+      /function lockSearchScrollPosition\(\)/.test(js) &&
+      /window\.scrollTo\(\{ left:\s*0,\s*top:\s*0/.test(js) &&
+      /appViewport\.scrollTop = 0/.test(js) &&
+      /body\[data-current-screen="searchTrending"\],\s*\nbody\[data-current-screen="searchSuggest"\]\s*{[\s\S]*overflow:\s*hidden/.test(css),
+  ],
+  [
     "default search field keeps the Figma transparent icon area",
     /background:\s*var\(--bg\)/.test(getCssRule(".search")) &&
       /background:\s*transparent/.test(getCssRule(".search input")) &&
       /background:\s*transparent/.test(getCssRule(".search button")) &&
       /width:\s*56px/.test(getCssRule(".search button")) &&
       /\.search\.is-active:not\(\.result-query-search\) button\[type="submit"\]\s*{[\s\S]*background:\s*var\(--red\)/.test(css),
+  ],
+  [
+    "focused search field uses white input background",
+    /background:\s*#ffffff/.test(getCssRule(".search.is-active")) &&
+      /background:\s*#ffffff/.test(getCssRule(".search.is-active input")) &&
+      /background:\s*var\(--red\)/.test(getCssRule('.search.is-active:not(.result-query-search) button[type="submit"]')),
   ],
   ["search overlay starts below the search bar", /class="overlay search-overlay"/.test(js) && /\.search-overlay\s*{[\s\S]*inset:\s*104px 0 0/i.test(css)],
   ["search supports fuzzy suggestions", /searchQuery/.test(js) && /filteredSuggestions/.test(js)],
