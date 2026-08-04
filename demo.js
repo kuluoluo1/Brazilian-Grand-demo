@@ -426,7 +426,7 @@ const screens = {
 
 const appRoot = document.querySelector("#appRoot");
 const appViewport = document.querySelector("#appViewport");
-const horizontalScrollSelectors = [".filter-pills", ".category-pills"];
+const horizontalScrollSelectors = [".category-pills"];
 
 function captureHorizontalScrollPositions() {
   return horizontalScrollSelectors.map((selector) => {
@@ -1152,7 +1152,6 @@ function renderSearch(mode) {
           ${(hasQuery ? filteredSuggestions : trendingTerms).map((term) => suggestionItem(term, hasQuery ? "recommend" : false)).join("")}
         </div>
       </section>
-      ${renderKeyboard()}
     </section>
   `;
 }
@@ -1195,24 +1194,6 @@ function getFilteredSuggestions() {
     `${query} com animal de estimação`,
     `${query} com casal`,
   ];
-}
-
-function renderKeyboard() {
-  const rows = [
-    ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-    ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-    ["z", "x", "c", "v", "b", "n", "m"],
-  ];
-  return `
-    <section class="phone-keyboard" aria-label="Keyboard">
-      ${rows.map((row) => `<div class="key-row">${row.map((key) => `<button class="key" type="button" data-key="${key}">${key}</button>`).join("")}</div>`).join("")}
-      <div class="key-row">
-        <button class="key wide" type="button" data-key="backspace">⌫</button>
-        <button class="key space" type="button" data-key="space">space</button>
-        <button class="key wide" type="button" data-key="search">buscar</button>
-      </div>
-    </section>
-  `;
 }
 
 function renderSearchResults() {

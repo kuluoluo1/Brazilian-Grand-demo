@@ -368,7 +368,7 @@ const checks = [
       /\.filter-pills button,\s*\n\.category-pill\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
       /\.filter-pills button\.is-selected,\s*\n\.category-pill\.is-selected\s*{[\s\S]*background:\s*var\(--navy\)[\s\S]*color:\s*#ffffff/.test(css) &&
       /\.filter-pills button\.is-selected \.svg-icon,\s*\n\.category-pill\.is-selected \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
-      /\.filter-pills\s*{[\s\S]*margin-top:\s*122px[\s\S]*position:\s*relative/.test(css) &&
+      /\.filter-pills\s*{[\s\S]*flex-wrap:\s*wrap[\s\S]*justify-content:\s*center[\s\S]*margin-top:\s*116px[\s\S]*overflow:\s*visible[\s\S]*position:\s*relative/.test(css) &&
       /\.filter-products\s*{[\s\S]*margin-top:\s*22px[\s\S]*position:\s*relative[\s\S]*top:\s*auto/.test(css) &&
       /function syncHomeFilterLayout\(\)[\s\S]*filterProducts\.offsetTop \+ filterProducts\.offsetHeight[\s\S]*reviews\.style\.top[\s\S]*footer\.style\.top/.test(js),
   ],
@@ -381,15 +381,15 @@ const checks = [
       /function togglePill\(group, label\)[\s\S]*group === "homeFilterSelected"[\s\S]*state\[group\] = \[label\]/.test(js),
   ],
   [
-    "all recipient/category pill rows are horizontally swipeable",
-    /\.filter-pills\s*{[\s\S]*flex-wrap:\s*nowrap[\s\S]*overflow-x:\s*auto[\s\S]*overflow-y:\s*hidden[\s\S]*scrollbar-width:\s*none[\s\S]*-webkit-overflow-scrolling:\s*touch/.test(css) &&
+    "home recipient pills wrap while list category pill rows remain horizontally swipeable",
+    /\.filter-pills\s*{[\s\S]*flex-wrap:\s*wrap[\s\S]*overflow:\s*visible/.test(css) &&
       /\.category-pills\s*{[\s\S]*flex-wrap:\s*nowrap[\s\S]*overflow-x:\s*auto[\s\S]*overflow-y:\s*hidden[\s\S]*scrollbar-width:\s*none[\s\S]*-webkit-overflow-scrolling:\s*touch/.test(css) &&
       /\.filter-pills button,\s*\n\.category-pill\s*{[\s\S]*flex:\s*0 0 auto/.test(css) &&
-      /\.filter-pills::-webkit-scrollbar,\s*\n\.category-pills::-webkit-scrollbar\s*{[\s\S]*display:\s*none/.test(css),
+      /\.category-pills::-webkit-scrollbar\s*{[\s\S]*display:\s*none/.test(css),
   ],
   [
-    "pill rows keep horizontal position after selecting an option",
-    /const horizontalScrollSelectors = \["\.filter-pills", "\.category-pills"\]/.test(js) &&
+    "list category pill rows keep horizontal position after selecting an option",
+    /const horizontalScrollSelectors = \["\.category-pills"\]/.test(js) &&
       /function captureHorizontalScrollPositions\(\)[\s\S]*scrollLeft/.test(js) &&
       /function restoreHorizontalScrollPositions\(positions = \[\]\)[\s\S]*requestAnimationFrame[\s\S]*element\.scrollLeft = scrollLeft/.test(js) &&
       /const previousHorizontalScroll = options\.preserveScroll \? captureHorizontalScrollPositions\(\) : \[\]/.test(js) &&
@@ -458,7 +458,10 @@ const checks = [
     /function searchBar\(\{ active = false[\s\S]*const searchIcon = active \? "search" : "searchNavy"/.test(js) &&
       /\.search::after\s*{[\s\S]*border:\s*1px solid var\(--line\)[\s\S]*border-radius:\s*8px[\s\S]*inset:\s*0[\s\S]*pointer-events:\s*none/.test(css) &&
       /\.search\.is-active::after\s*{[\s\S]*border-color:\s*var\(--red\)/.test(css) &&
-      /\.search button\s*{[\s\S]*background:\s*#ffffff[\s\S]*border-radius:\s*0 7px 7px 0/.test(css) &&
+      /background:\s*var\(--bg\)/.test(getCssRule(".search")) &&
+      /background:\s*transparent/.test(getCssRule(".search input")) &&
+      /background:\s*transparent/.test(getCssRule(".search button")) &&
+      /border-radius:\s*0 7px 7px 0/.test(getCssRule(".search button")) &&
       /background:\s*var\(--red\)/.test(getCssRule('.search.is-active:not(.result-query-search) button[type="submit"]')) &&
       /width:\s*56px/.test(getCssRule('.search.is-active:not(.result-query-search) button[type="submit"]')) &&
       /left:\s*16px/.test(getCssRule('.search.is-active:not(.result-query-search) button[type="submit"] .svg-icon')) &&
@@ -696,7 +699,21 @@ const checks = [
       !/\.filter-chip\.is-selected\s*{[\s\S]*background:\s*var\(--navy\)/.test(css),
   ],
   ["gift finder uses coded modal steps", /\.gift-modal/.test(css) && /renderGiftFinder/.test(js)],
-  ["search sheet includes coded keyboard", /\.phone-keyboard/.test(css) && /renderKeyboard/.test(js)],
+  [
+    "search relies on the native mobile keyboard instead of a coded mock keyboard",
+    !/\.phone-keyboard/.test(css) &&
+      !/function renderKeyboard/.test(js) &&
+      !/renderKeyboard\(\)/.test(js) &&
+      !/class="phone-keyboard"/.test(js),
+  ],
+  [
+    "default search field keeps the Figma transparent icon area",
+    /background:\s*var\(--bg\)/.test(getCssRule(".search")) &&
+      /background:\s*transparent/.test(getCssRule(".search input")) &&
+      /background:\s*transparent/.test(getCssRule(".search button")) &&
+      /width:\s*56px/.test(getCssRule(".search button")) &&
+      /\.search\.is-active:not\(\.result-query-search\) button\[type="submit"\]\s*{[\s\S]*background:\s*var\(--red\)/.test(css),
+  ],
   ["search overlay starts below the search bar", /class="overlay search-overlay"/.test(js) && /\.search-overlay\s*{[\s\S]*inset:\s*104px 0 0/i.test(css)],
   ["search supports fuzzy suggestions", /searchQuery/.test(js) && /filteredSuggestions/.test(js)],
   [

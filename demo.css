@@ -370,7 +370,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .search {
-  background: #ffffff;
+  background: var(--bg);
   border: 0;
   border-radius: 8px;
   height: 48px;
@@ -397,6 +397,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .search input {
+  background: transparent;
   border: 0;
   color: var(--navy);
   font-family: "Plus Jakarta Sans", Arial, sans-serif;
@@ -417,7 +418,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .search button {
-  background: #ffffff;
+  background: transparent;
   border-radius: 0 7px 7px 0;
   height: 48px;
   position: absolute;
@@ -1059,18 +1060,15 @@ body[data-current-screen="categoryFlatList"] .overlay {
   align-content: flex-start;
   align-items: center;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 6px;
-  justify-content: flex-start;
+  justify-content: center;
   left: 12px;
-  margin-top: 122px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 0 0 2px;
+  margin-top: 116px;
+  overflow: visible;
+  padding: 0;
   position: relative;
-  scrollbar-width: none;
   width: 366px;
-  -webkit-overflow-scrolling: touch;
 }
 
 .filter-pills button,
@@ -1090,7 +1088,6 @@ body[data-current-screen="categoryFlatList"] .overlay {
   padding: 0 16px;
 }
 
-.filter-pills::-webkit-scrollbar,
 .category-pills::-webkit-scrollbar {
   display: none;
 }
@@ -2977,47 +2974,6 @@ body[data-render-motion="static"] .search-layer {
 .suggestion-meta {
   color: var(--muted);
   font-size: 12px;
-}
-
-.phone-keyboard {
-  background: #d8dde5;
-  bottom: 0;
-  display: grid;
-  gap: 7px;
-  left: 0;
-  padding: 10px 8px 14px;
-  position: absolute;
-  width: 390px;
-  z-index: 25;
-}
-
-.key-row {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-}
-
-.key {
-  align-items: center;
-  background: #ffffff;
-  border-radius: 6px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
-  color: #1f2937;
-  display: inline-flex;
-  font-size: 16px;
-  font-weight: 600;
-  height: 38px;
-  justify-content: center;
-  min-width: 31px;
-  padding: 0 8px;
-}
-
-.key.wide {
-  min-width: 64px;
-}
-
-.key.space {
-  min-width: 168px;
 }
 
 @keyframes slide-down {
