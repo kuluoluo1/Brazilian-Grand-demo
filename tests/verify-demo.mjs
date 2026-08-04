@@ -116,7 +116,19 @@ const checks = [
   ["demo has a fixed phone viewport", /class="[^"]*\bapp-viewport\b/.test(html)],
   [
     "demo preserves native 390px artboard scale instead of shrinking by height",
-    !/window\.innerHeight[\s\S]*844/.test(js),
+    !/844\s*\/\s*(?:window\.)?innerHeight/.test(js) &&
+      !/(?:window\.)?innerHeight\s*\/\s*844/.test(js),
+  ],
+  [
+    "demo frame responds to the current mobile viewport",
+    /window\.visualViewport/.test(js) &&
+      /--app-height/.test(js) &&
+      /--app-scale/.test(js) &&
+      !/Math\.max\(0\.86/.test(js) &&
+      /--app-height:\s*844px/.test(css) &&
+      /\.app-stage\s*{[\s\S]*height:\s*calc\(var\(--app-height\) \* var\(--app-scale\)\)/.test(css) &&
+      /\.app-frame\s*{[\s\S]*height:\s*var\(--app-height\)/.test(css) &&
+      /\.app-viewport\s*{[\s\S]*height:\s*var\(--app-height\)/.test(css),
   ],
   ["demo no longer renders frame screenshots", !/screenImage|hotspot|assets\/demo/i.test(html + css + js)],
   ["banner uses provided desktop banner image", js.includes("./assets/figma/banner_pic.png")],
@@ -499,8 +511,8 @@ const checks = [
       /\.header\s*{[\s\S]*top:\s*0/.test(css) &&
       /#appRoot \.header ~ \*\s*{[\s\S]*transform:\s*translateY\(-50px\)/.test(css) &&
       /#appRoot > \.screen\s*{[\s\S]*margin-bottom:\s*-50px/.test(css) &&
-      /\.overlay\s*{[\s\S]*height:\s*844px[\s\S]*top:\s*0/.test(css) &&
-      /\.category-drawer,\s*\n\.filter-drawer\s*{[\s\S]*height:\s*844px[\s\S]*top:\s*0/.test(css) &&
+      /\.overlay\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*top:\s*0/.test(css) &&
+      /\.category-drawer,\s*\n\.filter-drawer\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*top:\s*0/.test(css) &&
       /\.search-fixed-head\s*{[\s\S]*height:\s*104px/.test(css) &&
       /\.search-layer\s*{[\s\S]*top:\s*104px/.test(css),
   ],
@@ -516,8 +528,8 @@ const checks = [
       /class="drawer-thumb"/.test(js) &&
       /class="drawer-service"/.test(js) &&
       /data-action="navigate" data-target="\$\{item\.target\}"/.test(js) &&
-      /\.category-drawer\s*{[\s\S]*height:\s*844px[\s\S]*left:\s*0[\s\S]*top:\s*0[\s\S]*width:\s*350px/.test(css) &&
-      /body\[data-current-screen="categoryDrawer"\] \.overlay,\s*\nbody\[data-current-screen="categoryLevel2"\] \.overlay,\s*\nbody\[data-current-screen="categoryFlatList"\] \.overlay\s*{[\s\S]*height:\s*844px[\s\S]*top:\s*0/.test(css) &&
+      /\.category-drawer\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*left:\s*0[\s\S]*top:\s*0[\s\S]*width:\s*350px/.test(css) &&
+      /body\[data-current-screen="categoryDrawer"\] \.overlay,\s*\nbody\[data-current-screen="categoryLevel2"\] \.overlay,\s*\nbody\[data-current-screen="categoryFlatList"\] \.overlay\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*top:\s*0/.test(css) &&
       !/drawer-status-layer/.test(js) &&
       /\.drawer-first-list\s*{[\s\S]*gap:\s*16px[\s\S]*top:\s*57px/.test(css) &&
       /\.drawer-nav-item\s*{[\s\S]*height:\s*52px[\s\S]*grid-template-columns:\s*52px 1fr 20px/.test(css) &&

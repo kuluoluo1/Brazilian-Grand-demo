@@ -4,3 +4,5 @@ dist/
 preview-dom.png
 brazil-demo-share-*.zip
 deliverable-brazil-demo-*/
+cloudflared.exe
+cloudflared-tunnel.log

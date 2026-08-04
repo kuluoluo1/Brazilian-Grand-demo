@@ -447,8 +447,19 @@ function restoreHorizontalScrollPositions(positions = []) {
 }
 
 function fitFrame() {
-  const scale = Math.min(1, (window.innerWidth - 24) / 390);
-  document.documentElement.style.setProperty("--app-scale", String(Math.max(0.86, scale)));
+  const viewport = window.visualViewport;
+  const viewportWidth = viewport?.width || window.innerWidth || 390;
+  const viewportHeight = viewport?.height || window.innerHeight || 844;
+  const isPhoneViewport = viewportWidth <= 480;
+  const outerPadding = isPhoneViewport ? 0 : 24;
+  const availableWidth = Math.max(280, viewportWidth - outerPadding);
+  const rawScale = availableWidth / 390;
+  const scale = isPhoneViewport ? Math.min(1.14, rawScale) : Math.min(1, rawScale);
+  const appScale = Math.max(0.72, scale);
+  const appHeight = isPhoneViewport ? Math.max(844, Math.round(viewportHeight / appScale)) : 844;
+
+  document.documentElement.style.setProperty("--app-scale", String(appScale));
+  document.documentElement.style.setProperty("--app-height", `${appHeight}px`);
 }
 
 function icon(name) {
@@ -1663,6 +1674,7 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("resize", fitFrame);
+window.visualViewport?.addEventListener("resize", fitFrame);
 
 function escapeHtml(value) {
   return String(value)

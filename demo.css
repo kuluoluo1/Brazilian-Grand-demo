@@ -1,5 +1,6 @@
 :root {
   --app-scale: 1;
+  --app-height: 844px;
   --page-bg: #e9edf2;
   --bg: #fefbf7;
   --navy: #133153;
@@ -120,11 +121,12 @@ button {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  padding: 12px;
+  min-height: 100dvh;
+  padding: var(--app-shell-padding, 12px);
 }
 
 .app-stage {
-  height: calc(844px * var(--app-scale));
+  height: calc(var(--app-height) * var(--app-scale));
   width: calc(390px * var(--app-scale));
 }
 
@@ -132,7 +134,7 @@ button {
   background: var(--bg);
   border-radius: 8px;
   box-shadow: var(--shadow);
-  height: 844px;
+  height: var(--app-height);
   overflow: hidden;
   position: relative;
   transform: scale(var(--app-scale));
@@ -142,7 +144,7 @@ button {
 
 .app-viewport {
   background: var(--bg);
-  height: 844px;
+  height: var(--app-height);
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
@@ -160,7 +162,7 @@ body[data-current-screen="filterDrawer"] .app-viewport {
 body[data-current-screen="categoryDrawer"] .overlay,
 body[data-current-screen="categoryLevel2"] .overlay,
 body[data-current-screen="categoryFlatList"] .overlay {
-  height: 844px;
+  height: var(--app-height);
   top: 0;
 }
 
@@ -173,7 +175,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 
 .screen {
   background: var(--bg);
-  min-height: 844px;
+  min-height: max(844px, var(--app-height));
   position: relative;
   width: 390px;
 }
@@ -2023,7 +2025,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .overlay {
   animation: fadeIn 160ms ease-out;
   background: rgba(0, 0, 0, 0.6);
-  height: 844px;
+  height: var(--app-height);
   left: 0;
   position: absolute;
   top: 0;
@@ -2033,13 +2035,13 @@ body[data-current-screen="categoryFlatList"] .overlay {
 
 .search-overlay {
   inset: 104px 0 0;
-  height: 740px;
+  height: calc(var(--app-height) - 104px);
 }
 
 .category-drawer,
 .filter-drawer {
   background: var(--bg);
-  height: 844px;
+  height: var(--app-height);
   position: absolute;
   top: 0;
   z-index: 20;
@@ -2048,7 +2050,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .category-drawer {
   animation: drawerSlideIn 160ms ease-out;
   border-radius: 0 8px 8px 0;
-  height: 844px;
+  height: var(--app-height);
   left: 0;
   overflow: hidden;
   top: 0;
@@ -2579,8 +2581,8 @@ body[data-render-motion="static"] .search-layer {
 
 .gift-modal-screen,
 .search-screen {
-  height: 844px;
-  min-height: 844px;
+  height: var(--app-height);
+  min-height: var(--app-height);
   overflow: hidden;
 }
 
@@ -3030,9 +3032,28 @@ body[data-render-motion="static"] .search-layer {
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 480px) {
+  html,
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--bg);
+  }
+
   .app-shell {
     padding: 0;
+  }
+
+  .app-stage {
+    min-height: 100dvh;
+  }
+
+  .app-frame {
+    border-radius: 0;
+    box-shadow: none;
   }
 }
 
