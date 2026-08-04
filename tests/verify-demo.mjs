@@ -481,7 +481,7 @@ const checks = [
     /function searchBar\(\{ active = false[\s\S]*const searchIcon = active \? "search" : "searchNavy"/.test(js) &&
       /\.search::after\s*{[\s\S]*border:\s*1px solid var\(--line\)[\s\S]*border-radius:\s*8px[\s\S]*inset:\s*0[\s\S]*pointer-events:\s*none/.test(css) &&
       /\.search\.is-active::after\s*{[\s\S]*border-color:\s*var\(--red\)/.test(css) &&
-      /background:\s*var\(--bg\)/.test(getCssRule(".search")) &&
+      /background:\s*#ffffff/.test(getCssRule(".search")) &&
       /background:\s*transparent/.test(getCssRule(".search input")) &&
       /background:\s*transparent/.test(getCssRule(".search button")) &&
       /border-radius:\s*0 7px 7px 0/.test(getCssRule(".search button")) &&
@@ -742,8 +742,8 @@ const checks = [
       /body\[data-current-screen="searchTrending"\],\s*\nbody\[data-current-screen="searchSuggest"\]\s*{[\s\S]*overflow:\s*hidden/.test(css),
   ],
   [
-    "default search field keeps the Figma transparent icon area",
-    /background:\s*var\(--bg\)/.test(getCssRule(".search")) &&
+    "default search field uses the Figma white background",
+    /background:\s*#ffffff/.test(getCssRule(".search")) &&
       /background:\s*transparent/.test(getCssRule(".search input")) &&
       /background:\s*transparent/.test(getCssRule(".search button")) &&
       /width:\s*56px/.test(getCssRule(".search button")) &&
