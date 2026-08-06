@@ -756,6 +756,16 @@ const checks = [
       /background:\s*var\(--red\)/.test(getCssRule('.search.is-active:not(.result-query-search) button[type="submit"]')),
   ],
   [
+    "WhatsApp floating logo is fixed at the lower right without behavior",
+    existsSync(resolve("assets/figma/whatsapp-logo.svg")) &&
+      /class="whatsapp-float"/.test(html) &&
+      /src="\.\/assets\/figma\/whatsapp-logo\.svg"/.test(html) &&
+      /aria-hidden="true"/.test(html) &&
+      !/whatsapp-float"[^>]*href=/.test(html) &&
+      /\.whatsapp-float\s*{[\s\S]*bottom:\s*20px[\s\S]*height:\s*60px[\s\S]*pointer-events:\s*none[\s\S]*right:\s*16px[\s\S]*width:\s*60px/.test(css) &&
+      /\.whatsapp-float img\s*{[\s\S]*height:\s*60px[\s\S]*width:\s*60px/.test(css),
+  ],
+  [
     "raster images are served as WebP with mobile loading hints",
     webpBudget.every(([name, maxKb]) => webpAssetIsWithinBudget(name, maxKb)) &&
       /function rasterImageSrc\(name\)/.test(js) &&

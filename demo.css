@@ -152,6 +152,22 @@ button {
   -webkit-overflow-scrolling: touch;
 }
 
+.whatsapp-float {
+  bottom: 20px;
+  height: 60px;
+  pointer-events: none;
+  position: absolute;
+  right: 16px;
+  width: 60px;
+  z-index: 34;
+}
+
+.whatsapp-float img {
+  display: block;
+  height: 60px;
+  width: 60px;
+}
+
 body[data-current-screen="categoryDrawer"] .app-viewport,
 body[data-current-screen="categoryLevel2"] .app-viewport,
 body[data-current-screen="categoryFlatList"] .app-viewport,
