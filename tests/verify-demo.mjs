@@ -12,6 +12,9 @@ const html = existsSync(htmlPath) ? readFileSync(htmlPath, "utf8") : "";
 const css = existsSync(cssPath) ? readFileSync(cssPath, "utf8") : "";
 const js = existsSync(jsPath) ? readFileSync(jsPath, "utf8") : "";
 const indexHtml = existsSync(indexPath) ? readFileSync(indexPath, "utf8") : "";
+const whatsappLogoSvg = existsSync(resolve("assets/figma/whatsapp-logo.svg"))
+  ? readFileSync(resolve("assets/figma/whatsapp-logo.svg"), "utf8")
+  : "";
 
 const webpBudget = [
   ["banner_pic.webp", 120],
@@ -761,9 +764,10 @@ const checks = [
       /class="whatsapp-float"/.test(html) &&
       /src="\.\/assets\/figma\/whatsapp-logo\.svg"/.test(html) &&
       /aria-hidden="true"/.test(html) &&
+      /<circle cx="30" cy="31" r="19" fill="white"\/>/.test(whatsappLogoSvg) &&
       !/whatsapp-float"[^>]*href=/.test(html) &&
-      /\.whatsapp-float\s*{[\s\S]*bottom:\s*20px[\s\S]*height:\s*60px[\s\S]*pointer-events:\s*none[\s\S]*right:\s*16px[\s\S]*width:\s*60px/.test(css) &&
-      /\.whatsapp-float img\s*{[\s\S]*height:\s*60px[\s\S]*width:\s*60px/.test(css),
+      /\.whatsapp-float\s*{[\s\S]*bottom:\s*20px[\s\S]*height:\s*50px[\s\S]*pointer-events:\s*none[\s\S]*right:\s*16px[\s\S]*width:\s*50px/.test(css) &&
+      /\.whatsapp-float img\s*{[\s\S]*height:\s*50px[\s\S]*width:\s*50px/.test(css),
   ],
   [
     "raster images are served as WebP with mobile loading hints",
