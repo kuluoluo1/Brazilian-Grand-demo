@@ -211,6 +211,23 @@ const checks = [
       js.includes('renderCollection("pets"'),
   ],
   [
+    "home recipient filter keeps the exact Figma static grid geometry",
+    /\.recipient-filter\s*{[\s\S]*height:\s*498px[\s\S]*top:\s*4032px/.test(css) &&
+      /height:\s*115px/.test(getCssRule(".filter-pills")) &&
+      /left:\s*12px/.test(getCssRule(".filter-pills")) &&
+      /position:\s*absolute/.test(getCssRule(".filter-pills")) &&
+      /top:\s*122px/.test(getCssRule(".filter-pills")) &&
+      /width:\s*366px/.test(getCssRule(".filter-pills")) &&
+      !/overflow-x:\s*auto/.test(getCssRule(".filter-pills")) &&
+      /height:\s*239px/.test(getCssRule(".recipient-filter .filter-products")) &&
+      /left:\s*12px/.test(getCssRule(".recipient-filter .filter-products")) &&
+      /position:\s*absolute/.test(getCssRule(".recipient-filter .filter-products")) &&
+      /top:\s*259px/.test(getCssRule(".recipient-filter .filter-products")) &&
+      /width:\s*366px/.test(getCssRule(".recipient-filter .filter-products")) &&
+      !/syncHomeFilterLayout/.test(js) &&
+      /if \(group === "homeFilterSelected"\)\s*{[\s\S]*state\[group\] = \[label\]/.test(js),
+  ],
+  [
     "home does not use simplified placeholder tiles",
     !getScreenSource("home").includes("recipient-tile") && !getScreenSource("home").includes("collection-card"),
   ],
@@ -258,6 +275,15 @@ const checks = [
       /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*3336px/.test(css),
   ],
   [
+    "PDP media controls match Figma node 220:315 coordinates",
+    /\.pdp-wishlist\s*{[\s\S]*right:\s*8px[\s\S]*top:\s*8px/.test(css) &&
+      /\.pdp-wishlist,\s*\n\.pdp-media-button\s*{[\s\S]*height:\s*44px[\s\S]*width:\s*44px/.test(css) &&
+      /\.pdp-media-button\s*{[\s\S]*top:\s*161px/.test(css) &&
+      /\.pdp-media-prev\s*{[\s\S]*left:\s*8px/.test(css) &&
+      /\.pdp-media-next\s*{[\s\S]*right:\s*8px/.test(css) &&
+      /\.pdp-media-counter\s*{[\s\S]*bottom:\s*8px[\s\S]*height:\s*22px[\s\S]*left:\s*163px[\s\S]*width:\s*40px/.test(css),
+  ],
+  [
     "PDP uses local WebP assets exported from Figma",
     [
       "pdp-product-media.webp",
@@ -289,6 +315,8 @@ const checks = [
       /action === "calculate-cep"[\s\S]*calculateCep\(\)/.test(js) &&
       /event\.target\.matches\("\[data-cep-input\]"\)[\s\S]*handleCepInput/.test(js) &&
       /\.pdp-cep\s*{[\s\S]*background:\s*#f6f6f6/.test(css) &&
+      /\.pdp-cep-form\s*{[\s\S]*height:\s*48px[\s\S]*width:\s*366px/.test(css) &&
+      /\.pdp-cep-button\s*{[\s\S]*appearance:\s*none[\s\S]*border:\s*0[\s\S]*height:\s*48px[\s\S]*width:\s*89px/.test(css) &&
       /\.pdp-cep-button\.is-disabled\s*{[\s\S]*background:\s*#e5e7eb[\s\S]*color:\s*#9ca3af/.test(css) &&
       /\.pdp-delivery-options\s*{[\s\S]*gap:\s*4px/.test(css) &&
       /\.pdp-cep-error\s*{[\s\S]*color:\s*#f59e0b/.test(css),
@@ -331,12 +359,14 @@ const checks = [
       /\.track-order-screen\s*{[\s\S]*height:\s*1706px[\s\S]*min-height:\s*1706px/.test(css),
   ],
   [
-    "newsletter form matches Figma soft section and inset button",
+    "newsletter form matches Figma footer node 234:772 and 234:774",
     /\.newsletter\s*{[\s\S]*background:\s*var\(--soft\)/.test(css) &&
       /\.newsletter-form\s*{[\s\S]*background:\s*#ffffff[\s\S]*height:\s*48px/.test(css) &&
-      /\.newsletter-form::after\s*{[\s\S]*border:\s*1px solid var\(--line\)[\s\S]*border-radius:\s*8px[\s\S]*inset:\s*0[\s\S]*pointer-events:\s*none/.test(css) &&
-      /\.newsletter-form input\s*{[\s\S]*background:\s*#ffffff[\s\S]*height:\s*48px/.test(css) &&
-      /\.newsletter-form button\s*{[\s\S]*appearance:\s*none[\s\S]*border-radius:\s*6px[\s\S]*display:\s*flex[\s\S]*height:\s*44px[\s\S]*line-height:\s*1\.2[\s\S]*right:\s*2px[\s\S]*top:\s*2px[\s\S]*width:\s*101px[\s\S]*z-index:\s*2/.test(css),
+      /\.newsletter-form::after\s*{[\s\S]*border:\s*1px solid #e5e7eb[\s\S]*border-radius:\s*8px[\s\S]*inset:\s*0[\s\S]*pointer-events:\s*none/.test(css) &&
+      /\.newsletter-form input\s*{[\s\S]*background:\s*#ffffff[\s\S]*height:\s*48px[\s\S]*left:\s*12px[\s\S]*width:\s*200px/.test(css) &&
+      /\.newsletter-form button\s*{[\s\S]*appearance:\s*none[\s\S]*border:\s*0[\s\S]*border-radius:\s*0 8px 8px 0[\s\S]*display:\s*flex[\s\S]*height:\s*48px[\s\S]*line-height:\s*1\.2[\s\S]*right:\s*0[\s\S]*top:\s*0[\s\S]*width:\s*139px[\s\S]*z-index:\s*2/.test(css) &&
+      /placeholder="Digite seu e-mail"/.test(js) &&
+      />Receber cupom<\/button>/.test(js),
   ],
   [
     "footer brand marks use SVG assets",
@@ -445,9 +475,13 @@ const checks = [
       /\.filter-pills button,\s*\n\.category-pill\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
       /\.filter-pills button\.is-selected,\s*\n\.category-pill\.is-selected\s*{[\s\S]*background:\s*var\(--navy\)[\s\S]*color:\s*#ffffff/.test(css) &&
       /\.filter-pills button\.is-selected \.svg-icon,\s*\n\.category-pill\.is-selected \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
-      /\.filter-pills\s*{[\s\S]*flex-wrap:\s*wrap[\s\S]*justify-content:\s*center[\s\S]*margin-top:\s*116px[\s\S]*overflow:\s*visible[\s\S]*position:\s*relative/.test(css) &&
-      /\.filter-products\s*{[\s\S]*margin-top:\s*22px[\s\S]*position:\s*relative[\s\S]*top:\s*auto/.test(css) &&
-      /function syncHomeFilterLayout\(\)[\s\S]*filterProducts\.offsetTop \+ filterProducts\.offsetHeight[\s\S]*reviews\.style\.top[\s\S]*footer\.style\.top/.test(js),
+      /flex-wrap:\s*wrap/.test(getCssRule(".filter-pills")) &&
+      /justify-content:\s*center/.test(getCssRule(".filter-pills")) &&
+      /position:\s*absolute/.test(getCssRule(".filter-pills")) &&
+      /top:\s*122px/.test(getCssRule(".filter-pills")) &&
+      /position:\s*absolute/.test(getCssRule(".recipient-filter .filter-products")) &&
+      /top:\s*259px/.test(getCssRule(".recipient-filter .filter-products")) &&
+      !/function syncHomeFilterLayout\(\)/.test(js),
   ],
   [
     "home recipient filter swaps the visible product set by selected option",
@@ -459,7 +493,8 @@ const checks = [
   ],
   [
     "home recipient pills wrap while list category pill rows remain horizontally swipeable",
-    /\.filter-pills\s*{[\s\S]*flex-wrap:\s*wrap[\s\S]*overflow:\s*visible/.test(css) &&
+    /flex-wrap:\s*wrap/.test(getCssRule(".filter-pills")) &&
+      !/overflow-x:\s*auto/.test(getCssRule(".filter-pills")) &&
       /\.category-pills\s*{[\s\S]*flex-wrap:\s*nowrap[\s\S]*overflow-x:\s*auto[\s\S]*overflow-y:\s*hidden[\s\S]*scrollbar-width:\s*none[\s\S]*-webkit-overflow-scrolling:\s*touch/.test(css) &&
       /\.filter-pills button,\s*\n\.category-pill\s*{[\s\S]*flex:\s*0 0 auto/.test(css) &&
       /\.category-pills::-webkit-scrollbar\s*{[\s\S]*display:\s*none/.test(css),
@@ -800,6 +835,9 @@ const checks = [
     /background:\s*#ffffff/.test(getCssRule(".search")) &&
       /background:\s*transparent/.test(getCssRule(".search input")) &&
       /background:\s*transparent/.test(getCssRule(".search button")) &&
+      /appearance:\s*none/.test(getCssRule(".search button")) &&
+      /border:\s*0/.test(getCssRule(".search button")) &&
+      /padding:\s*0/.test(getCssRule(".search button")) &&
       /width:\s*56px/.test(getCssRule(".search button")) &&
       /\.search\.is-active:not\(\.result-query-search\) button\[type="submit"\]\s*{[\s\S]*background:\s*var\(--red\)/.test(css),
   ],

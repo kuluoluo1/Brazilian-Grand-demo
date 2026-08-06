@@ -442,9 +442,12 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .search button {
+  appearance: none;
   background: transparent;
+  border: 0;
   border-radius: 0 7px 7px 0;
   height: 48px;
+  padding: 0;
   position: absolute;
   right: 0;
   top: 0;
@@ -1086,13 +1089,15 @@ body[data-current-screen="categoryFlatList"] .overlay {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px 6px;
   justify-content: center;
+  height: 115px;
   left: 12px;
-  margin-top: 116px;
-  overflow: visible;
+  margin: 0;
+  overflow: hidden;
   padding: 0;
-  position: relative;
+  position: absolute;
+  top: 122px;
   width: 366px;
 }
 
@@ -1133,15 +1138,21 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .filter-pills .filter-more {
   align-items: center;
   display: inline-flex;
+  flex: 0 0 106px;
   gap: 4px;
+  height: 32px;
   justify-content: center;
+  padding: 0 16px;
+  width: 106px;
 }
 
-.filter-products {
+.recipient-filter .filter-products {
+  height: 239px;
   left: 12px;
-  margin-top: 22px;
-  position: relative;
-  top: auto;
+  margin: 0;
+  position: absolute;
+  top: 259px;
+  width: 366px;
 }
 
 .reviews {
@@ -1272,7 +1283,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .newsletter-form::after {
-  border: 1px solid var(--line);
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   content: "";
   inset: 0;
@@ -1287,12 +1298,12 @@ body[data-current-screen="categoryFlatList"] .overlay {
   color: var(--navy);
   font-size: 14px;
   height: 48px;
-  left: 15px;
+  left: 12px;
   outline: 0;
   padding: 0;
   position: absolute;
   top: 0;
-  width: 236px;
+  width: 200px;
 }
 
 .newsletter-form input::placeholder {
@@ -1302,21 +1313,22 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .newsletter-form button {
   appearance: none;
   background: var(--red);
-  border-radius: 6px;
+  border: 0;
+  border-radius: 0 8px 8px 0;
   color: #ffffff;
   display: flex;
   align-items: center;
   font-size: 14px;
   font-weight: 700;
-  height: 44px;
+  height: 48px;
   justify-content: center;
   line-height: 1.2;
   padding: 10px 16px;
   position: absolute;
-  right: 2px;
-  top: 2px;
+  right: 0;
+  top: 0;
   white-space: nowrap;
-  width: 101px;
+  width: 139px;
   z-index: 2;
 }
 
@@ -1587,7 +1599,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .pdp-media-prev {
-  left: 52px;
+  left: 8px;
   transform: rotate(180deg);
 }
 
@@ -1758,7 +1770,9 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .pdp-cep-button {
+  appearance: none;
   background: var(--navy);
+  border: 0;
   color: #ffffff;
   flex: 0 0 auto;
   font-size: 14px;
@@ -1767,6 +1781,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
   line-height: 17px;
   padding: 0 16px;
   white-space: nowrap;
+  width: 89px;
 }
 
 .pdp-cep-button.is-disabled {

@@ -916,8 +916,8 @@ function renderFooter() {
         </div>
         <form class="newsletter-form" action="#">
           <label class="sr-only" for="email-field">Email</label>
-          <input id="email-field" type="email" placeholder="Enter your email" />
-          <button type="button">Subscribe</button>
+          <input id="email-field" type="email" placeholder="Digite seu e-mail" />
+          <button type="button">Receber cupom</button>
         </form>
       </section>
       <section class="footer-main">
@@ -1841,25 +1841,6 @@ function closeGiftModal(target) {
   }, 160);
 }
 
-function syncHomeFilterLayout() {
-  const homeScreen = appRoot.querySelector(".home-screen");
-  const filterSection = homeScreen?.querySelector(".recipient-filter");
-  const filterProducts = filterSection?.querySelector(".filter-products");
-  const reviews = homeScreen?.querySelector(".reviews");
-  const footer = homeScreen?.querySelector(".footer");
-  if (!homeScreen || !filterSection || !filterProducts || !reviews || !footer) {
-    return;
-  }
-
-  const filterHeight = filterProducts.offsetTop + filterProducts.offsetHeight;
-  filterSection.style.height = `${filterHeight}px`;
-  reviews.style.top = `${filterSection.offsetTop + filterHeight + 60}px`;
-  footer.style.top = `${reviews.offsetTop + reviews.offsetHeight + 60}px`;
-  const screenHeight = footer.offsetTop + footer.offsetHeight;
-  homeScreen.style.height = `${screenHeight}px`;
-  homeScreen.style.minHeight = `${screenHeight}px`;
-}
-
 function lockSearchScrollPosition() {
   if (state.currentScreenId !== "searchTrending" && state.currentScreenId !== "searchSuggest") {
     return;
@@ -1897,7 +1878,6 @@ function render(options = {}) {
   document.body.dataset.renderMotion = options.preserveScroll ? "static" : "enter";
   document.body.dataset.screenCount = String(Object.keys(screens).length);
   appRoot.innerHTML = screen.render();
-  syncHomeFilterLayout();
   history.replaceState(null, "", `#${state.currentScreenId}`);
   appViewport.scrollTop = options.preserveScroll ? previousScrollTop : 0;
   if (options.preserveScroll) {
