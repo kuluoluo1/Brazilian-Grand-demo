@@ -24,6 +24,11 @@ const webpBudget = [
   ["collection-summer.webp", 30],
   ["collection-pets.webp", 30],
   ["review-one.webp", 8],
+  ["pdp-product-media.webp", 60],
+  ["pdp-review-01.webp", 20],
+  ["pdp-review-02.webp", 20],
+  ["pdp-personalization-style-01.webp", 12],
+  ...Array.from({ length: 6 }, (_, index) => [`pdp-related-${String(index + 1).padStart(2, "0")}.webp`, 40]),
 ];
 
 function webpAssetIsWithinBudget(name, maxKb) {
@@ -38,6 +43,7 @@ const requiredScreens = [
   "categoryFlatList",
   "listPage",
   "listPageFiltered",
+  "pdpPage",
   "filterDrawer",
   "giftStep1",
   "giftStep2",
@@ -60,6 +66,7 @@ const requiredTransitions = [
   ["drawer gift finder item opens gift modal", "categoryDrawer", "giftStep1"],
   ["list category button reopens category drawer", "listPage", "categoryDrawer"],
   ["list filter opens filter drawer", "listPage", "filterDrawer"],
+  ["product card opens PDP page", "listPage", "pdpPage"],
   ["filter drawer applies selected filters", "filterDrawer", "listPageFiltered"],
   ["home banner opens gift finder", "home", "giftStep1"],
   ["home search opens trending search", "home", "searchTrending"],
@@ -241,6 +248,50 @@ const checks = [
       /\.results-title ~ \.footer\s*{[\s\S]*top:\s*1810px/.test(css) &&
       /\.search-empty-screen > \.footer\s*{[\s\S]*top:\s*1852px/.test(css) &&
       /\.gift-results-screen > \.footer\s*{[\s\S]*top:\s*1758px/.test(css),
+  ],
+  [
+    "PDP route implements the Figma PDP artboard as coded HTML",
+    /pdpPage:\s*{[\s\S]*render:\s*renderPdpPage/.test(js) &&
+      /function renderPdpPage\(\)[\s\S]*class="screen pdp-screen[^"]*"[\s\S]*pdp-product-media[\s\S]*Caneca personalizada Retrato Pet[\s\S]*renderPdpCep\(\)[\s\S]*pdp-personalization[\s\S]*Clientes Satisfeitos[\s\S]*Itens relacionados que você pode gostar[\s\S]*renderFooter\(\)/.test(js) &&
+      /\.pdp-screen\s*{[\s\S]*height:\s*4372px[\s\S]*min-height:\s*4372px/.test(css) &&
+      /\.pdp-product-media\s*{[\s\S]*height:\s*366px[\s\S]*left:\s*12px[\s\S]*top:\s*149px[\s\S]*width:\s*366px/.test(css) &&
+      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*3336px/.test(css),
+  ],
+  [
+    "PDP uses local WebP assets exported from Figma",
+    [
+      "pdp-product-media.webp",
+      "pdp-review-01.webp",
+      "pdp-review-02.webp",
+      "pdp-personalization-style-01.webp",
+      ...Array.from({ length: 6 }, (_, index) => `pdp-related-${String(index + 1).padStart(2, "0")}.webp`),
+    ].every((file) => existsSync(resolve("assets/figma", file))) &&
+      /const pdpMediaImages = \[[\s\S]*"pdp-product-media\.webp"/.test(js) &&
+      /imageTag\(mediaImage,\s*\{ className:\s*"pdp-main-image"/.test(js) &&
+      /const pdpRelatedProducts = \[[\s\S]*"pdp-related-01\.webp"[\s\S]*"pdp-related-06\.webp"/.test(js) &&
+      !/figma\.com\/api\/mcp\/asset/.test(js + html + css),
+  ],
+  [
+    "product cards navigate into the PDP page",
+    /function renderProductCard\(product, \{ size = "small", withReview = false \} = \{\}\)[\s\S]*data-action="navigate" data-target="pdpPage"/.test(js) &&
+      /listPage:\s*{[\s\S]*target:\s*"pdpPage"/.test(js) &&
+      /\.product-card\s*{[\s\S]*cursor:\s*pointer/.test(css),
+  ],
+  [
+    "PDP CEP flow is front-end only with success and 00000000 failure states",
+    /cepValue:\s*""/.test(js) &&
+      /cepStatus:\s*"default"/.test(js) &&
+      /function formatCep\(value\)/.test(js) &&
+      /function handleCepInput\(value\)/.test(js) &&
+      /function calculateCep\(\)[\s\S]*state\.cepStatus = "loading"[\s\S]*setTimeout[\s\S]*state\.cepValue\.replace\(\/\\D\/g,\s*""\) === "00000000"[\s\S]*state\.cepStatus = "unavailable"[\s\S]*state\.cepStatus = "success"/.test(js) &&
+      /data-cep-input/.test(js) &&
+      /data-action="calculate-cep"/.test(js) &&
+      /action === "calculate-cep"[\s\S]*calculateCep\(\)/.test(js) &&
+      /event\.target\.matches\("\[data-cep-input\]"\)[\s\S]*handleCepInput/.test(js) &&
+      /\.pdp-cep\s*{[\s\S]*background:\s*#f6f6f6/.test(css) &&
+      /\.pdp-cep-button\.is-disabled\s*{[\s\S]*background:\s*#e5e7eb[\s\S]*color:\s*#9ca3af/.test(css) &&
+      /\.pdp-delivery-options\s*{[\s\S]*gap:\s*4px/.test(css) &&
+      /\.pdp-cep-error\s*{[\s\S]*color:\s*#f59e0b/.test(css),
   ],
   [
     "empty cart route follows Figma cart-empty page",

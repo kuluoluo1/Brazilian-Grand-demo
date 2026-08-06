@@ -24,6 +24,11 @@ const state = {
   filterOpenGroups: ["Para quem", "Ocasião"],
   paginationPage: 1,
   cartCount: 0,
+  pdpMediaIndex: 0,
+  pdpWishlist: false,
+  pdpSelectedStyle: "Retrato pop",
+  cepValue: "",
+  cepStatus: "default",
 };
 
 const products = [
@@ -37,6 +42,33 @@ const products = [
   { tag: "Couple photo", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-08.webp" },
   { tag: "Dog lover", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-09.webp" },
   { tag: "Cat lover", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "home-product-10.webp" },
+];
+
+const pdpMediaImages = [
+  "pdp-product-media.webp",
+  "home-product-02.webp",
+  "home-product-03.webp",
+  "home-product-04.webp",
+  "home-product-05.webp",
+  "home-product-06.webp",
+  "home-product-07.webp",
+  "home-product-08.webp",
+  "home-product-09.webp",
+];
+
+const pdpStyleOptions = [
+  { label: "Retrato pop", image: "pdp-personalization-style-01.webp" },
+  { label: "Aquarela", image: "pdp-related-02.webp" },
+  { label: "Minimalista", image: "pdp-related-03.webp" },
+];
+
+const pdpRelatedProducts = [
+  { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-01.webp" },
+  { tag: "Photo + phrase", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-02.webp", review: true },
+  { tag: "Photo + text", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-03.webp" },
+  { tag: "Name + portrait", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-04.webp" },
+  { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-05.webp" },
+  { tag: "Photo + quote", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-06.webp" },
 ];
 
 const homeFilterProductCatalog = {
@@ -257,6 +289,7 @@ const assetIcons = {
   drawerService: "./assets/figma/icon-drawer-service.svg",
   drawerServiceArrow: "./assets/figma/icon-drawer-service-arrow.svg",
   trackOrder: "./assets/figma/icon-track-order.svg",
+  stars: "./assets/figma/icon-stars.svg",
 };
 
 function rasterImageSrc(name) {
@@ -348,6 +381,7 @@ const screens = {
       { action: "category", target: "categoryDrawer" },
       { action: "filter", target: "filterDrawer" },
       { action: "search", target: "searchTrending" },
+      { action: "product", target: "pdpPage" },
     ],
     render: renderListPage,
   },
@@ -359,6 +393,15 @@ const screens = {
       { action: "search", target: "searchTrending" },
     ],
     render: () => renderListPage({ filtered: true }),
+  },
+  pdpPage: {
+    title: "PDP",
+    transitions: [
+      { action: "search", target: "searchTrending" },
+      { action: "cart", target: "cartEmpty" },
+      { action: "category", target: "categoryDrawer" },
+    ],
+    render: renderPdpPage,
   },
   filterDrawer: {
     title: "Filter drawer",
@@ -493,6 +536,12 @@ function icon(name) {
     up: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>',
     trend: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 10 11l4 4 6-8"/><path d="M15 7h5v5"/></svg>',
     filter: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+    heart: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>',
+    heartFill: '<svg class="icon fill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>',
+    facebook: '<svg class="icon fill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2V5h-2c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.4l.6-3h-3V9c0-.6.4-1 1-1Z"/></svg>',
+    x: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>',
+    pinterest: '<svg class="icon fill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a8.6 8.6 0 0 0-3.1 16.6c-.1-.8-.2-2 .1-2.8l1.1-4.5s-.3-.6-.3-1.5c0-1.4.8-2.5 1.8-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.1-2.3 3.1-5 0-2.1-1.4-3.7-4-3.7-2.9 0-4.7 2.2-4.7 4.6 0 .8.2 1.4.6 1.9.2.2.2.3.1.6l-.2.8c-.1.3-.3.4-.6.3-1.2-.5-1.8-1.9-1.8-3.4 0-2.6 2.2-5.7 6.9-5.7 3.7 0 6.1 2.7 6.1 5.6 0 3.8-2.1 6.7-5.2 6.7-1 0-2-.5-2.3-1.1l-.6 2.3c-.2.8-.8 1.7-1.2 2.3.8.2 1.5.3 2.3.3A8.6 8.6 0 0 0 12 3Z"/></svg>',
+    instagram: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5h.01"/></svg>',
   };
   return icons[name] || "";
 }
@@ -560,6 +609,29 @@ function header() {
     <header class="header">
       <button class="icon-button menu-button" type="button" aria-label="Categorias" data-action="navigate" data-target="categoryDrawer">
         ${icon("menu")}
+      </button>
+      <button class="logo" type="button" aria-label="Pra Emocionar" data-action="home">
+        <img src="./assets/figma/logo-header.svg" alt="Pra Emocionar" />
+      </button>
+      <button class="icon-button account-button" type="button" aria-label="Conta">
+        ${icon("account")}
+      </button>
+      <button class="icon-button bag-button" type="button" aria-label="Carrinho" data-action="open-cart">
+        ${icon("bag")}
+      </button>
+      ${cartCountBadge()}
+    </header>
+  `;
+}
+
+function pdpHeader() {
+  return `
+    <header class="header pdp-header">
+      <button class="icon-button menu-button" type="button" aria-label="Categorias" data-action="navigate" data-target="categoryDrawer">
+        ${icon("menu")}
+      </button>
+      <button class="icon-button header-search-button" type="button" aria-label="Buscar" data-action="navigate" data-target="searchTrending">
+        ${icon("searchNavy")}
       </button>
       <button class="logo" type="button" aria-label="Pra Emocionar" data-action="home">
         <img src="./assets/figma/logo-header.svg" alt="Pra Emocionar" />
@@ -775,7 +847,7 @@ function renderFinderStrip() {
 function renderProductCard(product, { size = "small", withReview = false } = {}) {
   const classes = `product-card ${size === "large" ? "large-card" : "small-card"} ${withReview ? "with-review" : ""}`;
   return `
-    <article class="${classes}">
+    <article class="${classes}" role="button" tabindex="0" data-action="navigate" data-target="pdpPage">
       ${imageTag(product.image, { className: "product-image", width: size === "large" ? 175 : 152, height: size === "large" ? 175 : 152 })}
       ${withReview ? `<div class="stars">${renderRatingStars()}<em>(99+)</em></div>` : ""}
       <p class="tag">${product.tag}</p>
@@ -1021,6 +1093,174 @@ function renderListPage(options = {}) {
       ${renderPagination()}
       ${renderFooter()}
     </section>
+  `;
+}
+
+function renderPdpPage() {
+  const mediaImage = pdpMediaImages[state.pdpMediaIndex] || pdpMediaImages[0];
+  const cepClass = state.cepStatus === "success" ? "pdp-cep-expanded" : state.cepStatus === "unavailable" ? "pdp-cep-error-state" : "";
+
+  return `
+    <section class="screen pdp-screen ${cepClass}">
+      ${pdpHeader()}
+      <section class="pdp-local-production">${icon("pin")} <span>Produzido localmente no Paraná</span></section>
+      <section class="pdp-product-media" aria-label="Galeria do produto">
+        ${imageTag(mediaImage, { className: "pdp-main-image", alt: "Caneca personalizada Retrato Pet", loading: "eager", fetchpriority: "high", width: 366, height: 366 })}
+        <button class="pdp-wishlist ${state.pdpWishlist ? "is-selected" : ""}" type="button" data-action="toggle-wishlist" aria-label="Favoritar produto">
+          ${icon(state.pdpWishlist ? "heartFill" : "heart")}
+        </button>
+        <button class="pdp-media-button pdp-media-prev" type="button" data-action="step-pdp-media" data-media-step="-1" aria-label="Imagem anterior">${icon("drawerNavChevron")}</button>
+        <button class="pdp-media-button pdp-media-next" type="button" data-action="step-pdp-media" data-media-step="1" aria-label="Próxima imagem">${icon("drawerNavChevron")}</button>
+        <span class="pdp-media-counter">${state.pdpMediaIndex + 1} /9</span>
+      </section>
+      <section class="pdp-summary">
+        <h1>Caneca personalizada Retrato Pet — Nome e Foto</h1>
+        <p>Transforme a foto do seu pet em um presente que cabe na rotina e fica na memória.</p>
+        <div class="pdp-price-row">
+          <strong>R$ 59,90</strong>
+          <span class="pdp-rating">${renderRatingStars(1)} <b>5.0</b> <em>(696 )</em></span>
+        </div>
+        <p class="pdp-pix-note">${icon("pix")} Pague com Pix ou use as opções disponíveis no checkout.</p>
+      </section>
+      ${renderPdpCep()}
+      <section class="pdp-size-selector">
+        <p>Tamanho</p>
+        <div class="pdp-size-options">
+          <button class="is-selected" type="button">12x18</button>
+          <button type="button">16x24</button>
+          <button type="button">24x36</button>
+        </div>
+      </section>
+      <section class="pdp-personalization">
+        <div class="pdp-section-title">
+          ${icon("stars")}
+          <h2>Personalize seu presente</h2>
+        </div>
+        <label class="pdp-field">
+          <span>Nome do pet</span>
+          <input type="text" value="Mel" aria-label="Nome do pet" />
+        </label>
+        <label class="pdp-field">
+          <span>Nome de quem recebe</span>
+          <input type="text" value="Sarah" aria-label="Nome de quem recebe" />
+        </label>
+        <div class="pdp-style-group" aria-label="Estilo da arte">
+          <p>Escolha o estilo</p>
+          <div class="pdp-style-options">
+            ${pdpStyleOptions.map((option) => renderPdpStyleOption(option)).join("")}
+          </div>
+        </div>
+        <button class="pdp-preview-button" type="button">${icon("searchNavy")} Ver prévia</button>
+        <button class="pdp-add-cart" type="button" data-action="add-pdp-cart">Adicionar ao carrinho</button>
+      </section>
+      <section class="pdp-contact-service">
+        ${icon("whatsapp")}
+        <span>Precisa de ajuda? Fale com a gente</span>
+        ${icon("drawerServiceArrow")}
+      </section>
+      <section class="pdp-info-accordion">
+        ${["Descrição do produto", "Guia de fotos", "Produção, entrega e trocas"].map((title, index) => `
+          <button class="pdp-accordion-row ${index === 0 ? "is-open" : ""}" type="button">
+            <span>${title}</span>${icon("drawerChevron")}
+          </button>
+          ${index === 0 ? `<p>Produto personalizado com impressão em alta definição, feito para transformar fotos especiais em presentes cheios de afeto.</p>` : ""}
+        `).join("")}
+      </section>
+      <section class="pdp-share">
+        <span>Compartilhe:</span>
+        <button type="button" aria-label="Facebook">${icon("facebook")}</button>
+        <button type="button" aria-label="X">${icon("x")}</button>
+        <button type="button" aria-label="Pinterest">${icon("pinterest")}</button>
+        <button type="button" aria-label="Instagram">${icon("instagram")}</button>
+      </section>
+      <section class="pdp-reviews-section">
+        <h2>Clientes Satisfeitos</h2>
+        <div class="pdp-review-summary">
+          ${renderRatingStars(5)}
+          <strong>4.8</strong><span>/5</span>
+        </div>
+        <div class="pdp-reviews-carousel">
+          ${renderPdpReviewCards()}
+        </div>
+        <button class="more-button pdp-review-more" type="button">Ver Mais ${icon("arrowRight")}</button>
+      </section>
+      <section class="pdp-related-section">
+        <h2>Itens relacionados que você pode gostar</h2>
+        <div class="pdp-related-grid">
+          ${pdpRelatedProducts.map((product, index) => renderProductCard(product, { size: "large", withReview: index === 1 })).join("")}
+        </div>
+      </section>
+      ${renderFooter()}
+    </section>
+  `;
+}
+
+function renderPdpStyleOption(option) {
+  const isSelected = state.pdpSelectedStyle === option.label;
+  return `
+    <button class="pdp-style-option ${isSelected ? "is-selected" : ""}" type="button" data-action="select-pdp-style" data-style-label="${escapeHtml(option.label)}" aria-pressed="${isSelected}">
+      ${imageTag(option.image, { width: 60, height: 60 })}
+      <span>${escapeHtml(option.label)}</span>
+    </button>
+  `;
+}
+
+function renderPdpReviewCards() {
+  return [
+    ["pdp-review-01.webp", "Cherie A."],
+    ["pdp-review-02.webp", "Mariana S."],
+  ].map(([image, name]) => `
+    <article class="review-card pdp-review-card">
+      ${imageTag(image, { width: 130, height: 130 })}
+      <div class="review-copy">
+        <div class="verified">
+          <img src="./assets/figma/icon-verified.svg" alt="" />
+          Verified Buyer
+        </div>
+        <strong>${name}</strong>
+        <img class="review-stars" src="./assets/figma/icon-stars.svg" alt="5 estrelas" />
+        <p>My friends teared up when they saw it and now keep their favorite rings in it every night.</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderPdpCep() {
+  const digits = state.cepValue.replace(/\D/g, "");
+  const complete = digits.length === 8;
+  const status = complete ? state.cepStatus : digits.length ? "inputting" : "default";
+  const disabled = !complete || status === "loading";
+  const buttonLabel = status === "loading" ? "Calculando..." : "Calcular";
+
+  return `
+    <section class="pdp-cep pdp-cep-${status}">
+      <div class="pdp-cep-inner">
+        <div class="pdp-cep-title">${icon("truck")}<strong>Calcule o frete e o prazo</strong></div>
+        <div class="pdp-cep-form">
+          <input data-cep-input type="text" inputmode="numeric" maxlength="9" value="${escapeHtml(state.cepValue)}" placeholder="Digite um CEP válido com 8 números" aria-label="CEP" />
+          <button class="pdp-cep-button ${disabled ? "is-disabled" : ""}" type="button" data-action="calculate-cep" ${disabled ? "disabled" : ""}>${buttonLabel}</button>
+        </div>
+        ${status === "success" ? `
+          <p class="pdp-cep-destination">Entrega para ${escapeHtml(state.cepValue)} - São Paulo, SP</p>
+          <div class="pdp-delivery-options">
+            ${renderDeliveryOption("SEDEX", "Chega em até 6 dias úteis", "R$ 13,98")}
+            ${renderDeliveryOption("JADLOG Econômico", "Chega em até 5 dias úteis", "R$ 14,89")}
+            ${renderDeliveryOption("PAC", "Chega em até 4 dias úteis", "R$ 20.32")}
+          </div>
+          <p class="pdp-production-note">${icon("pin")} Prazo estimado com produção personalizada + entrega.</p>
+        ` : ""}
+        ${status === "unavailable" ? '<p class="pdp-cep-error">Entrega indisponível para este CEP</p>' : ""}
+      </div>
+    </section>
+  `;
+}
+
+function renderDeliveryOption(name, time, price) {
+  return `
+    <div class="pdp-delivery-option">
+      <span><strong>${name}</strong><em>${time}</em></span>
+      <b>${price}</b>
+    </div>
   `;
 }
 
@@ -1372,6 +1612,64 @@ function openCart() {
   navigateTo("cartEmpty");
 }
 
+function stepPdpMedia(step) {
+  const nextIndex = state.pdpMediaIndex + Number(step || 0);
+  state.pdpMediaIndex = (nextIndex + pdpMediaImages.length) % pdpMediaImages.length;
+  render({ preserveScroll: true });
+}
+
+function toggleWishlist() {
+  state.pdpWishlist = !state.pdpWishlist;
+  render({ preserveScroll: true });
+}
+
+function selectPdpStyle(label) {
+  if (!pdpStyleOptions.some((option) => option.label === label)) {
+    return;
+  }
+  state.pdpSelectedStyle = label;
+  render({ preserveScroll: true });
+}
+
+function addPdpToCart() {
+  state.cartCount += 1;
+  render({ preserveScroll: true });
+}
+
+function formatCep(value) {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 5) {
+    return digits;
+  }
+  return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+}
+
+function handleCepInput(value) {
+  state.cepValue = formatCep(value);
+  const digits = state.cepValue.replace(/\D/g, "");
+  state.cepStatus = digits.length === 8 ? "valid" : digits.length ? "inputting" : "default";
+  render({ preserveScroll: true });
+}
+
+function calculateCep() {
+  const digits = state.cepValue.replace(/\D/g, "");
+  if (digits.length !== 8 || state.cepStatus === "loading") {
+    return;
+  }
+
+  state.cepStatus = "loading";
+  render({ preserveScroll: true });
+
+  window.setTimeout(() => {
+    if (state.cepValue.replace(/\D/g, "") === "00000000") {
+      state.cepStatus = "unavailable";
+    } else {
+      state.cepStatus = "success";
+    }
+    render({ preserveScroll: true });
+  }, 420);
+}
+
 function submitSearch() {
   if (!state.searchQuery.trim()) {
     state.searchQuery = "Mãe de pet";
@@ -1668,6 +1966,16 @@ appRoot.addEventListener("click", (event) => {
     setPaginationPage(actionElement.dataset.page);
   } else if (action === "step-page") {
     stepPagination(actionElement.dataset.pageStep);
+  } else if (action === "step-pdp-media") {
+    stepPdpMedia(actionElement.dataset.mediaStep);
+  } else if (action === "toggle-wishlist") {
+    toggleWishlist();
+  } else if (action === "select-pdp-style") {
+    selectPdpStyle(actionElement.dataset.styleLabel);
+  } else if (action === "calculate-cep") {
+    calculateCep();
+  } else if (action === "add-pdp-cart") {
+    addPdpToCart();
   } else if (action === "apply-filter") {
     applyFilters();
   } else if (action === "clear-filter") {
@@ -1687,6 +1995,8 @@ appRoot.addEventListener("submit", (event) => {
 appRoot.addEventListener("input", (event) => {
   if (event.target.matches("#searchInput")) {
     handleInput(event.target.value);
+  } else if (event.target.matches("[data-cep-input]")) {
+    handleCepInput(event.target.value);
   }
 });
 
@@ -1727,6 +2037,11 @@ window.demoState = () => ({
   activeLevel2Category: state.activeLevel2Category,
   filterCount: state.filterCount,
   cartCount: state.cartCount,
+  pdpMediaIndex: state.pdpMediaIndex,
+  pdpWishlist: state.pdpWishlist,
+  pdpSelectedStyle: state.pdpSelectedStyle,
+  cepValue: state.cepValue,
+  cepStatus: state.cepStatus,
   filterSelections: JSON.parse(JSON.stringify(state.filterSelections)),
   drawerLevel2OpenGroups: [...state.drawerLevel2OpenGroups],
   history: [...state.history],
