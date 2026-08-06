@@ -1619,8 +1619,9 @@ body[data-current-screen="categoryFlatList"] .overlay {
   justify-content: center;
   left: 163px;
   line-height: 14px;
-  padding: 4px 10px;
+  padding: 0;
   position: absolute;
+  white-space: nowrap;
   width: 40px;
 }
 
@@ -1663,12 +1664,15 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .pdp-rating {
   align-items: center;
   display: flex;
-  gap: 2px;
+  gap: 0;
   justify-content: flex-start;
   width: 88px;
 }
 
 .pdp-rating .rating-stars {
+  gap: 0;
+  height: 16px;
+  margin-right: 4px;
   width: 16px;
 }
 
@@ -1679,8 +1683,10 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .pdp-rating b {
+  display: block;
   font-size: 16px;
   line-height: 19px;
+  width: 25px;
 }
 
 .pdp-rating em {
@@ -1688,20 +1694,33 @@ body[data-current-screen="categoryFlatList"] .overlay {
   font-size: 14px;
   font-style: normal;
   line-height: 17px;
+  margin-left: 2px;
+  width: 41px;
 }
 
 .pdp-pix-note {
-  align-items: center;
+  align-items: flex-start;
+  background: #e9f5f0;
+  border-radius: 8px;
   color: #32bcad !important;
   display: flex;
   gap: 4px;
+  height: 34px;
   margin-top: 4px !important;
+  padding: 0;
+  width: 366px;
 }
 
 .pdp-pix-note .svg-icon {
   flex: 0 0 20px;
   height: 20px;
+  margin-top: 7px;
   width: 20px;
+}
+
+.pdp-pix-note span {
+  display: block;
+  width: 342px;
 }
 
 .pdp-cep {
@@ -1940,12 +1959,16 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .pdp-personalization {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px #e5e7eb;
   height: 428px;
   top: calc(937px + var(--pdp-extra, 0px));
 }
 
 .pdp-section-title {
   align-items: center;
+  background: #fff6e9;
   color: var(--red);
   display: flex;
   gap: 4px;
@@ -2232,8 +2255,25 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .pdp-contact-service .svg-icon {
+  flex: 0 0 auto;
+}
+
+.pdp-contact-service .svg-icon:first-child {
   height: 20px;
   width: 20px;
+}
+
+.pdp-contact-service span {
+  display: block;
+  line-height: 17px;
+  text-align: center;
+  white-space: nowrap;
+  width: 170px;
+}
+
+.pdp-contact-service .svg-icon:last-child {
+  height: 16px;
+  width: 16px;
 }
 
 .pdp-info-accordion {
@@ -2342,18 +2382,26 @@ body[data-current-screen="categoryFlatList"] .overlay {
   color: var(--navy);
   flex: 0 0 144px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .pdp-share button {
   align-items: center;
-  background: var(--navy);
+  background: transparent;
   border-radius: 50%;
   color: #ffffff;
   display: inline-flex;
   height: 28px;
   justify-content: center;
-  padding: 4px;
+  padding: 0;
+  width: 28px;
+}
+
+.pdp-share .svg-icon {
+  height: 28px;
   width: 28px;
 }
 
@@ -2407,6 +2455,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .pdp-review-summary strong {
   font-size: 16px;
   line-height: 19px;
+  width: 36px;
 }
 
 .pdp-review-summary span {

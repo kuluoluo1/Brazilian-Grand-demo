@@ -283,6 +283,11 @@ const assetIcons = {
   pinGreen: "./assets/figma/icon-pdp-local-production.svg",
   productionTime: "./assets/figma/icon-pdp-production-time.svg",
   whatsapp: "./assets/figma/icon-whatsapp.svg",
+  personalize: "./assets/figma/icon-pdp-personalize.svg",
+  facebook: "./assets/figma/icon-pdp-share-facebook.svg",
+  x: "./assets/figma/icon-pdp-share-x.svg",
+  pinterest: "./assets/figma/icon-pdp-share-pinterest.svg",
+  instagram: "./assets/figma/icon-pdp-share-instagram.svg",
   close: "./assets/figma/icon-close.svg",
   filter: "./assets/figma/icon-filter.svg",
   account: "./assets/figma/icon-account.svg",
@@ -836,6 +841,14 @@ function renderRatingStars(count = 5) {
   `;
 }
 
+function renderPdpRatingStars(count = 5) {
+  return `
+    <span class="rating-stars" aria-label="${count} estrelas">
+      ${Array.from({ length: count }, () => '<img src="./assets/figma/icon-pdp-rating-star.svg" alt="" />').join("")}
+    </span>
+  `;
+}
+
 function renderFinderStrip() {
   const finderLoopImages = [...finderImages, ...finderImages, ...finderImages, ...finderImages];
 
@@ -1122,9 +1135,9 @@ function renderPdpPage() {
         <p>Transforme a foto do seu pet em um presente que cabe na rotina e fica na memória.</p>
         <div class="pdp-price-row">
           <strong>R$ 59,90</strong>
-          <span class="pdp-rating">${renderRatingStars(1)} <b>5.0</b> <em>(696 )</em></span>
+          <span class="pdp-rating">${renderPdpRatingStars(1)}<b>5.0</b><em>(696 )</em></span>
         </div>
-        <p class="pdp-pix-note">${icon("pix")} Pague com Pix ou use as opções disponíveis no checkout.</p>
+        <p class="pdp-pix-note">${icon("pix")}<span>Pague com Pix ou use as opções disponíveis no checkout.</span></p>
       </section>
       ${renderPdpCep()}
       <section class="pdp-size-selector">
@@ -1137,7 +1150,7 @@ function renderPdpPage() {
       </section>
       <section class="pdp-personalization">
         <div class="pdp-section-title">
-          ${icon("stars")}
+          ${icon("personalize")}
           <h2>Personalize sua caneca</h2>
         </div>
         <div class="pdp-personalization-form">
@@ -1202,8 +1215,8 @@ function renderPdpPage() {
       <section class="pdp-reviews-section">
         <h2>Clientes Satisfeitos</h2>
         <div class="pdp-review-summary">
-          ${renderRatingStars(5)}
-          <strong>4.8</strong><span>/5</span>
+          ${renderPdpRatingStars(5)}
+          <strong>4.8/5</strong>
         </div>
         <div class="pdp-reviews-carousel">
           ${renderPdpReviewCards()}

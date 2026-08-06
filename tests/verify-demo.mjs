@@ -284,6 +284,14 @@ const checks = [
       /\.pdp-media-counter\s*{[\s\S]*bottom:\s*8px[\s\S]*height:\s*22px[\s\S]*left:\s*163px[\s\S]*width:\s*40px/.test(css),
   ],
   [
+    "PDP marked media and product summary details stay on one line like Figma",
+    /\.pdp-media-counter\s*{[\s\S]*padding:\s*0[\s\S]*white-space:\s*nowrap/.test(css) &&
+      /<span class="pdp-media-counter">\$\{state\.pdpMediaIndex \+ 1\} \/9<\/span>/.test(js) &&
+      /\.pdp-rating\s*{[\s\S]*gap:\s*0[\s\S]*width:\s*88px/.test(css) &&
+      /\.pdp-rating b\s*{[\s\S]*width:\s*25px/.test(css) &&
+      /\.pdp-rating em\s*{[\s\S]*margin-left:\s*2px[\s\S]*width:\s*41px/.test(css),
+  ],
+  [
     "PDP product and personalization blocks match Figma copy and structure",
     /Produzido sob demanda no Paraná/.test(js) &&
       /<span>Size <i class="required">\*<\/i><\/span>/.test(js) &&
@@ -302,6 +310,14 @@ const checks = [
       /Ver presentes/.test(js),
   ],
   [
+    "PDP marked Figma styling is applied to Pix and personalization blocks",
+    /\.pdp-pix-note\s*{[\s\S]*background:\s*#e9f5f0[\s\S]*border-radius:\s*8px[\s\S]*height:\s*34px[\s\S]*width:\s*366px/.test(css) &&
+      /\.pdp-pix-note \.svg-icon\s*{[\s\S]*height:\s*20px[\s\S]*margin-top:\s*7px[\s\S]*width:\s*20px/.test(css) &&
+      /\.pdp-personalization\s*{[\s\S]*background:\s*#ffffff[\s\S]*border-radius:\s*8px[\s\S]*box-shadow:\s*inset 0 0 0 1px #e5e7eb[\s\S]*height:\s*428px/.test(css) &&
+      /personalize:\s*"\.\/assets\/figma\/icon-pdp-personalize\.svg"/.test(js) &&
+      /<div class="pdp-section-title">\s*\$\{icon\("personalize"\)\}/.test(js),
+  ],
+  [
     "PDP accordions and post-purchase links are split like the Figma PDP artboard",
     /Produto e impressão/.test(js) &&
       /Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação/.test(js) &&
@@ -313,6 +329,18 @@ const checks = [
       /Compartilhar produto:/.test(js) &&
       /\.pdp-product-info-content\s*{[\s\S]*height:\s*84px/.test(css) &&
       /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*147px[\s\S]*top:\s*calc\(1746px \+ var\(--pdp-extra, 0px\)\)/.test(css),
+  ],
+  [
+    "PDP marked service, share, and reviews details match Figma sizing",
+    /\.pdp-contact-service span\s*{[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap[\s\S]*width:\s*170px/.test(css) &&
+      /\.pdp-contact-service \.svg-icon:first-child\s*{[\s\S]*height:\s*20px[\s\S]*width:\s*20px/.test(css) &&
+      /\.pdp-contact-service \.svg-icon:last-child\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
+      /\.pdp-share span\s*{[\s\S]*font-weight:\s*400[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap/.test(css) &&
+      /facebook:\s*"\.\/assets\/figma\/icon-pdp-share-facebook\.svg"/.test(js) &&
+      /pdp-share-facebook/.test(js) &&
+      /<strong>4\.8\/5<\/strong>/.test(js) &&
+      !/<strong>4\.8<\/strong><span>\/5<\/span>/.test(js) &&
+      /\.pdp-review-summary strong\s*{[\s\S]*width:\s*36px/.test(css),
   ],
   [
     "PDP Figma colors are encoded for local production, size, style, and CEP controls",
