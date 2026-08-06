@@ -26,7 +26,7 @@ const state = {
   cartCount: 0,
   pdpMediaIndex: 0,
   pdpWishlist: false,
-  pdpSelectedStyle: "Retrato pop",
+  pdpSelectedStyle: "Aquarela",
   cepValue: "",
   cepStatus: "default",
 };
@@ -57,9 +57,9 @@ const pdpMediaImages = [
 ];
 
 const pdpStyleOptions = [
-  { label: "Retrato pop", image: "pdp-personalization-style-01.webp" },
-  { label: "Aquarela", image: "pdp-related-02.webp" },
-  { label: "Minimalista", image: "pdp-related-03.webp" },
+  { label: "Aquarela", image: "pdp-personalization-style-01.webp" },
+  { label: "Traço", image: "pdp-related-02.webp" },
+  { label: "Foto limpa", image: "pdp-related-03.webp" },
 ];
 
 const pdpRelatedProducts = [
@@ -280,6 +280,8 @@ const assetIcons = {
   pix: "./assets/figma/icon-pix.svg",
   truck: "./assets/figma/icon-cep.svg",
   pin: "./assets/figma/icon-map.svg",
+  pinGreen: "./assets/figma/icon-pdp-local-production.svg",
+  productionTime: "./assets/figma/icon-pdp-production-time.svg",
   whatsapp: "./assets/figma/icon-whatsapp.svg",
   close: "./assets/figma/icon-close.svg",
   filter: "./assets/figma/icon-filter.svg",
@@ -536,6 +538,8 @@ function icon(name) {
     up: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>',
     trend: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 10 11l4 4 6-8"/><path d="M15 7h5v5"/></svg>',
     filter: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+    minus: '<svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg>',
+    plus: '<svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>',
     heart: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>',
     heartFill: '<svg class="icon fill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>',
     facebook: '<svg class="icon fill-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h2V5h-2c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.4l.6-3h-3V9c0-.6.4-1 1-1Z"/></svg>',
@@ -1103,7 +1107,7 @@ function renderPdpPage() {
   return `
     <section class="screen pdp-screen ${cepClass}">
       ${pdpHeader()}
-      <section class="pdp-local-production">${icon("pin")} <span>Produzido localmente no Paraná</span></section>
+      <section class="pdp-local-production">${icon("pinGreen")} <span>Produzido sob demanda no Paraná</span></section>
       <section class="pdp-product-media" aria-label="Galeria do produto">
         ${imageTag(mediaImage, { className: "pdp-main-image", alt: "Caneca personalizada Retrato Pet", loading: "eager", fetchpriority: "high", width: 366, height: 366 })}
         <button class="pdp-wishlist ${state.pdpWishlist ? "is-selected" : ""}" type="button" data-action="toggle-wishlist" aria-label="Favoritar produto">
@@ -1124,50 +1128,72 @@ function renderPdpPage() {
       </section>
       ${renderPdpCep()}
       <section class="pdp-size-selector">
-        <p>Tamanho</p>
+        <p><span>Size <i class="required">*</i></span></p>
         <div class="pdp-size-options">
-          <button class="is-selected" type="button">12x18</button>
-          <button type="button">16x24</button>
-          <button type="button">24x36</button>
+          <button class="is-selected" type="button">12*18 IN</button>
+          <button type="button">16*24 IN</button>
+          <button type="button">24*36 IN</button>
         </div>
       </section>
       <section class="pdp-personalization">
         <div class="pdp-section-title">
           ${icon("stars")}
-          <h2>Personalize seu presente</h2>
+          <h2>Personalize sua caneca</h2>
         </div>
-        <label class="pdp-field">
-          <span>Nome do pet</span>
-          <input type="text" value="Mel" aria-label="Nome do pet" />
-        </label>
-        <label class="pdp-field">
-          <span>Nome de quem recebe</span>
-          <input type="text" value="Sarah" aria-label="Nome de quem recebe" />
-        </label>
-        <div class="pdp-style-group" aria-label="Estilo da arte">
-          <p>Escolha o estilo</p>
-          <div class="pdp-style-options">
-            ${pdpStyleOptions.map((option) => renderPdpStyleOption(option)).join("")}
+        <div class="pdp-personalization-form">
+          <label class="pdp-field pdp-pet-name-field">
+            <span>Nome do pet <i class="required">*</i></span>
+            <span class="pdp-input-shell">
+              <input type="text" placeholder="Buddy" maxlength="20" aria-label="Nome do pet" />
+              <em>0/20</em>
+            </span>
+          </label>
+          <div class="pdp-photo-upload-field">
+            <p>Envie uma foto <i class="required">*</i></p>
+            <div class="pdp-photo-dropzone">
+              <span>Escolha sua foto para enviar</span>
+              <button class="pdp-photo-button" type="button">Selecionar Foto</button>
+            </div>
+            <p class="pdp-photo-helper">Use uma foto nítida e bem iluminada. Sua foto será usada apenas para personalizar seu pedido. <a href="#">Privacidade da sua foto</a></p>
+          </div>
+          <div class="pdp-style-group" aria-label="Estilo da arte">
+            <p>Escolha o estilo <i class="required">*</i></p>
+            <div class="pdp-style-options">
+              ${pdpStyleOptions.map((option) => renderPdpStyleOption(option)).join("")}
+            </div>
           </div>
         </div>
-        <button class="pdp-preview-button" type="button">${icon("searchNavy")} Ver prévia</button>
-        <button class="pdp-add-cart" type="button" data-action="add-pdp-cart">Adicionar ao carrinho</button>
       </section>
+      <button class="pdp-preview-button" type="button">${icon("searchNavy")} View Details</button>
+      <div class="pdp-quantity-selector" aria-label="Quantidade">
+        <button class="pdp-quantity-button" type="button" aria-label="Diminuir quantidade">${icon("minus")}</button>
+        <strong>1</strong>
+        <button class="pdp-quantity-button" type="button" aria-label="Aumentar quantidade">${icon("plus")}</button>
+      </div>
+      <button class="pdp-add-cart" type="button" data-action="add-pdp-cart">Ver presentes</button>
       <section class="pdp-contact-service">
         ${icon("whatsapp")}
-        <span>Precisa de ajuda? Fale com a gente</span>
+        <span>Dúvidas? Fale com a gente</span>
         ${icon("drawerServiceArrow")}
       </section>
       <section class="pdp-info-accordion">
-        ${["Descrição do produto", "Guia de fotos", "Produção, entrega e trocas"].map((title, index) => `
-          <button class="pdp-accordion-row ${index === 0 ? "is-open" : ""}" type="button">
+        <button class="pdp-product-info-head is-open" type="button">
+          <span>Produto e impressão</span>${icon("drawerChevron")}
+        </button>
+        <div class="pdp-product-info-content">
+          <p>Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação.</p>
+          <p>Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação.</p>
+        </div>
+      </section>
+      <section class="pdp-details-accordion-list">
+        ${["Como escolher a foto", "Produção, entrega e trocas", "Foto e privacidade"].map((title) => `
+          <button class="pdp-details-row" type="button">
             <span>${title}</span>${icon("drawerChevron")}
           </button>
-          ${index === 0 ? `<p>Produto personalizado com impressão em alta definição, feito para transformar fotos especiais em presentes cheios de afeto.</p>` : ""}
         `).join("")}
       </section>
       <section class="pdp-share">
-        <span>Compartilhe:</span>
+        <span>Compartilhar produto:</span>
         <button type="button" aria-label="Facebook">${icon("facebook")}</button>
         <button type="button" aria-label="X">${icon("x")}</button>
         <button type="button" aria-label="Pinterest">${icon("pinterest")}</button>
@@ -1247,7 +1273,7 @@ function renderPdpCep() {
             ${renderDeliveryOption("JADLOG Econômico", "Chega em até 5 dias úteis", "R$ 14,89")}
             ${renderDeliveryOption("PAC", "Chega em até 4 dias úteis", "R$ 20.32")}
           </div>
-          <p class="pdp-production-note">${icon("pin")} Prazo estimado com produção personalizada + entrega.</p>
+          <p class="pdp-production-note">${icon("productionTime")} Prazo estimado com produção personalizada + entrega.</p>
         ` : ""}
         ${status === "unavailable" ? '<p class="pdp-cep-error">Entrega indisponível para este CEP</p>' : ""}
       </div>

@@ -279,9 +279,49 @@ const checks = [
     /\.pdp-wishlist\s*{[\s\S]*right:\s*8px[\s\S]*top:\s*8px/.test(css) &&
       /\.pdp-wishlist,\s*\n\.pdp-media-button\s*{[\s\S]*height:\s*44px[\s\S]*width:\s*44px/.test(css) &&
       /\.pdp-media-button\s*{[\s\S]*top:\s*161px/.test(css) &&
-      /\.pdp-media-prev\s*{[\s\S]*left:\s*8px/.test(css) &&
+      /\.pdp-media-prev\s*{[\s\S]*left:\s*52px/.test(css) &&
       /\.pdp-media-next\s*{[\s\S]*right:\s*8px/.test(css) &&
       /\.pdp-media-counter\s*{[\s\S]*bottom:\s*8px[\s\S]*height:\s*22px[\s\S]*left:\s*163px[\s\S]*width:\s*40px/.test(css),
+  ],
+  [
+    "PDP product and personalization blocks match Figma copy and structure",
+    /Produzido sob demanda no Paraná/.test(js) &&
+      /<span>Size <i class="required">\*<\/i><\/span>/.test(js) &&
+      /12\*18 IN/.test(js) &&
+      /16\*24 IN/.test(js) &&
+      /24\*36 IN/.test(js) &&
+      /Personalize sua caneca/.test(js) &&
+      /Nome do pet <i class="required">\*<\/i>/.test(js) &&
+      /class="pdp-photo-upload-field"/.test(js) &&
+      /Envie uma foto <i class="required">\*<\/i>/.test(js) &&
+      /Escolha sua foto para enviar/.test(js) &&
+      /Selecionar Foto/.test(js) &&
+      /Privacidade da sua foto/.test(js) &&
+      /View Details/.test(js) &&
+      /class="pdp-quantity-selector"/.test(js) &&
+      /Ver presentes/.test(js),
+  ],
+  [
+    "PDP accordions and post-purchase links are split like the Figma PDP artboard",
+    /Produto e impressão/.test(js) &&
+      /Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação/.test(js) &&
+      /class="pdp-details-accordion-list"/.test(js) &&
+      /Como escolher a foto/.test(js) &&
+      /Produção, entrega e trocas/.test(js) &&
+      /Foto e privacidade/.test(js) &&
+      /Dúvidas\? Fale com a gente/.test(js) &&
+      /Compartilhar produto:/.test(js) &&
+      /\.pdp-product-info-content\s*{[\s\S]*height:\s*84px/.test(css) &&
+      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*147px[\s\S]*top:\s*calc\(1746px \+ var\(--pdp-extra, 0px\)\)/.test(css),
+  ],
+  [
+    "PDP Figma colors are encoded for local production, size, style, and CEP controls",
+    /\.pdp-local-production\s*{[\s\S]*background:\s*#e7f0e6[\s\S]*color:\s*#168a4a/.test(css) &&
+      /\.pdp-size-options button\s*{[\s\S]*background:\s*#ffffff[\s\S]*border:\s*1px solid #e5e7eb/.test(css) &&
+      /\.pdp-size-options button\.is-selected\s*{[\s\S]*background:\s*#fdf3ee[\s\S]*border-color:\s*var\(--red\)[\s\S]*color:\s*var\(--red\)/.test(css) &&
+      /\.pdp-style-option\s*{[\s\S]*background:\s*#ffffff[\s\S]*border:\s*1px solid #e5e7eb/.test(css) &&
+      /\.pdp-style-option\.is-selected\s*{[\s\S]*background:\s*#fdf3ee[\s\S]*border-color:\s*var\(--red\)[\s\S]*color:\s*var\(--red\)/.test(css) &&
+      /\.pdp-cep-button\s*{[\s\S]*border-radius:\s*0 8px 8px 0[\s\S]*right:\s*0/.test(css),
   ],
   [
     "PDP uses local WebP assets exported from Figma",
