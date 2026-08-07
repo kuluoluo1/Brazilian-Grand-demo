@@ -20,6 +20,8 @@ const webpBudget = [
   ["banner_pic.webp", 120],
   ...Array.from({ length: 10 }, (_, index) => [`home-product-${String(index + 1).padStart(2, "0")}.webp`, 40]),
   ...Array.from({ length: 6 }, (_, index) => [`drawer-nav-${String(index + 1).padStart(2, "0")}.webp`, 10]),
+  ["drawer-side-banner.webp", 30],
+  ...["para-quem", "ocasioes", "produtos", "colecoes", "destaques", "gift"].map((name) => [`drawer-card-${name}.webp`, 10]),
   ...Array.from({ length: 5 }, (_, index) => [`gift-finder-${index + 1}.webp`, 20]),
   ["collection-summer.webp", 30],
   ["collection-pets.webp", 30],
@@ -261,7 +263,7 @@ const checks = [
       /function renderGiftFinderResults[\s\S]*renderVerticalProductGrid\(\)[\s\S]*renderPagination\(\)[\s\S]*renderFooter\(\)/.test(js) &&
       /\.list-product-grid\s*{[\s\S]*display:\s*grid/.test(css) &&
       /\.pagination\s*{[\s\S]*display:\s*flex/.test(css) &&
-      /\.list-screen > \.footer\s*{[\s\S]*top:\s*2001px/.test(css) &&
+      /\.list-screen > \.footer\s*{[\s\S]*top:\s*1956px/.test(css) &&
       /\.results-title ~ \.footer\s*{[\s\S]*top:\s*1810px/.test(css) &&
       /\.search-empty-screen > \.footer\s*{[\s\S]*top:\s*1852px/.test(css) &&
       /\.gift-results-screen > \.footer\s*{[\s\S]*top:\s*1758px/.test(css),
@@ -269,10 +271,10 @@ const checks = [
   [
     "PDP route implements the Figma PDP artboard as coded HTML",
     /pdpPage:\s*{[\s\S]*render:\s*renderPdpPage/.test(js) &&
-      /function renderPdpPage\(\)[\s\S]*class="screen pdp-screen[^"]*"[\s\S]*pdp-product-media[\s\S]*Caneca personalizada Retrato Pet[\s\S]*renderPdpCep\(\)[\s\S]*pdp-personalization[\s\S]*Clientes Satisfeitos[\s\S]*Itens relacionados que você pode gostar[\s\S]*renderFooter\(\)/.test(js) &&
-      /\.pdp-screen\s*{[\s\S]*height:\s*calc\(4373px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)[\s\S]*min-height:\s*calc\(4373px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
+      /function renderPdpPage\(\)[\s\S]*class="screen pdp-screen[^"]*"[\s\S]*pdp-product-media[\s\S]*Caneca personalizada Retrato Pet[\s\S]*pdp-personalization[\s\S]*pdp-add-cart[\s\S]*renderPdpCep\(\)[\s\S]*Clientes Satisfeitos[\s\S]*Itens relacionados que você pode gostar[\s\S]*renderFooter\(\)/.test(js) &&
+      /\.pdp-screen\s*{[\s\S]*height:\s*calc\(4374px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)[\s\S]*min-height:\s*calc\(4374px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
       /\.pdp-product-media\s*{[\s\S]*height:\s*366px[\s\S]*left:\s*12px[\s\S]*top:\s*149px[\s\S]*width:\s*366px/.test(css) &&
-      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*calc\(3337px \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
+      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*calc\(3305px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
   ],
   [
     "PDP media controls match Figma node 220:315 coordinates",
@@ -354,8 +356,8 @@ const checks = [
       /pdpOpenAccordions:\s*\["productInfo"\]/.test(js) &&
       /function renderPdpAccordionItem/.test(js) &&
       /function pdpAccordionExtra/.test(js) &&
-      /const productInfoExtra = isPdpAccordionOpen\("productInfo"\) \? 0 : -124/.test(js) &&
-      /const productInfoGap = productInfoOpen \? 24 : 0/.test(js) &&
+      /const productInfoExtra = isPdpAccordionOpen\("productInfo"\) \? 0 : -100/.test(js) &&
+      /const productInfoGap = 41/.test(js) &&
       /isPdpAccordionOpen\(item\.key\)\)\.length \* 66/.test(js) &&
       /--pdp-details-gap: \$\{productInfoGap\}px/.test(js) &&
       /data-action="toggle-pdp-accordion"/.test(js) &&
@@ -365,31 +367,28 @@ const checks = [
       /Como escolher a foto/.test(js) &&
       /Produção, entrega e trocas/.test(js) &&
       /Foto e privacidade/.test(js) &&
-      /Dúvidas\? Fale com a gente/.test(js) &&
+      !/Dúvidas\? Fale com a gente/.test(getFunctionSource("renderPdpPage")) &&
       /Compartilhar produto:/.test(js) &&
       /\.pdp-product-info-content\s*{[\s\S]*height:\s*84px/.test(css) &&
       /\.pdp-accordion-head \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*margin-left:\s*auto[\s\S]*width:\s*16px/.test(css) &&
-      /\.pdp-product-info-head\s*{[\s\S]*background:\s*#f6f6f6/.test(css) &&
-      /\.pdp-product-info-head\.is-open\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
-      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#fefbf7[\s\S]*top:\s*calc\(1573px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-info-height, 149px\) \+ var\(--pdp-details-gap, 24px\)\)/.test(css) &&
-      /\.pdp-details-row\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*49px/.test(css) &&
-      /\.pdp-details-item\.is-open \.pdp-details-row\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
-      /\.pdp-details-content\s*{[\s\S]*background:\s*#fefbf7[\s\S]*height:\s*66px[\s\S]*padding:\s*16px 12px/.test(css) &&
-      /\.pdp-share\s*{[\s\S]*top:\s*calc\(1917px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
-      /\.pdp-reviews-section\s*{[\s\S]*top:\s*calc\(2005px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
+      /\.pdp-product-info-head\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*17px/.test(css) &&
+      /\.pdp-product-info-head\.is-open\s*{[\s\S]*background:\s*transparent/.test(css) &&
+      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*transparent[\s\S]*top:\s*calc\(1545px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-info-height, 117px\) \+ var\(--pdp-details-gap, 41px\)\)/.test(css) &&
+      /\.pdp-details-row\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*17px/.test(css) &&
+      /\.pdp-details-item\.is-open \.pdp-details-row\s*{[\s\S]*background:\s*transparent/.test(css) &&
+      /\.pdp-details-content\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*66px[\s\S]*padding:\s*16px 0/.test(css) &&
+      /\.pdp-share\s*{[\s\S]*top:\s*calc\(1885px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
+      /\.pdp-reviews-section\s*{[\s\S]*top:\s*calc\(1973px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
   ],
   [
-    "PDP marked service, share, and reviews details match Figma sizing",
-    /\.pdp-contact-service\s*{[\s\S]*top:\s*calc\(1524px \+ var\(--pdp-extra, 0px\)\)/.test(css) &&
-      /\.pdp-contact-service span\s*{[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap[\s\S]*width:\s*170px/.test(css) &&
-      /\.pdp-contact-service \.svg-icon:first-child\s*{[\s\S]*height:\s*20px[\s\S]*width:\s*20px/.test(css) &&
-      /\.pdp-contact-service \.svg-icon:last-child\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
+    "PDP marked share and reviews details match Figma sizing",
+    /\.pdp-contact-service\s*{[\s\S]*display:\s*none/.test(css) &&
       /\.pdp-share span\s*{[\s\S]*font-weight:\s*400[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap/.test(css) &&
       /pdpContactWhatsapp:\s*"\.\/assets\/figma\/icon-pdp-contact-whatsapp\.svg"/.test(js) &&
       /pdpContactArrow:\s*"\.\/assets\/figma\/icon-pdp-contact-arrow\.svg"/.test(js) &&
       /pdpProductInfoArrow:\s*"\.\/assets\/figma\/icon-pdp-product-info-arrow\.svg"/.test(js) &&
       /pdpDetailsArrow:\s*"\.\/assets\/figma\/icon-pdp-details-arrow\.svg"/.test(js) &&
-      /pdp-contact-service">\s*\$\{icon\("pdpContactWhatsapp"\)\}[\s\S]*\$\{icon\("pdpContactArrow"\)\}/.test(js) &&
+      !/pdp-contact-service">\s*\$\{icon\("pdpContactWhatsapp"\)\}[\s\S]*\$\{icon\("pdpContactArrow"\)\}/.test(getFunctionSource("renderPdpPage")) &&
       /pdp-product-info-head[\s\S]*\$\{icon\(productInfoOpen \? "pdpProductInfoArrow" : "pdpDetailsArrow"\)\}/.test(js) &&
       /pdp-details-row[\s\S]*\$\{icon\(open \? "pdpProductInfoArrow" : "pdpDetailsArrow"\)\}/.test(js) &&
       /facebook:\s*"\.\/assets\/figma\/icon-pdp-share-facebook\.svg"/.test(js) &&
@@ -451,15 +450,26 @@ const checks = [
     "PDP CEP flow is front-end only with success and 00000000 failure states",
     /cepValue:\s*""/.test(js) &&
       /cepStatus:\s*"default"/.test(js) &&
+      /cepTimer:\s*null/.test(js) &&
       /function formatCep\(value\)/.test(js) &&
-      /function handleCepInput\(value\)/.test(js) &&
-      /function calculateCep\(\)[\s\S]*state\.cepStatus = "loading"[\s\S]*setTimeout[\s\S]*state\.cepValue\.replace\(\/\\D\/g,\s*""\) === "00000000"[\s\S]*state\.cepStatus = "unavailable"[\s\S]*state\.cepStatus = "success"/.test(js) &&
+      /function handleCepInput\(input\)/.test(js) &&
+      /function resolveCepStatus\(digits\)/.test(js) &&
+      /function syncCepInlineStatus\(status\)/.test(js) &&
+      /function queueCepLookup\(digits\)/.test(js) &&
+      /window\.clearTimeout\(state\.cepTimer\)/.test(js) &&
+      /state\.cepStatus = "loading"[\s\S]*state\.cepTimer = window\.setTimeout/.test(js) &&
+      /function handleCepInput\(input\)[\s\S]*syncCepInlineStatus\(state\.cepStatus\)[\s\S]*function calculateCep/.test(js) &&
+      !/function handleCepInput\(input\)[\s\S]*render\(\{ preserveScroll: true \}\)[\s\S]*function calculateCep/.test(js) &&
+      /digits === "00000000" \? "unavailable" : "success"/.test(js) &&
+      /function calculateCep\(\)[\s\S]*const digits = state\.cepValue\.replace\(\/\\D\/g,\s*""\)[\s\S]*queueCepLookup\(digits\)/.test(js) &&
       /data-cep-input/.test(js) &&
       /data-action="calculate-cep"/.test(js) &&
       /action === "calculate-cep"[\s\S]*calculateCep\(\)/.test(js) &&
       /event\.target\.matches\("\[data-cep-input\]"\)[\s\S]*handleCepInput/.test(js) &&
       /\.pdp-cep\s*{[\s\S]*background:\s*#f6f6f6/.test(css) &&
-      /\.pdp-cep-form\s*{[\s\S]*height:\s*48px[\s\S]*width:\s*366px/.test(css) &&
+      /\.pdp-cep\s*{[\s\S]*left:\s*12px[\s\S]*width:\s*366px/.test(css) &&
+      /\.pdp-cep-inner\s*{[\s\S]*width:\s*342px/.test(css) &&
+      /\.pdp-cep-form\s*{[\s\S]*height:\s*48px[\s\S]*width:\s*342px/.test(css) &&
       /\.pdp-cep-button\s*{[\s\S]*appearance:\s*none[\s\S]*border:\s*0[\s\S]*height:\s*48px[\s\S]*width:\s*89px/.test(css) &&
       /\.pdp-cep-button\.is-disabled\s*{[\s\S]*background:\s*#e5e7eb[\s\S]*color:\s*#9ca3af/.test(css) &&
       /\.pdp-delivery-options\s*{[\s\S]*gap:\s*4px/.test(css) &&
@@ -495,7 +505,7 @@ const checks = [
   [
     "footer screens end at the footer bottom without extra blank space",
     /\.home-screen\s*{[\s\S]*height:\s*5925px[\s\S]*min-height:\s*5925px/.test(css) &&
-      /\.list-screen\s*{[\s\S]*min-height:\s*3037px/.test(css) &&
+      /\.list-screen\s*{[\s\S]*min-height:\s*2992px/.test(css) &&
       /\.search-results-screen\s*{[\s\S]*min-height:\s*2846px/.test(css) &&
       /\.search-empty-screen\s*{[\s\S]*min-height:\s*2888px/.test(css) &&
       /\.gift-results-screen\s*{[\s\S]*min-height:\s*2794px/.test(css) &&
@@ -549,8 +559,8 @@ const checks = [
     "list and search result key y positions match Figma",
     /\.crumbs\s*{[\s\S]*top:\s*178px/.test(css) &&
       /\.list-intro,\s*\n\.results-title\s*{[\s\S]*top:\s*207px/.test(css) &&
-      /\.list-intro,\s*\n\.results-title\s*{[\s\S]*height:\s*190px/.test(css) &&
-      /\.list-toolbar\s*{[\s\S]*top:\s*417px/.test(css) &&
+      /\.list-intro,\s*\n\.results-title\s*{[\s\S]*height:\s*149px/.test(css) &&
+      /\.list-toolbar\s*{[\s\S]*top:\s*372px/.test(css) &&
       /\.results-title\s*{[\s\S]*top:\s*178px/.test(css) &&
       /\.results-title \+ \.list-toolbar\s*{[\s\S]*top:\s*226px/.test(css) &&
       /\.results-title ~ \.list-product-grid\s*{[\s\S]*top:\s*278px/.test(css),
@@ -598,6 +608,16 @@ const checks = [
       /\.filter-button\s*{[\s\S]*width:\s*89px/.test(css),
   ],
   [
+    "list pages remove the category filter pill strip and move content up",
+    !/function renderListPage\(options = \{\}\)[\s\S]*class="category-pills"/.test(js) &&
+      !/const listPills = filterOptions\.find/.test(getFunctionSource("renderListPage")) &&
+      /height:\s*149px/.test(getCssRule(".list-intro,\n.results-title")) &&
+      /\.list-toolbar\s*{[\s\S]*top:\s*372px/.test(css) &&
+      /\.list-product-grid\s*{[\s\S]*top:\s*424px/.test(css) &&
+      /\.pagination\s*{[\s\S]*top:\s*1860px/.test(css) &&
+      !/const horizontalScrollSelectors = \["\.category-pills"\]/.test(js),
+  ],
+  [
     "filter count label stays on one line",
     /\$\{filterCount > 0 \? "has-filter-count" : ""\}/.test(js) &&
       /\.filter-button\s*{[\s\S]*white-space:\s*nowrap/.test(css) &&
@@ -616,9 +636,9 @@ const checks = [
       /function renderSelectablePill/.test(js) &&
       /data-action="toggle-pill"/.test(js) &&
       /function togglePill\(group, label\)[\s\S]*group === "homeFilterSelected"[\s\S]*state\[group\] = \[label\]/.test(js) &&
-      /\.filter-pills button,\s*\n\.category-pill\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
-      /\.filter-pills button\.is-selected,\s*\n\.category-pill\.is-selected\s*{[\s\S]*background:\s*var\(--navy\)[\s\S]*color:\s*#ffffff/.test(css) &&
-      /\.filter-pills button\.is-selected \.svg-icon,\s*\n\.category-pill\.is-selected \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
+      /\.filter-pills button\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
+      /\.filter-pills button\.is-selected\s*{[\s\S]*background:\s*var\(--navy\)[\s\S]*color:\s*#ffffff/.test(css) &&
+      /\.filter-pills button\.is-selected \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
       /flex-wrap:\s*wrap/.test(getCssRule(".filter-pills")) &&
       /justify-content:\s*center/.test(getCssRule(".filter-pills")) &&
       /position:\s*absolute/.test(getCssRule(".filter-pills")) &&
@@ -636,28 +656,11 @@ const checks = [
       /function togglePill\(group, label\)[\s\S]*group === "homeFilterSelected"[\s\S]*state\[group\] = \[label\]/.test(js),
   ],
   [
-    "home recipient pills wrap while list category pill rows remain horizontally swipeable",
+    "home recipient pills wrap without list category pill rows",
     /flex-wrap:\s*wrap/.test(getCssRule(".filter-pills")) &&
       !/overflow-x:\s*auto/.test(getCssRule(".filter-pills")) &&
-      /\.category-pills\s*{[\s\S]*flex-wrap:\s*nowrap[\s\S]*overflow-x:\s*auto[\s\S]*overflow-y:\s*hidden[\s\S]*scrollbar-width:\s*none[\s\S]*-webkit-overflow-scrolling:\s*touch/.test(css) &&
-      /\.filter-pills button,\s*\n\.category-pill\s*{[\s\S]*flex:\s*0 0 auto/.test(css) &&
-      /\.category-pills::-webkit-scrollbar\s*{[\s\S]*display:\s*none/.test(css),
-  ],
-  [
-    "list category pill rows keep horizontal position after selecting an option",
-    /const horizontalScrollSelectors = \["\.category-pills"\]/.test(js) &&
-      /function captureHorizontalScrollPositions\(\)[\s\S]*scrollLeft/.test(js) &&
-      /function restoreHorizontalScrollPositions\(positions = \[\]\)[\s\S]*requestAnimationFrame[\s\S]*element\.scrollLeft = scrollLeft/.test(js) &&
-      /const previousHorizontalScroll = options\.preserveScroll \? captureHorizontalScrollPositions\(\) : \[\]/.test(js) &&
-      /if \(options\.preserveScroll\) \{[\s\S]*restoreHorizontalScrollPositions\(previousHorizontalScroll\)/.test(js),
-  ],
-  [
-    "list category pills are linked to filter Para quem selections",
-    /function renderFilterPill\(group, label, \{ className = "filter-chip" \} = \{\}\)/.test(js) &&
-      /const listPills = filterOptions\.find\(\(group\) => group\.title === "Para quem"\)\.chips/.test(js) &&
-      /renderFilterPill\("Para quem", label, \{ className: "category-pill" \}\)/.test(js) &&
-      !/renderSelectablePill\(label, \{ group: "listSelected", className: "category-pill" \}\)/.test(js) &&
-      /function toggleFilterChip\(group, label\)[\s\S]*state\.filterSelections\[group\]/.test(js),
+      /\.filter-pills button\s*{[\s\S]*flex:\s*0 0 auto/.test(css) &&
+      !/\.category-pills/.test(css),
   ],
   [
     "list sort control expands and selects sort options",
@@ -776,28 +779,36 @@ const checks = [
       /\.search-layer\s*{[\s\S]*top:\s*104px/.test(css),
   ],
   [
-    "level 1 category drawer matches side drawer artboard",
+    "level 1 category drawer matches side drawer artboard 288:1850",
     /\.category-drawer/.test(css) &&
-      /const firstLevelDrawerItems = \[/.test(js) &&
-      ["Para quem-2", "Ocasiões-3", "Produtos", "Coleções", "Destaques", "Buscador de presentes"].every((label) => js.includes(label)) &&
-      Array.from({ length: 6 }, (_, index) => {
-        const base = `drawer-nav-${String(index + 1).padStart(2, "0")}`;
-        return existsSync(resolve("assets/figma", `${base}.png`)) && existsSync(resolve("assets/figma", `${base}.webp`));
-      }).every(Boolean) &&
+      /const drawerGridItems = \[/.test(js) &&
+      ["Para quem", "Ocasiões", "Produtos", "Coleções", "Destaques", "Ache seu presente"].every((label) => js.includes(label)) &&
+      existsSync(resolve("assets/figma/drawer-side-banner.webp")) &&
+      ["para-quem", "ocasioes", "produtos", "colecoes", "destaques", "gift"].every((base) => existsSync(resolve("assets/figma", `drawer-card-${base}.webp`))) &&
+      /drawerCloseFigma:\s*"\.\/assets\/figma\/icon-drawer-close-figma\.svg"/.test(js) &&
+      /drawerServiceFigma:\s*"\.\/assets\/figma\/icon-drawer-service-figma\.svg"/.test(js) &&
+      /drawerTrackOrderFigma:\s*"\.\/assets\/figma\/icon-drawer-track-order-figma\.svg"/.test(js) &&
+      /drawerWishlistFigma:\s*"\.\/assets\/figma\/icon-drawer-wishlist-figma\.svg"/.test(js) &&
       /function renderFirstLevelDrawerItem/.test(js) &&
+      /class="category-drawer drawer-first-level"/.test(js) &&
+      /class="drawer-promo-banner"/.test(js) &&
       /class="drawer-first-list"/.test(js) &&
       /class="drawer-nav-item"/.test(js) &&
       /className:\s*"drawer-thumb"/.test(js) &&
       /class="drawer-service"/.test(js) &&
       /data-action="navigate" data-target="\$\{item\.target\}"/.test(js) &&
-      /\.category-drawer\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*left:\s*0[\s\S]*top:\s*0[\s\S]*width:\s*350px/.test(css) &&
+      /\.drawer-first-level\s*{[\s\S]*border-radius:\s*0[\s\S]*width:\s*390px/.test(css) &&
       /body\[data-current-screen="categoryDrawer"\] \.overlay,\s*\nbody\[data-current-screen="categoryLevel2"\] \.overlay,\s*\nbody\[data-current-screen="categoryFlatList"\] \.overlay\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*top:\s*0/.test(css) &&
       !/drawer-status-layer/.test(js) &&
-      /\.drawer-first-list\s*{[\s\S]*gap:\s*16px[\s\S]*top:\s*57px/.test(css) &&
-      /\.drawer-nav-item\s*{[\s\S]*height:\s*52px[\s\S]*grid-template-columns:\s*52px 1fr 20px/.test(css) &&
-      /\.drawer-thumb\s*{[\s\S]*height:\s*52px[\s\S]*width:\s*52px/.test(css) &&
-      /label:\s*"Ocasiões-3"[\s\S]*target:\s*"categoryFlatList"/.test(js) &&
-      /label:\s*"Buscador de presentes"[\s\S]*target:\s*"giftStep1"/.test(js),
+      /\.drawer-promo-banner\s*{[\s\S]*height:\s*120px[\s\S]*left:\s*12px[\s\S]*top:\s*64px[\s\S]*width:\s*366px/.test(css) &&
+      /\.drawer-first-level \.drawer-first-list\s*{[\s\S]*gap:\s*8px[\s\S]*grid-template-columns:\s*repeat\(2, 179px\)[\s\S]*top:\s*208px/.test(css) &&
+      /\.drawer-first-level \.drawer-nav-item\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*64px[\s\S]*width:\s*179px/.test(css) &&
+      /\.drawer-first-level \.drawer-thumb\s*{[\s\S]*height:\s*48px[\s\S]*width:\s*48px/.test(css) &&
+      /\.drawer-first-level \.drawer-service\s*{[\s\S]*top:\s*476px/.test(css) &&
+      /\.drawer-first-level \.drawer-track-order\s*{[\s\S]*top:\s*524px/.test(css) &&
+      /\.drawer-first-level \.drawer-wishlist-link\s*{[\s\S]*top:\s*572px/.test(css) &&
+      /label:\s*"Ocasiões"[\s\S]*target:\s*"categoryFlatList"/.test(js) &&
+      /label:\s*"Ache seu presente"[\s\S]*target:\s*"giftStep1"/.test(js),
   ],
   [
     "product collection and featured drawer entries open level 2 accordions",
@@ -1001,6 +1012,10 @@ const checks = [
       !/whatsapp-float"[^>]*href=/.test(html) &&
       /\.whatsapp-float\s*{[\s\S]*bottom:\s*20px[\s\S]*height:\s*50px[\s\S]*pointer-events:\s*none[\s\S]*right:\s*16px[\s\S]*width:\s*50px/.test(css) &&
       /\.whatsapp-float img\s*{[\s\S]*height:\s*50px[\s\S]*width:\s*50px/.test(css),
+  ],
+  [
+    "drawers hide the WhatsApp floating logo",
+    /body\[data-current-screen="categoryDrawer"\] \.whatsapp-float,\s*\nbody\[data-current-screen="categoryLevel2"\] \.whatsapp-float,\s*\nbody\[data-current-screen="categoryFlatList"\] \.whatsapp-float,\s*\nbody\[data-current-screen="filterDrawer"\] \.whatsapp-float,\s*\nbody\[data-current-screen="searchTrending"\] \.whatsapp-float,\s*\nbody\[data-current-screen="searchSuggest"\] \.whatsapp-float\s*{[\s\S]*display:\s*none/.test(css),
   ],
   [
     "raster images are served as WebP with mobile loading hints",

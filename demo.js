@@ -30,6 +30,7 @@ const state = {
   pdpSelectedStyle: "Aquarela",
   cepValue: "",
   cepStatus: "default",
+  cepTimer: null,
   pdpOpenAccordions: ["productInfo"],
 };
 
@@ -236,6 +237,15 @@ const firstLevelDrawerItems = [
   { label: "Buscador de presentes", image: "drawer-nav-06.webp", target: "giftStep1" },
 ];
 
+const drawerGridItems = [
+  { label: "Para quem", image: "drawer-card-para-quem.webp", target: "categoryLevel2", categoryKey: "paraQuem" },
+  { label: "Ocasiões", image: "drawer-card-ocasioes.webp", target: "categoryFlatList" },
+  { label: "Produtos", image: "drawer-card-produtos.webp", target: "categoryLevel2", categoryKey: "produtos" },
+  { label: "Coleções", image: "drawer-card-colecoes.webp", target: "categoryLevel2", categoryKey: "colecoes" },
+  { label: "Destaques", image: "drawer-card-destaques.webp", target: "categoryLevel2", categoryKey: "destaques" },
+  { label: "Ache seu presente", image: "drawer-card-gift.webp", target: "giftStep1" },
+];
+
 const flatDrawerCategories = [
   {
     title: "Ocasiões",
@@ -330,6 +340,11 @@ const assetIcons = {
   drawerBack: "./assets/figma/icon-drawer-back.svg",
   drawerService: "./assets/figma/icon-drawer-service.svg",
   drawerServiceArrow: "./assets/figma/icon-drawer-service-arrow.svg",
+  drawerCloseFigma: "./assets/figma/icon-drawer-close-figma.svg",
+  drawerServiceFigma: "./assets/figma/icon-drawer-service-figma.svg",
+  drawerServiceArrowFigma: "./assets/figma/icon-drawer-service-arrow-figma.svg",
+  drawerTrackOrderFigma: "./assets/figma/icon-drawer-track-order-figma.svg",
+  drawerWishlistFigma: "./assets/figma/icon-drawer-wishlist-figma.svg",
   trackOrder: "./assets/figma/icon-track-order.svg",
   stars: "./assets/figma/icon-stars.svg",
 };
@@ -536,7 +551,7 @@ const screens = {
 
 const appRoot = document.querySelector("#appRoot");
 const appViewport = document.querySelector("#appViewport");
-const horizontalScrollSelectors = [".category-pills"];
+const horizontalScrollSelectors = [];
 
 function captureHorizontalScrollPositions() {
   return horizontalScrollSelectors.map((selector) => {
@@ -1027,6 +1042,42 @@ function renderCategoryDrawer() {
   return `
     ${renderHome({ dimmed: true })}
     <div class="overlay" data-action="close-drawer"></div>
+    <aside class="category-drawer drawer-first-level" aria-label="Categorias">
+      <div class="drawer-header">
+        <h2 class="drawer-title">Menu</h2>
+        <button class="icon-button" type="button" aria-label="Fechar" data-action="close-drawer">${icon("drawerCloseFigma")}</button>
+      </div>
+      <button class="drawer-promo-banner" type="button" data-action="navigate" data-target="giftStep1" aria-label="Encontrar um presente">
+        ${imageTag("drawer-side-banner.webp", { width: 366, height: 120 })}
+        <span class="drawer-promo-copy">Tem presente que vira lembrança.</span>
+        <span class="drawer-promo-cta">Encontrar um presente</span>
+      </button>
+      <div class="drawer-first-list">
+        ${drawerGridItems.map(renderFirstLevelDrawerItem).join("")}
+      </div>
+      <button class="drawer-service" type="button">
+        ${icon("drawerServiceFigma")}
+        <span>Serviço</span>
+        ${icon("drawerServiceArrowFigma")}
+      </button>
+      <button class="drawer-service drawer-track-order" type="button" data-action="navigate" data-target="trackOrder">
+        ${icon("drawerTrackOrderFigma")}
+        <span>Acompanhar pedido</span>
+        ${icon("drawerServiceArrowFigma")}
+      </button>
+      <button class="drawer-service drawer-wishlist-link" type="button">
+        ${icon("drawerWishlistFigma")}
+        <span>Lista de Desejos</span>
+        ${icon("drawerServiceArrowFigma")}
+      </button>
+    </aside>
+  `;
+}
+
+function renderLegacyCategoryDrawer() {
+  return `
+    ${renderHome({ dimmed: true })}
+    <div class="overlay" data-action="close-drawer"></div>
     <aside class="category-drawer" aria-label="Categorias">
       <div class="drawer-header">
         <h2 class="drawer-title">Menu</h2>
@@ -1053,7 +1104,7 @@ function renderCategoryDrawer() {
 function renderFirstLevelDrawerItem(item) {
   return `
     <button class="drawer-nav-item" type="button" data-action="navigate" data-target="${item.target}" data-category-key="${item.categoryKey || ""}">
-      ${imageTag(item.image, { className: "drawer-thumb", width: 52, height: 52 })}
+      ${imageTag(item.image, { className: "drawer-thumb", width: 48, height: 48 })}
       <span>${escapeHtml(item.label)}</span>
       ${icon("drawerNavChevron")}
     </button>
@@ -1120,7 +1171,6 @@ function renderSecondLevelDrawerItem(item) {
 function renderListPage(options = {}) {
   const filterCount = getDraftFilterCount();
   const filterLabel = filterCount > 0 ? `Filtrar (${filterCount})` : "Filtrar";
-  const listPills = filterOptions.find((group) => group.title === "Para quem").chips;
 
   return `
     <section class="screen list-screen ${options.filtered ? "is-filtered" : ""} ${filterCount > 0 ? "has-filter-count" : ""} ${options.dimmed ? "is-dimmed" : ""}">
@@ -1136,9 +1186,6 @@ function renderListPage(options = {}) {
       <section class="list-intro">
         <h1>Presentes para quem ama pets</h1>
         <p>Canecas e camisetas personalizadas com nome, foto e retrato do pet. Escolha a ideia, personalize e confira a prévia.</p>
-        <div class="category-pills">
-          ${listPills.map((label) => renderFilterPill("Para quem", label, { className: "category-pill" })).join("")}
-        </div>
       </section>
       <section class="list-toolbar">
         <div class="result-count">999 ideias<br />de presente</div>
@@ -1159,7 +1206,7 @@ function isPdpAccordionOpen(key) {
 }
 
 function pdpAccordionExtra() {
-  const productInfoExtra = isPdpAccordionOpen("productInfo") ? 0 : -124;
+  const productInfoExtra = isPdpAccordionOpen("productInfo") ? 0 : -100;
   const detailExtra = pdpAccordionItems.filter((item) => isPdpAccordionOpen(item.key)).length * 66;
   return productInfoExtra + detailExtra;
 }
@@ -1184,8 +1231,8 @@ function renderPdpPage() {
   const mediaImage = pdpMediaImages[state.pdpMediaIndex] || pdpMediaImages[0];
   const cepClass = state.cepStatus === "success" ? "pdp-cep-expanded" : state.cepStatus === "unavailable" ? "pdp-cep-error-state" : "";
   const productInfoOpen = isPdpAccordionOpen("productInfo");
-  const productInfoHeight = productInfoOpen ? 149 : 49;
-  const productInfoGap = productInfoOpen ? 24 : 0;
+  const productInfoHeight = productInfoOpen ? 117 : 17;
+  const productInfoGap = 41;
   const accordionExtra = pdpAccordionExtra();
 
   return `
@@ -1210,7 +1257,6 @@ function renderPdpPage() {
         </div>
         <p class="pdp-pix-note">${icon("pdpPix")}<span>Pague com Pix ou use as opções disponíveis no checkout.</span></p>
       </section>
-      ${renderPdpCep()}
       <section class="pdp-size-selector">
         <p><span>Size <i class="required">*</i></span></p>
         <div class="pdp-size-options">
@@ -1253,11 +1299,7 @@ function renderPdpPage() {
         <button class="pdp-quantity-button" type="button" aria-label="Aumentar quantidade">${icon("plus")}</button>
       </div>
       <button class="pdp-add-cart" type="button" data-action="add-pdp-cart">Ver presentes</button>
-      <section class="pdp-contact-service">
-        ${icon("pdpContactWhatsapp")}
-        <span>Dúvidas? Fale com a gente</span>
-        ${icon("pdpContactArrow")}
-      </section>
+      ${renderPdpCep()}
       <section class="pdp-info-accordion ${productInfoOpen ? "is-open" : ""}">
         <button class="pdp-product-info-head pdp-accordion-head ${productInfoOpen ? "is-open" : ""}" type="button" data-action="toggle-pdp-accordion" data-pdp-accordion="productInfo" aria-expanded="${productInfoOpen}">
           <span>Produto e impressão</span>${icon(productInfoOpen ? "pdpProductInfoArrow" : "pdpDetailsArrow")}
@@ -1768,11 +1810,85 @@ function formatCep(value) {
   return `${digits.slice(0, 5)}-${digits.slice(5)}`;
 }
 
-function handleCepInput(value) {
-  state.cepValue = formatCep(value);
+function focusCepInput() {
+  const scrollTop = appViewport.scrollTop;
+  requestAnimationFrame(() => {
+    const input = appRoot.querySelector("[data-cep-input]");
+    if (!input) {
+      return;
+    }
+    try {
+      input.focus({ preventScroll: true });
+    } catch {
+      input.focus();
+    }
+    input.setSelectionRange(input.value.length, input.value.length);
+    appViewport.scrollTop = scrollTop;
+  });
+}
+
+function resolveCepStatus(digits) {
+  return digits === "00000000" ? "unavailable" : "success";
+}
+
+function syncCepInlineStatus(status) {
+  const section = appRoot.querySelector(".pdp-cep");
+  if (!section) {
+    return;
+  }
+  section.classList.remove(
+    "pdp-cep-default",
+    "pdp-cep-inputting",
+    "pdp-cep-valid",
+    "pdp-cep-loading",
+    "pdp-cep-success",
+    "pdp-cep-unavailable",
+  );
+  section.classList.add(`pdp-cep-${status}`);
+  section.querySelectorAll(".pdp-cep-destination, .pdp-delivery-options, .pdp-production-note, .pdp-cep-error").forEach((node) => node.remove());
+
   const digits = state.cepValue.replace(/\D/g, "");
-  state.cepStatus = digits.length === 8 ? "valid" : digits.length ? "inputting" : "default";
-  render({ preserveScroll: true });
+  const button = section.querySelector(".pdp-cep-button");
+  if (!button) {
+    return;
+  }
+  const disabled = digits.length !== 8 || status === "loading";
+  button.disabled = disabled;
+  button.classList.toggle("is-disabled", disabled);
+  button.textContent = status === "loading" ? "Calculando..." : "Calcular";
+}
+
+function queueCepLookup(digits) {
+  window.clearTimeout(state.cepTimer);
+  state.cepStatus = "loading";
+  syncCepInlineStatus("loading");
+  state.cepTimer = window.setTimeout(() => {
+    if (state.cepValue.replace(/\D/g, "") !== digits) {
+      return;
+    }
+    state.cepStatus = resolveCepStatus(digits);
+    state.cepTimer = null;
+    render({ preserveScroll: true });
+    focusCepInput();
+  }, 500);
+}
+
+function handleCepInput(input) {
+  const rawValue = typeof input === "string" ? input : input.value;
+  state.cepValue = formatCep(rawValue);
+  const digits = state.cepValue.replace(/\D/g, "");
+  if (typeof input !== "string" && input.value !== state.cepValue) {
+    input.value = state.cepValue;
+    input.setSelectionRange(state.cepValue.length, state.cepValue.length);
+  }
+  if (digits.length === 8) {
+    queueCepLookup(digits);
+    return;
+  }
+  window.clearTimeout(state.cepTimer);
+  state.cepTimer = null;
+  state.cepStatus = digits.length ? "inputting" : "default";
+  syncCepInlineStatus(state.cepStatus);
 }
 
 function calculateCep() {
@@ -1780,18 +1896,7 @@ function calculateCep() {
   if (digits.length !== 8 || state.cepStatus === "loading") {
     return;
   }
-
-  state.cepStatus = "loading";
-  render({ preserveScroll: true });
-
-  window.setTimeout(() => {
-    if (state.cepValue.replace(/\D/g, "") === "00000000") {
-      state.cepStatus = "unavailable";
-    } else {
-      state.cepStatus = "success";
-    }
-    render({ preserveScroll: true });
-  }, 420);
+  queueCepLookup(digits);
 }
 
 function submitSearch() {
@@ -2104,7 +2209,7 @@ appRoot.addEventListener("input", (event) => {
   if (event.target.matches("#searchInput")) {
     handleInput(event.target.value);
   } else if (event.target.matches("[data-cep-input]")) {
-    handleCepInput(event.target.value);
+    handleCepInput(event.target);
   }
 });
 
