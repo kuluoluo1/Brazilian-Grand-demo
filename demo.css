@@ -1600,7 +1600,6 @@ body[data-current-screen="categoryFlatList"] .overlay {
 
 .pdp-media-prev {
   left: 52px;
-  transform: rotate(180deg);
 }
 
 .pdp-media-next {
@@ -2185,7 +2184,6 @@ body[data-current-screen="categoryFlatList"] .overlay {
 }
 
 .pdp-preview-button .svg-icon {
-  filter: invert(51%) sepia(89%) saturate(818%) hue-rotate(325deg) brightness(99%) contrast(91%);
   height: 24px;
   width: 24px;
 }
@@ -2303,7 +2301,6 @@ body[data-current-screen="categoryFlatList"] .overlay {
   position: absolute;
   right: -4px;
   top: 32.5px;
-  transform: rotate(180deg);
   width: 16px;
 }
 
@@ -2455,13 +2452,14 @@ body[data-current-screen="categoryFlatList"] .overlay {
 .pdp-review-summary strong {
   font-size: 16px;
   line-height: 19px;
-  width: 36px;
+  width: 27px;
 }
 
 .pdp-review-summary span {
   color: var(--navy);
   font-size: 12px;
   line-height: 14px;
+  width: 9px;
 }
 
 .pdp-reviews-carousel {

@@ -281,13 +281,18 @@ const checks = [
       /\.pdp-media-button\s*{[\s\S]*top:\s*161px/.test(css) &&
       /\.pdp-media-prev\s*{[\s\S]*left:\s*52px/.test(css) &&
       /\.pdp-media-next\s*{[\s\S]*right:\s*8px/.test(css) &&
-      /\.pdp-media-counter\s*{[\s\S]*bottom:\s*8px[\s\S]*height:\s*22px[\s\S]*left:\s*163px[\s\S]*width:\s*40px/.test(css),
+      /\.pdp-media-counter\s*{[\s\S]*bottom:\s*8px[\s\S]*height:\s*22px[\s\S]*left:\s*163px[\s\S]*width:\s*40px/.test(css) &&
+      /pdpMediaPrev:\s*"\.\/assets\/figma\/icon-pdp-media-prev\.svg"/.test(js) &&
+      /pdpMediaNext:\s*"\.\/assets\/figma\/icon-pdp-media-next\.svg"/.test(js) &&
+      /pdp-media-prev[\s\S]*\$\{icon\("pdpMediaPrev"\)\}/.test(js) &&
+      /pdp-media-next[\s\S]*\$\{icon\("pdpMediaNext"\)\}/.test(js) &&
+      !/\.pdp-media-prev\s*{[^}]*transform:\s*rotate/.test(css),
   ],
   [
     "PDP marked media and product summary details stay on one line like Figma",
     /\.pdp-media-counter\s*{[\s\S]*padding:\s*0[\s\S]*white-space:\s*nowrap/.test(css) &&
       /<span class="pdp-media-counter">\$\{state\.pdpMediaIndex \+ 1\} \/9<\/span>/.test(js) &&
-      /\.pdp-rating\s*{[\s\S]*gap:\s*0[\s\S]*width:\s*88px/.test(css) &&
+      /\.pdp-rating\s*{[\s\S]*align-items:\s*center[\s\S]*gap:\s*0[\s\S]*width:\s*88px/.test(css) &&
       /\.pdp-rating b\s*{[\s\S]*width:\s*25px/.test(css) &&
       /\.pdp-rating em\s*{[\s\S]*margin-left:\s*2px[\s\S]*width:\s*41px/.test(css),
   ],
@@ -314,8 +319,13 @@ const checks = [
     /\.pdp-pix-note\s*{[\s\S]*background:\s*#e9f5f0[\s\S]*border-radius:\s*8px[\s\S]*height:\s*34px[\s\S]*width:\s*366px/.test(css) &&
       /\.pdp-pix-note \.svg-icon\s*{[\s\S]*height:\s*20px[\s\S]*margin-top:\s*7px[\s\S]*width:\s*20px/.test(css) &&
       /\.pdp-personalization\s*{[\s\S]*background:\s*#ffffff[\s\S]*border-radius:\s*8px[\s\S]*box-shadow:\s*inset 0 0 0 1px #e5e7eb[\s\S]*height:\s*428px/.test(css) &&
+      /pdpPix:\s*"\.\/assets\/figma\/icon-pdp-pix\.svg"/.test(js) &&
+      /<p class="pdp-pix-note">\$\{icon\("pdpPix"\)\}/.test(js) &&
       /personalize:\s*"\.\/assets\/figma\/icon-pdp-personalize\.svg"/.test(js) &&
-      /<div class="pdp-section-title">\s*\$\{icon\("personalize"\)\}/.test(js),
+      /<div class="pdp-section-title">\s*\$\{icon\("personalize"\)\}/.test(js) &&
+      /pdpPreviewSearch:\s*"\.\/assets\/figma\/icon-pdp-preview-search\.svg"/.test(js) &&
+      /<button class="pdp-preview-button" type="button">\$\{icon\("pdpPreviewSearch"\)\} View Details<\/button>/.test(js) &&
+      !/\.pdp-preview-button \.svg-icon\s*{[^}]*filter:/.test(css),
   ],
   [
     "PDP accordions and post-purchase links are split like the Figma PDP artboard",
@@ -336,11 +346,19 @@ const checks = [
       /\.pdp-contact-service \.svg-icon:first-child\s*{[\s\S]*height:\s*20px[\s\S]*width:\s*20px/.test(css) &&
       /\.pdp-contact-service \.svg-icon:last-child\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
       /\.pdp-share span\s*{[\s\S]*font-weight:\s*400[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap/.test(css) &&
+      /pdpContactWhatsapp:\s*"\.\/assets\/figma\/icon-pdp-contact-whatsapp\.svg"/.test(js) &&
+      /pdpContactArrow:\s*"\.\/assets\/figma\/icon-pdp-contact-arrow\.svg"/.test(js) &&
+      /pdpProductInfoArrow:\s*"\.\/assets\/figma\/icon-pdp-product-info-arrow\.svg"/.test(js) &&
+      /pdpDetailsArrow:\s*"\.\/assets\/figma\/icon-pdp-details-arrow\.svg"/.test(js) &&
+      /pdp-contact-service">\s*\$\{icon\("pdpContactWhatsapp"\)\}[\s\S]*\$\{icon\("pdpContactArrow"\)\}/.test(js) &&
+      /pdp-product-info-head[\s\S]*\$\{icon\("pdpProductInfoArrow"\)\}/.test(js) &&
+      /pdp-details-row[\s\S]*\$\{icon\("pdpDetailsArrow"\)\}/.test(js) &&
       /facebook:\s*"\.\/assets\/figma\/icon-pdp-share-facebook\.svg"/.test(js) &&
       /pdp-share-facebook/.test(js) &&
-      /<strong>4\.8\/5<\/strong>/.test(js) &&
-      !/<strong>4\.8<\/strong><span>\/5<\/span>/.test(js) &&
-      /\.pdp-review-summary strong\s*{[\s\S]*width:\s*36px/.test(css),
+      /<strong>4\.8<\/strong><span>\/5<\/span>/.test(js) &&
+      !/<strong>4\.8\/5<\/strong>/.test(js) &&
+      /\.pdp-review-summary strong\s*{[\s\S]*font-size:\s*16px[\s\S]*width:\s*27px/.test(css) &&
+      /\.pdp-review-summary span\s*{[\s\S]*font-size:\s*12px[\s\S]*line-height:\s*14px[\s\S]*width:\s*9px/.test(css),
   ],
   [
     "PDP Figma colors are encoded for local production, size, style, and CEP controls",
@@ -349,6 +367,8 @@ const checks = [
       /\.pdp-size-options button\.is-selected\s*{[\s\S]*background:\s*#fdf3ee[\s\S]*border-color:\s*var\(--red\)[\s\S]*color:\s*var\(--red\)/.test(css) &&
       /\.pdp-style-option\s*{[\s\S]*background:\s*#ffffff[\s\S]*border:\s*1px solid #e5e7eb/.test(css) &&
       /\.pdp-style-option\.is-selected\s*{[\s\S]*background:\s*#fdf3ee[\s\S]*border-color:\s*var\(--red\)[\s\S]*color:\s*var\(--red\)/.test(css) &&
+      /pdpTruck:\s*"\.\/assets\/figma\/icon-pdp-cep-truck\.svg"/.test(js) &&
+      /pdp-cep-title">\$\{icon\("pdpTruck"\)\}/.test(js) &&
       /\.pdp-cep-button\s*{[\s\S]*border-radius:\s*0 8px 8px 0[\s\S]*right:\s*0/.test(css),
   ],
   [

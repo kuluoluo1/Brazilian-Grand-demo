@@ -279,6 +279,15 @@ const assetIcons = {
   checkboxCheck: "./assets/figma/icon-checkbox-check.svg",
   pix: "./assets/figma/icon-pix.svg",
   truck: "./assets/figma/icon-cep.svg",
+  pdpPix: "./assets/figma/icon-pdp-pix.svg",
+  pdpTruck: "./assets/figma/icon-pdp-cep-truck.svg",
+  pdpPreviewSearch: "./assets/figma/icon-pdp-preview-search.svg",
+  pdpContactWhatsapp: "./assets/figma/icon-pdp-contact-whatsapp.svg",
+  pdpContactArrow: "./assets/figma/icon-pdp-contact-arrow.svg",
+  pdpProductInfoArrow: "./assets/figma/icon-pdp-product-info-arrow.svg",
+  pdpDetailsArrow: "./assets/figma/icon-pdp-details-arrow.svg",
+  pdpMediaPrev: "./assets/figma/icon-pdp-media-prev.svg",
+  pdpMediaNext: "./assets/figma/icon-pdp-media-next.svg",
   pin: "./assets/figma/icon-map.svg",
   pinGreen: "./assets/figma/icon-pdp-local-production.svg",
   productionTime: "./assets/figma/icon-pdp-production-time.svg",
@@ -1126,8 +1135,8 @@ function renderPdpPage() {
         <button class="pdp-wishlist ${state.pdpWishlist ? "is-selected" : ""}" type="button" data-action="toggle-wishlist" aria-label="Favoritar produto">
           ${icon(state.pdpWishlist ? "heartFill" : "heart")}
         </button>
-        <button class="pdp-media-button pdp-media-prev" type="button" data-action="step-pdp-media" data-media-step="-1" aria-label="Imagem anterior">${icon("drawerNavChevron")}</button>
-        <button class="pdp-media-button pdp-media-next" type="button" data-action="step-pdp-media" data-media-step="1" aria-label="Próxima imagem">${icon("drawerNavChevron")}</button>
+        <button class="pdp-media-button pdp-media-prev" type="button" data-action="step-pdp-media" data-media-step="-1" aria-label="Imagem anterior">${icon("pdpMediaPrev")}</button>
+        <button class="pdp-media-button pdp-media-next" type="button" data-action="step-pdp-media" data-media-step="1" aria-label="Próxima imagem">${icon("pdpMediaNext")}</button>
         <span class="pdp-media-counter">${state.pdpMediaIndex + 1} /9</span>
       </section>
       <section class="pdp-summary">
@@ -1137,7 +1146,7 @@ function renderPdpPage() {
           <strong>R$ 59,90</strong>
           <span class="pdp-rating">${renderPdpRatingStars(1)}<b>5.0</b><em>(696 )</em></span>
         </div>
-        <p class="pdp-pix-note">${icon("pix")}<span>Pague com Pix ou use as opções disponíveis no checkout.</span></p>
+        <p class="pdp-pix-note">${icon("pdpPix")}<span>Pague com Pix ou use as opções disponíveis no checkout.</span></p>
       </section>
       ${renderPdpCep()}
       <section class="pdp-size-selector">
@@ -1177,7 +1186,7 @@ function renderPdpPage() {
           </div>
         </div>
       </section>
-      <button class="pdp-preview-button" type="button">${icon("searchNavy")} View Details</button>
+      <button class="pdp-preview-button" type="button">${icon("pdpPreviewSearch")} View Details</button>
       <div class="pdp-quantity-selector" aria-label="Quantidade">
         <button class="pdp-quantity-button" type="button" aria-label="Diminuir quantidade">${icon("minus")}</button>
         <strong>1</strong>
@@ -1185,13 +1194,13 @@ function renderPdpPage() {
       </div>
       <button class="pdp-add-cart" type="button" data-action="add-pdp-cart">Ver presentes</button>
       <section class="pdp-contact-service">
-        ${icon("whatsapp")}
+        ${icon("pdpContactWhatsapp")}
         <span>Dúvidas? Fale com a gente</span>
-        ${icon("drawerServiceArrow")}
+        ${icon("pdpContactArrow")}
       </section>
       <section class="pdp-info-accordion">
         <button class="pdp-product-info-head is-open" type="button">
-          <span>Produto e impressão</span>${icon("drawerChevron")}
+          <span>Produto e impressão</span>${icon("pdpProductInfoArrow")}
         </button>
         <div class="pdp-product-info-content">
           <p>Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação.</p>
@@ -1201,7 +1210,7 @@ function renderPdpPage() {
       <section class="pdp-details-accordion-list">
         ${["Como escolher a foto", "Produção, entrega e trocas", "Foto e privacidade"].map((title) => `
           <button class="pdp-details-row" type="button">
-            <span>${title}</span>${icon("drawerChevron")}
+            <span>${title}</span>${icon("pdpDetailsArrow")}
           </button>
         `).join("")}
       </section>
@@ -1216,7 +1225,7 @@ function renderPdpPage() {
         <h2>Clientes Satisfeitos</h2>
         <div class="pdp-review-summary">
           ${renderPdpRatingStars(5)}
-          <strong>4.8/5</strong>
+          <strong>4.8</strong><span>/5</span>
         </div>
         <div class="pdp-reviews-carousel">
           ${renderPdpReviewCards()}
@@ -1274,7 +1283,7 @@ function renderPdpCep() {
   return `
     <section class="pdp-cep pdp-cep-${status}">
       <div class="pdp-cep-inner">
-        <div class="pdp-cep-title">${icon("truck")}<strong>Calcule o frete e o prazo</strong></div>
+        <div class="pdp-cep-title">${icon("pdpTruck")}<strong>Calcule o frete e o prazo</strong></div>
         <div class="pdp-cep-form">
           <input data-cep-input type="text" inputmode="numeric" maxlength="9" value="${escapeHtml(state.cepValue)}" placeholder="Digite um CEP válido com 8 números" aria-label="CEP" />
           <button class="pdp-cep-button ${disabled ? "is-disabled" : ""}" type="button" data-action="calculate-cep" ${disabled ? "disabled" : ""}>${buttonLabel}</button>
