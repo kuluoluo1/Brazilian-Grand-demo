@@ -26,9 +26,11 @@ const state = {
   cartCount: 0,
   pdpMediaIndex: 0,
   pdpWishlist: false,
+  pdpSelectedSize: "12*18 IN",
   pdpSelectedStyle: "Aquarela",
   cepValue: "",
   cepStatus: "default",
+  pdpOpenAccordions: ["productInfo"],
 };
 
 const products = [
@@ -62,6 +64,8 @@ const pdpStyleOptions = [
   { label: "Foto limpa", image: "pdp-related-03.webp" },
 ];
 
+const pdpSizeOptions = ["12*18 IN", "16*24 IN", "24*36 IN"];
+
 const pdpRelatedProducts = [
   { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-01.webp" },
   { tag: "Photo + phrase", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-02.webp", review: true },
@@ -69,6 +73,24 @@ const pdpRelatedProducts = [
   { tag: "Name + portrait", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-04.webp" },
   { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-05.webp" },
   { tag: "Photo + quote", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-06.webp" },
+];
+
+const pdpAccordionItems = [
+  {
+    key: "photoGuide",
+    title: "Como escolher a foto",
+    copy: "Use uma foto frontal, nítida e bem iluminada para manter os detalhes do seu pet na arte final.",
+  },
+  {
+    key: "productionDelivery",
+    title: "Produção, entrega e trocas",
+    copy: "A produção começa após a aprovação da prévia. Você acompanha o prazo de envio na etapa de frete.",
+  },
+  {
+    key: "photoPrivacy",
+    title: "Foto e privacidade",
+    copy: "Sua imagem é usada apenas para personalizar este pedido e fica protegida durante todo o processo.",
+  },
 ];
 
 const homeFilterProductCatalog = {
@@ -1122,12 +1144,37 @@ function renderListPage(options = {}) {
   `;
 }
 
+function isPdpAccordionOpen(key) {
+  return state.pdpOpenAccordions.includes(key);
+}
+
+function pdpAccordionExtra() {
+  const productInfoExtra = isPdpAccordionOpen("productInfo") ? 0 : -100;
+  const detailExtra = pdpAccordionItems.filter((item) => isPdpAccordionOpen(item.key)).length * 66;
+  return productInfoExtra + detailExtra;
+}
+
+function renderPdpAccordionItem(item) {
+  const open = isPdpAccordionOpen(item.key);
+  return `
+    <article class="pdp-details-item ${open ? "is-open" : ""}">
+      <button class="pdp-details-row pdp-accordion-head" type="button" data-action="toggle-pdp-accordion" data-pdp-accordion="${item.key}" aria-expanded="${open}">
+        <span>${item.title}</span>${icon(open ? "pdpProductInfoArrow" : "pdpDetailsArrow")}
+      </button>
+      ${open ? `<div class="pdp-details-content"><p>${item.copy}</p></div>` : ""}
+    </article>
+  `;
+}
+
 function renderPdpPage() {
   const mediaImage = pdpMediaImages[state.pdpMediaIndex] || pdpMediaImages[0];
   const cepClass = state.cepStatus === "success" ? "pdp-cep-expanded" : state.cepStatus === "unavailable" ? "pdp-cep-error-state" : "";
+  const productInfoOpen = isPdpAccordionOpen("productInfo");
+  const productInfoHeight = productInfoOpen ? 149 : 49;
+  const accordionExtra = pdpAccordionExtra();
 
   return `
-    <section class="screen pdp-screen ${cepClass}">
+    <section class="screen pdp-screen ${cepClass}" style="--pdp-info-height: ${productInfoHeight}px; --pdp-accordion-extra: ${accordionExtra}px;">
       ${pdpHeader()}
       <section class="pdp-local-production">${icon("pinGreen")} <span>Produzido sob demanda no Paraná</span></section>
       <section class="pdp-product-media" aria-label="Galeria do produto">
@@ -1152,9 +1199,7 @@ function renderPdpPage() {
       <section class="pdp-size-selector">
         <p><span>Size <i class="required">*</i></span></p>
         <div class="pdp-size-options">
-          <button class="is-selected" type="button">12*18 IN</button>
-          <button type="button">16*24 IN</button>
-          <button type="button">24*36 IN</button>
+          ${pdpSizeOptions.map((size) => `<button class="${state.pdpSelectedSize === size ? "is-selected" : ""}" type="button" data-action="select-pdp-size" data-size-label="${escapeHtml(size)}" aria-pressed="${state.pdpSelectedSize === size}">${size}</button>`).join("")}
         </div>
       </section>
       <section class="pdp-personalization">
@@ -1198,21 +1243,17 @@ function renderPdpPage() {
         <span>Dúvidas? Fale com a gente</span>
         ${icon("pdpContactArrow")}
       </section>
-      <section class="pdp-info-accordion">
-        <button class="pdp-product-info-head is-open" type="button">
-          <span>Produto e impressão</span>${icon("pdpProductInfoArrow")}
+      <section class="pdp-info-accordion ${productInfoOpen ? "is-open" : ""}">
+        <button class="pdp-product-info-head pdp-accordion-head ${productInfoOpen ? "is-open" : ""}" type="button" data-action="toggle-pdp-accordion" data-pdp-accordion="productInfo" aria-expanded="${productInfoOpen}">
+          <span>Produto e impressão</span>${icon(productInfoOpen ? "pdpProductInfoArrow" : "pdpDetailsArrow")}
         </button>
-        <div class="pdp-product-info-content">
+        ${productInfoOpen ? `<div class="pdp-product-info-content">
           <p>Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação.</p>
           <p>Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação.</p>
-        </div>
+        </div>` : ""}
       </section>
       <section class="pdp-details-accordion-list">
-        ${["Como escolher a foto", "Produção, entrega e trocas", "Foto e privacidade"].map((title) => `
-          <button class="pdp-details-row" type="button">
-            <span>${title}</span>${icon("pdpDetailsArrow")}
-          </button>
-        `).join("")}
+        ${pdpAccordionItems.map(renderPdpAccordionItem).join("")}
       </section>
       <section class="pdp-share">
         <span>Compartilhar produto:</span>
@@ -1225,7 +1266,7 @@ function renderPdpPage() {
         <h2>Clientes Satisfeitos</h2>
         <div class="pdp-review-summary">
           ${renderPdpRatingStars(5)}
-          <strong>4.8</strong><span>/5</span>
+          <span class="pdp-review-score-text"><strong>4.8</strong><span>/5</span></span>
         </div>
         <div class="pdp-reviews-carousel">
           ${renderPdpReviewCards()}
@@ -1671,11 +1712,31 @@ function toggleWishlist() {
   render({ preserveScroll: true });
 }
 
+function selectPdpSize(size) {
+  if (!pdpSizeOptions.includes(size)) {
+    return;
+  }
+  state.pdpSelectedSize = size;
+  render({ preserveScroll: true });
+}
+
 function selectPdpStyle(label) {
   if (!pdpStyleOptions.some((option) => option.label === label)) {
     return;
   }
   state.pdpSelectedStyle = label;
+  render({ preserveScroll: true });
+}
+
+function togglePdpAccordion(key) {
+  if (!["productInfo", ...pdpAccordionItems.map((item) => item.key)].includes(key)) {
+    return;
+  }
+  if (isPdpAccordionOpen(key)) {
+    state.pdpOpenAccordions = state.pdpOpenAccordions.filter((item) => item !== key);
+  } else {
+    state.pdpOpenAccordions = [...state.pdpOpenAccordions, key];
+  }
   render({ preserveScroll: true });
 }
 
@@ -1998,8 +2059,12 @@ appRoot.addEventListener("click", (event) => {
     stepPdpMedia(actionElement.dataset.mediaStep);
   } else if (action === "toggle-wishlist") {
     toggleWishlist();
+  } else if (action === "select-pdp-size") {
+    selectPdpSize(actionElement.dataset.sizeLabel);
   } else if (action === "select-pdp-style") {
     selectPdpStyle(actionElement.dataset.styleLabel);
+  } else if (action === "toggle-pdp-accordion") {
+    togglePdpAccordion(actionElement.dataset.pdpAccordion);
   } else if (action === "calculate-cep") {
     calculateCep();
   } else if (action === "add-pdp-cart") {
@@ -2067,6 +2132,7 @@ window.demoState = () => ({
   cartCount: state.cartCount,
   pdpMediaIndex: state.pdpMediaIndex,
   pdpWishlist: state.pdpWishlist,
+  pdpSelectedSize: state.pdpSelectedSize,
   pdpSelectedStyle: state.pdpSelectedStyle,
   cepValue: state.cepValue,
   cepStatus: state.cepStatus,

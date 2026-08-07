@@ -270,16 +270,16 @@ const checks = [
     "PDP route implements the Figma PDP artboard as coded HTML",
     /pdpPage:\s*{[\s\S]*render:\s*renderPdpPage/.test(js) &&
       /function renderPdpPage\(\)[\s\S]*class="screen pdp-screen[^"]*"[\s\S]*pdp-product-media[\s\S]*Caneca personalizada Retrato Pet[\s\S]*renderPdpCep\(\)[\s\S]*pdp-personalization[\s\S]*Clientes Satisfeitos[\s\S]*Itens relacionados que você pode gostar[\s\S]*renderFooter\(\)/.test(js) &&
-      /\.pdp-screen\s*{[\s\S]*height:\s*4372px[\s\S]*min-height:\s*4372px/.test(css) &&
+      /\.pdp-screen\s*{[\s\S]*height:\s*calc\(4373px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)[\s\S]*min-height:\s*calc\(4373px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
       /\.pdp-product-media\s*{[\s\S]*height:\s*366px[\s\S]*left:\s*12px[\s\S]*top:\s*149px[\s\S]*width:\s*366px/.test(css) &&
-      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*3336px/.test(css),
+      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*calc\(3337px \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
   ],
   [
     "PDP media controls match Figma node 220:315 coordinates",
     /\.pdp-wishlist\s*{[\s\S]*right:\s*8px[\s\S]*top:\s*8px/.test(css) &&
       /\.pdp-wishlist,\s*\n\.pdp-media-button\s*{[\s\S]*height:\s*44px[\s\S]*width:\s*44px/.test(css) &&
       /\.pdp-media-button\s*{[\s\S]*top:\s*161px/.test(css) &&
-      /\.pdp-media-prev\s*{[\s\S]*left:\s*52px/.test(css) &&
+      /\.pdp-media-prev\s*{[\s\S]*left:\s*8px/.test(css) &&
       /\.pdp-media-next\s*{[\s\S]*right:\s*8px/.test(css) &&
       /\.pdp-media-counter\s*{[\s\S]*bottom:\s*8px[\s\S]*height:\s*22px[\s\S]*left:\s*163px[\s\S]*width:\s*40px/.test(css) &&
       /pdpMediaPrev:\s*"\.\/assets\/figma\/icon-pdp-media-prev\.svg"/.test(js) &&
@@ -292,9 +292,10 @@ const checks = [
     "PDP marked media and product summary details stay on one line like Figma",
     /\.pdp-media-counter\s*{[\s\S]*padding:\s*0[\s\S]*white-space:\s*nowrap/.test(css) &&
       /<span class="pdp-media-counter">\$\{state\.pdpMediaIndex \+ 1\} \/9<\/span>/.test(js) &&
-      /\.pdp-rating\s*{[\s\S]*align-items:\s*center[\s\S]*gap:\s*0[\s\S]*width:\s*88px/.test(css) &&
-      /\.pdp-rating b\s*{[\s\S]*width:\s*25px/.test(css) &&
-      /\.pdp-rating em\s*{[\s\S]*margin-left:\s*2px[\s\S]*width:\s*41px/.test(css),
+      /\.pdp-rating\s*{[\s\S]*align-items:\s*center[\s\S]*gap:\s*0[\s\S]*height:\s*19px[\s\S]*width:\s*88px/.test(css) &&
+      /\.pdp-rating \.rating-stars\s*{[\s\S]*align-items:\s*center[\s\S]*height:\s*19px/.test(css) &&
+      /\.pdp-rating b\s*{[\s\S]*align-items:\s*center[\s\S]*display:\s*flex[\s\S]*height:\s*19px[\s\S]*width:\s*25px/.test(css) &&
+      /\.pdp-rating em\s*{[\s\S]*align-items:\s*center[\s\S]*display:\s*flex[\s\S]*height:\s*17px[\s\S]*margin-left:\s*2px[\s\S]*width:\s*41px/.test(css),
   ],
   [
     "PDP product and personalization blocks match Figma copy and structure",
@@ -315,10 +316,26 @@ const checks = [
       /Ver presentes/.test(js),
   ],
   [
+    "PDP size selector is state-driven and selectable",
+    /pdpSelectedSize:\s*"12\*18 IN"/.test(js) &&
+      /const pdpSizeOptions = \["12\*18 IN", "16\*24 IN", "24\*36 IN"\]/.test(js) &&
+      /function selectPdpSize\(size\)/.test(js) &&
+      /data-action="select-pdp-size"/.test(js) &&
+      /data-size-label="\$\{escapeHtml\(size\)\}"/.test(js) &&
+      /state\.pdpSelectedSize === size \? "is-selected" : ""/.test(js) &&
+      /action === "select-pdp-size"[\s\S]*selectPdpSize\(actionElement\.dataset\.sizeLabel\)/.test(js),
+  ],
+  [
     "PDP marked Figma styling is applied to Pix and personalization blocks",
-    /\.pdp-pix-note\s*{[\s\S]*background:\s*#e9f5f0[\s\S]*border-radius:\s*8px[\s\S]*height:\s*34px[\s\S]*width:\s*366px/.test(css) &&
+    /\.pdp-pix-note\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*34px[\s\S]*width:\s*366px/.test(css) &&
+      !/\.pdp-pix-note\s*{[^}]*background:\s*#e9f5f0/.test(css) &&
       /\.pdp-pix-note \.svg-icon\s*{[\s\S]*height:\s*20px[\s\S]*margin-top:\s*7px[\s\S]*width:\s*20px/.test(css) &&
-      /\.pdp-personalization\s*{[\s\S]*background:\s*#ffffff[\s\S]*border-radius:\s*8px[\s\S]*box-shadow:\s*inset 0 0 0 1px #e5e7eb[\s\S]*height:\s*428px/.test(css) &&
+      /\.pdp-personalization\s*{[\s\S]*background:\s*transparent[\s\S]*border-radius:\s*0[\s\S]*box-shadow:\s*none[\s\S]*height:\s*428px/.test(css) &&
+      !/\.pdp-personalization\s*{[^}]*background:\s*#ffffff/.test(css) &&
+      /\.pdp-section-title\s*{[\s\S]*background:\s*transparent/.test(css) &&
+      !/\.pdp-section-title\s*{[^}]*background:\s*#fff6e9/.test(css) &&
+      /\.pdp-input-shell\s*{[\s\S]*border:\s*1px solid #e5e7eb[\s\S]*overflow:\s*hidden/.test(css) &&
+      /\.pdp-input-shell input\s*{[\s\S]*height:\s*48px[\s\S]*width:\s*100%/.test(css) &&
       /pdpPix:\s*"\.\/assets\/figma\/icon-pdp-pix\.svg"/.test(js) &&
       /<p class="pdp-pix-note">\$\{icon\("pdpPix"\)\}/.test(js) &&
       /personalize:\s*"\.\/assets\/figma\/icon-pdp-personalize\.svg"/.test(js) &&
@@ -331,6 +348,13 @@ const checks = [
     "PDP accordions and post-purchase links are split like the Figma PDP artboard",
     /Produto e impressão/.test(js) &&
       /Caneca de cerâmica branca, 340 g, com impressão personalizada em área própria para sublimação/.test(js) &&
+      /pdpOpenAccordions:\s*\["productInfo"\]/.test(js) &&
+      /function renderPdpAccordionItem/.test(js) &&
+      /function pdpAccordionExtra/.test(js) &&
+      /isPdpAccordionOpen\(item\.key\)\)\.length \* 66/.test(js) &&
+      /data-action="toggle-pdp-accordion"/.test(js) &&
+      /function togglePdpAccordion/.test(js) &&
+      /action === "toggle-pdp-accordion"[\s\S]*togglePdpAccordion/.test(js) &&
       /class="pdp-details-accordion-list"/.test(js) &&
       /Como escolher a foto/.test(js) &&
       /Produção, entrega e trocas/.test(js) &&
@@ -338,7 +362,13 @@ const checks = [
       /Dúvidas\? Fale com a gente/.test(js) &&
       /Compartilhar produto:/.test(js) &&
       /\.pdp-product-info-content\s*{[\s\S]*height:\s*84px/.test(css) &&
-      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*147px[\s\S]*top:\s*calc\(1746px \+ var\(--pdp-extra, 0px\)\)/.test(css),
+      /\.pdp-accordion-head \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*margin-left:\s*auto[\s\S]*width:\s*16px/.test(css) &&
+      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#fefbf7[\s\S]*top:\s*calc\(1573px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-info-height, 149px\) \+ 24px\)/.test(css) &&
+      /\.pdp-details-row\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*49px/.test(css) &&
+      /\.pdp-details-item\.is-open \.pdp-details-row\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
+      /\.pdp-details-content\s*{[\s\S]*background:\s*#fefbf7[\s\S]*height:\s*66px[\s\S]*padding:\s*16px 12px/.test(css) &&
+      /\.pdp-share\s*{[\s\S]*top:\s*calc\(1917px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
+      /\.pdp-reviews-section\s*{[\s\S]*top:\s*calc\(2005px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
   ],
   [
     "PDP marked service, share, and reviews details match Figma sizing",
@@ -351,14 +381,20 @@ const checks = [
       /pdpProductInfoArrow:\s*"\.\/assets\/figma\/icon-pdp-product-info-arrow\.svg"/.test(js) &&
       /pdpDetailsArrow:\s*"\.\/assets\/figma\/icon-pdp-details-arrow\.svg"/.test(js) &&
       /pdp-contact-service">\s*\$\{icon\("pdpContactWhatsapp"\)\}[\s\S]*\$\{icon\("pdpContactArrow"\)\}/.test(js) &&
-      /pdp-product-info-head[\s\S]*\$\{icon\("pdpProductInfoArrow"\)\}/.test(js) &&
-      /pdp-details-row[\s\S]*\$\{icon\("pdpDetailsArrow"\)\}/.test(js) &&
+      /pdp-product-info-head[\s\S]*\$\{icon\(productInfoOpen \? "pdpProductInfoArrow" : "pdpDetailsArrow"\)\}/.test(js) &&
+      /pdp-details-row[\s\S]*\$\{icon\(open \? "pdpProductInfoArrow" : "pdpDetailsArrow"\)\}/.test(js) &&
       /facebook:\s*"\.\/assets\/figma\/icon-pdp-share-facebook\.svg"/.test(js) &&
       /pdp-share-facebook/.test(js) &&
-      /<strong>4\.8<\/strong><span>\/5<\/span>/.test(js) &&
+      /<span class="pdp-review-score-text"><strong>4\.8<\/strong><span>\/5<\/span><\/span>/.test(js) &&
       !/<strong>4\.8\/5<\/strong>/.test(js) &&
-      /\.pdp-review-summary strong\s*{[\s\S]*font-size:\s*16px[\s\S]*width:\s*27px/.test(css) &&
-      /\.pdp-review-summary span\s*{[\s\S]*font-size:\s*12px[\s\S]*line-height:\s*14px[\s\S]*width:\s*9px/.test(css),
+      /\.pdp-review-summary\s*{[\s\S]*gap:\s*0/.test(css) &&
+      /\.pdp-review-summary \.rating-stars\s*{[\s\S]*flex:\s*0 0 88px[\s\S]*margin-right:\s*4px[\s\S]*width:\s*88px/.test(css) &&
+      /\.pdp-review-score-text\s*{[^}]*display:\s*inline-flex[^}]*gap:\s*0[^}]*transform:\s*translateY\(1px\)/.test(css) &&
+      /\.pdp-review-score-text strong\s*{[^}]*font-size:\s*16px[^}]*line-height:\s*19px/.test(css) &&
+      /\.pdp-review-score-text span\s*{[^}]*font-size:\s*12px[^}]*line-height:\s*14px[^}]*transform:\s*translateY\(0\)/.test(css) &&
+      /\.review-copy p\s*{[\s\S]*font-size:\s*14px[\s\S]*line-height:\s*17px[\s\S]*max-height:\s*51px/.test(css) &&
+      !/\.pdp-review-card \.review-copy p\s*{[^}]*font-size:/.test(css) &&
+      !/\.pdp-review-card \.review-copy p\s*{[^}]*line-height:/.test(css),
   ],
   [
     "PDP Figma colors are encoded for local production, size, style, and CEP controls",
