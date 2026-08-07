@@ -64,7 +64,11 @@ const pdpStyleOptions = [
   { label: "Foto limpa", image: "pdp-related-03.webp" },
 ];
 
-const pdpSizeOptions = ["12*18 IN", "16*24 IN", "24*36 IN"];
+const pdpSizeOptions = [
+  { label: "12*18 IN", price: "R$ 59,90" },
+  { label: "16*24 IN", price: "R$ 79,90" },
+  { label: "24*36 IN", price: "R$ 99,90" },
+];
 
 const pdpRelatedProducts = [
   { tag: "Nome + foto", name: "Caneca personalizada Retrato Pet Caneca personalizada Retrato Pet", price: "R$ 59,90", image: "pdp-related-01.webp" },
@@ -366,6 +370,7 @@ const screens = {
       { action: "banner", target: "giftStep1" },
       { action: "search", target: "searchTrending" },
       { action: "cart", target: "cartEmpty" },
+      { action: "product", target: "pdpPage" },
     ],
     render: renderHome,
   },
@@ -374,6 +379,7 @@ const screens = {
     transitions: [
       { action: "search", target: "searchTrending" },
       { action: "continue", target: "home" },
+      { action: "product", target: "pdpPage" },
     ],
     render: renderCartEmpty,
   },
@@ -429,6 +435,7 @@ const screens = {
       { action: "category", target: "categoryDrawer" },
       { action: "filter", target: "filterDrawer" },
       { action: "search", target: "searchTrending" },
+      { action: "product", target: "pdpPage" },
     ],
     render: () => renderListPage({ filtered: true }),
   },
@@ -478,6 +485,7 @@ const screens = {
     transitions: [
       { action: "menu", target: "categoryDrawer" },
       { action: "search", target: "searchTrending" },
+      { action: "product", target: "pdpPage" },
     ],
     render: renderGiftFinderResults,
   },
@@ -511,6 +519,7 @@ const screens = {
     transitions: [
       { action: "filter", target: "filterDrawer" },
       { action: "search", target: "searchTrending" },
+      { action: "product", target: "pdpPage" },
     ],
     render: renderSearchResults,
   },
@@ -519,6 +528,7 @@ const screens = {
     transitions: [
       { action: "filter", target: "filterDrawer" },
       { action: "search", target: "searchTrending" },
+      { action: "product", target: "pdpPage" },
     ],
     render: renderSearchResultsEmpty,
   },
@@ -1149,9 +1159,13 @@ function isPdpAccordionOpen(key) {
 }
 
 function pdpAccordionExtra() {
-  const productInfoExtra = isPdpAccordionOpen("productInfo") ? 0 : -100;
+  const productInfoExtra = isPdpAccordionOpen("productInfo") ? 0 : -124;
   const detailExtra = pdpAccordionItems.filter((item) => isPdpAccordionOpen(item.key)).length * 66;
   return productInfoExtra + detailExtra;
+}
+
+function currentPdpPrice() {
+  return pdpSizeOptions.find((option) => option.label === state.pdpSelectedSize)?.price || pdpSizeOptions[0].price;
 }
 
 function renderPdpAccordionItem(item) {
@@ -1171,10 +1185,11 @@ function renderPdpPage() {
   const cepClass = state.cepStatus === "success" ? "pdp-cep-expanded" : state.cepStatus === "unavailable" ? "pdp-cep-error-state" : "";
   const productInfoOpen = isPdpAccordionOpen("productInfo");
   const productInfoHeight = productInfoOpen ? 149 : 49;
+  const productInfoGap = productInfoOpen ? 24 : 0;
   const accordionExtra = pdpAccordionExtra();
 
   return `
-    <section class="screen pdp-screen ${cepClass}" style="--pdp-info-height: ${productInfoHeight}px; --pdp-accordion-extra: ${accordionExtra}px;">
+    <section class="screen pdp-screen ${cepClass}" style="--pdp-info-height: ${productInfoHeight}px; --pdp-details-gap: ${productInfoGap}px; --pdp-accordion-extra: ${accordionExtra}px;">
       ${pdpHeader()}
       <section class="pdp-local-production">${icon("pinGreen")} <span>Produzido sob demanda no Paraná</span></section>
       <section class="pdp-product-media" aria-label="Galeria do produto">
@@ -1190,7 +1205,7 @@ function renderPdpPage() {
         <h1>Caneca personalizada Retrato Pet — Nome e Foto</h1>
         <p>Transforme a foto do seu pet em um presente que cabe na rotina e fica na memória.</p>
         <div class="pdp-price-row">
-          <strong>R$ 59,90</strong>
+          <strong>${currentPdpPrice()}</strong>
           <span class="pdp-rating">${renderPdpRatingStars(1)}<b>5.0</b><em>(696 )</em></span>
         </div>
         <p class="pdp-pix-note">${icon("pdpPix")}<span>Pague com Pix ou use as opções disponíveis no checkout.</span></p>
@@ -1199,7 +1214,7 @@ function renderPdpPage() {
       <section class="pdp-size-selector">
         <p><span>Size <i class="required">*</i></span></p>
         <div class="pdp-size-options">
-          ${pdpSizeOptions.map((size) => `<button class="${state.pdpSelectedSize === size ? "is-selected" : ""}" type="button" data-action="select-pdp-size" data-size-label="${escapeHtml(size)}" aria-pressed="${state.pdpSelectedSize === size}">${size}</button>`).join("")}
+          ${pdpSizeOptions.map((option) => `<button class="${state.pdpSelectedSize === option.label ? "is-selected" : ""}" type="button" data-action="select-pdp-size" data-size-label="${escapeHtml(option.label)}" aria-pressed="${state.pdpSelectedSize === option.label}">${option.label}</button>`).join("")}
         </div>
       </section>
       <section class="pdp-personalization">
@@ -1231,7 +1246,7 @@ function renderPdpPage() {
           </div>
         </div>
       </section>
-      <button class="pdp-preview-button" type="button">${icon("pdpPreviewSearch")} View Details</button>
+      <button class="pdp-preview-button" type="button">${icon("pdpPreviewSearch")} Ver detalhes</button>
       <div class="pdp-quantity-selector" aria-label="Quantidade">
         <button class="pdp-quantity-button" type="button" aria-label="Diminuir quantidade">${icon("minus")}</button>
         <strong>1</strong>
@@ -1713,7 +1728,7 @@ function toggleWishlist() {
 }
 
 function selectPdpSize(size) {
-  if (!pdpSizeOptions.includes(size)) {
+  if (!pdpSizeOptions.some((option) => option.label === size)) {
     return;
   }
   state.pdpSelectedSize = size;

@@ -311,18 +311,21 @@ const checks = [
       /Escolha sua foto para enviar/.test(js) &&
       /Selecionar Foto/.test(js) &&
       /Privacidade da sua foto/.test(js) &&
-      /View Details/.test(js) &&
+      /Ver detalhes/.test(js) &&
       /class="pdp-quantity-selector"/.test(js) &&
       /Ver presentes/.test(js),
   ],
   [
     "PDP size selector is state-driven and selectable",
     /pdpSelectedSize:\s*"12\*18 IN"/.test(js) &&
-      /const pdpSizeOptions = \["12\*18 IN", "16\*24 IN", "24\*36 IN"\]/.test(js) &&
+      /const pdpSizeOptions = \[\s*\{ label: "12\*18 IN", price: "R\$ 59,90" \},\s*\{ label: "16\*24 IN", price: "R\$ 79,90" \},\s*\{ label: "24\*36 IN", price: "R\$ 99,90" \},\s*\]/.test(js) &&
+      /function currentPdpPrice\(\)/.test(js) &&
+      /pdpSizeOptions\.find\(\(option\) => option\.label === state\.pdpSelectedSize\)/.test(js) &&
       /function selectPdpSize\(size\)/.test(js) &&
       /data-action="select-pdp-size"/.test(js) &&
-      /data-size-label="\$\{escapeHtml\(size\)\}"/.test(js) &&
-      /state\.pdpSelectedSize === size \? "is-selected" : ""/.test(js) &&
+      /data-size-label="\$\{escapeHtml\(option\.label\)\}"/.test(js) &&
+      /state\.pdpSelectedSize === option\.label \? "is-selected" : ""/.test(js) &&
+      /<strong>\$\{currentPdpPrice\(\)\}<\/strong>/.test(js) &&
       /action === "select-pdp-size"[\s\S]*selectPdpSize\(actionElement\.dataset\.sizeLabel\)/.test(js),
   ],
   [
@@ -341,7 +344,7 @@ const checks = [
       /personalize:\s*"\.\/assets\/figma\/icon-pdp-personalize\.svg"/.test(js) &&
       /<div class="pdp-section-title">\s*\$\{icon\("personalize"\)\}/.test(js) &&
       /pdpPreviewSearch:\s*"\.\/assets\/figma\/icon-pdp-preview-search\.svg"/.test(js) &&
-      /<button class="pdp-preview-button" type="button">\$\{icon\("pdpPreviewSearch"\)\} View Details<\/button>/.test(js) &&
+      /<button class="pdp-preview-button" type="button">\$\{icon\("pdpPreviewSearch"\)\} Ver detalhes<\/button>/.test(js) &&
       !/\.pdp-preview-button \.svg-icon\s*{[^}]*filter:/.test(css),
   ],
   [
@@ -351,7 +354,10 @@ const checks = [
       /pdpOpenAccordions:\s*\["productInfo"\]/.test(js) &&
       /function renderPdpAccordionItem/.test(js) &&
       /function pdpAccordionExtra/.test(js) &&
+      /const productInfoExtra = isPdpAccordionOpen\("productInfo"\) \? 0 : -124/.test(js) &&
+      /const productInfoGap = productInfoOpen \? 24 : 0/.test(js) &&
       /isPdpAccordionOpen\(item\.key\)\)\.length \* 66/.test(js) &&
+      /--pdp-details-gap: \$\{productInfoGap\}px/.test(js) &&
       /data-action="toggle-pdp-accordion"/.test(js) &&
       /function togglePdpAccordion/.test(js) &&
       /action === "toggle-pdp-accordion"[\s\S]*togglePdpAccordion/.test(js) &&
@@ -363,7 +369,9 @@ const checks = [
       /Compartilhar produto:/.test(js) &&
       /\.pdp-product-info-content\s*{[\s\S]*height:\s*84px/.test(css) &&
       /\.pdp-accordion-head \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*margin-left:\s*auto[\s\S]*width:\s*16px/.test(css) &&
-      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#fefbf7[\s\S]*top:\s*calc\(1573px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-info-height, 149px\) \+ 24px\)/.test(css) &&
+      /\.pdp-product-info-head\s*{[\s\S]*background:\s*#f6f6f6/.test(css) &&
+      /\.pdp-product-info-head\.is-open\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
+      /\.pdp-details-accordion-list\s*{[\s\S]*background:\s*#fefbf7[\s\S]*top:\s*calc\(1573px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-info-height, 149px\) \+ var\(--pdp-details-gap, 24px\)\)/.test(css) &&
       /\.pdp-details-row\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*49px/.test(css) &&
       /\.pdp-details-item\.is-open \.pdp-details-row\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
       /\.pdp-details-content\s*{[\s\S]*background:\s*#fefbf7[\s\S]*height:\s*66px[\s\S]*padding:\s*16px 12px/.test(css) &&
@@ -372,7 +380,8 @@ const checks = [
   ],
   [
     "PDP marked service, share, and reviews details match Figma sizing",
-    /\.pdp-contact-service span\s*{[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap[\s\S]*width:\s*170px/.test(css) &&
+    /\.pdp-contact-service\s*{[\s\S]*top:\s*calc\(1524px \+ var\(--pdp-extra, 0px\)\)/.test(css) &&
+      /\.pdp-contact-service span\s*{[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap[\s\S]*width:\s*170px/.test(css) &&
       /\.pdp-contact-service \.svg-icon:first-child\s*{[\s\S]*height:\s*20px[\s\S]*width:\s*20px/.test(css) &&
       /\.pdp-contact-service \.svg-icon:last-child\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
       /\.pdp-share span\s*{[\s\S]*font-weight:\s*400[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap/.test(css) &&
@@ -425,6 +434,17 @@ const checks = [
     "product cards navigate into the PDP page",
     /function renderProductCard\(product, \{ size = "small", withReview = false \} = \{\}\)[\s\S]*data-action="navigate" data-target="pdpPage"/.test(js) &&
       /listPage:\s*{[\s\S]*target:\s*"pdpPage"/.test(js) &&
+      /home:\s*{[\s\S]*transitions:\s*\[[\s\S]*\{ action: "product", target: "pdpPage" \}/.test(js) &&
+      /cartEmpty:\s*{[\s\S]*transitions:\s*\[[\s\S]*\{ action: "product", target: "pdpPage" \}/.test(js) &&
+      /listPageFiltered:\s*{[\s\S]*transitions:\s*\[[\s\S]*\{ action: "product", target: "pdpPage" \}/.test(js) &&
+      /giftFinderResults:\s*{[\s\S]*transitions:\s*\[[\s\S]*\{ action: "product", target: "pdpPage" \}/.test(js) &&
+      /searchResultsHas:\s*{[\s\S]*transitions:\s*\[[\s\S]*\{ action: "product", target: "pdpPage" \}/.test(js) &&
+      /searchResultsEmpty:\s*{[\s\S]*transitions:\s*\[[\s\S]*\{ action: "product", target: "pdpPage" \}/.test(js) &&
+      /function renderHome[\s\S]*product-grid large-grid[\s\S]*renderProductCard[\s\S]*renderProductRow\(10,\s*getHomeFilterProducts\(\)\)/.test(js) &&
+      /function renderCollection[\s\S]*renderProductRow\(10\)/.test(js) &&
+      /function renderVerticalProductGrid\(\)[\s\S]*renderProductCard/.test(js) &&
+      /function renderCartEmpty[\s\S]*cart-related-grid[\s\S]*renderProductCard/.test(js) &&
+      /pdpRelatedProducts\.map\(\(product, index\) => renderProductCard/.test(js) &&
       /\.product-card\s*{[\s\S]*cursor:\s*pointer/.test(css),
   ],
   [

@@ -2256,7 +2256,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
   font-weight: 400;
   gap: 4px;
   height: 20px;
-  top: calc(1525px + var(--pdp-extra, 0px));
+  top: calc(1524px + var(--pdp-extra, 0px));
   width: 214px;
 }
 
@@ -2295,7 +2295,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
 
 .pdp-product-info-head {
   align-items: center;
-  background: var(--soft-blue);
+  background: #f6f6f6;
   border: 0;
   color: var(--navy);
   display: flex;
@@ -2306,6 +2306,10 @@ body[data-current-screen="categoryFlatList"] .overlay {
   padding: 0 12px;
   position: relative;
   width: 390px;
+}
+
+.pdp-product-info-head.is-open {
+  background: var(--soft-blue);
 }
 
 .pdp-accordion-head .svg-icon {
@@ -2351,7 +2355,7 @@ body[data-current-screen="categoryFlatList"] .overlay {
   min-height: 147px;
   padding: 0;
   position: absolute;
-  top: calc(1573px + var(--pdp-extra, 0px) + var(--pdp-info-height, 149px) + 24px);
+  top: calc(1573px + var(--pdp-extra, 0px) + var(--pdp-info-height, 149px) + var(--pdp-details-gap, 24px));
   width: 390px;
 }
 
