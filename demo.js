@@ -322,6 +322,7 @@ const assetIcons = {
   pdpContactArrow: "./assets/figma/icon-pdp-contact-arrow.svg",
   pdpProductInfoArrow: "./assets/figma/icon-pdp-product-info-arrow.svg",
   pdpDetailsArrow: "./assets/figma/icon-pdp-details-arrow.svg",
+  pdpShareLink: "./assets/figma/icon-pdp-share-link.svg",
   pdpMediaPrev: "./assets/figma/icon-pdp-media-prev.svg",
   pdpMediaNext: "./assets/figma/icon-pdp-media-next.svg",
   pin: "./assets/figma/icon-map.svg",
@@ -1004,7 +1005,7 @@ function renderFooter() {
         </div>
         <div class="trustpilot-row">
           <img class="trustpilot-logo" src="./assets/figma/trustpilot-logo-white.svg" alt="Trustpilot" />
-          <a class="trustpilot-review-link" href="#">13,578 review</a>
+          <a class="trustpilot-review-link" href="#">13,578 reviews</a>
         </div>
         <nav class="footer-nav" aria-label="Footer navigation">
           <div>
@@ -1030,8 +1031,13 @@ function renderFooter() {
           </div>
         </nav>
         <div class="copyright">
-          <p>© 2026 Pra Emocionar. Protótipo de experiência BRP.</p>
-          <p>Preços em R$ · Português do Brasil</p>
+          <div class="copyright-copy">
+            <p>Razão Social: XXXXX XXXXX LTDA</p>
+            <p>CNPJ: XX.XXX.XXX/0001-XX</p>
+            <p>Endereço: XXXXX</p>
+            <p>E-mail: <a href="mailto:atendimento@praemocionar.com.br">atendimento@praemocionar.com.br</a></p>
+            <p>© 2026 Pra Emocionar. Todos os direitos reservados.</p>
+          </div>
         </div>
       </section>
     </footer>
@@ -1313,11 +1319,10 @@ function renderPdpPage() {
         ${pdpAccordionItems.map(renderPdpAccordionItem).join("")}
       </section>
       <section class="pdp-share">
-        <span>Compartilhar produto:</span>
-        <button type="button" aria-label="Facebook">${icon("facebook")}</button>
-        <button type="button" aria-label="X">${icon("x")}</button>
-        <button type="button" aria-label="Pinterest">${icon("pinterest")}</button>
-        <button type="button" aria-label="Instagram">${icon("instagram")}</button>
+        <a class="pdp-share-link" href="#">
+          ${icon("pdpShareLink")}
+          <span>Compartilhar produto</span>
+        </a>
       </section>
       <section class="pdp-reviews-section">
         <h2>Clientes Satisfeitos</h2>

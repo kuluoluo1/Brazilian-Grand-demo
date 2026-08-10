@@ -272,9 +272,9 @@ const checks = [
     "PDP route implements the Figma PDP artboard as coded HTML",
     /pdpPage:\s*{[\s\S]*render:\s*renderPdpPage/.test(js) &&
       /function renderPdpPage\(\)[\s\S]*class="screen pdp-screen[^"]*"[\s\S]*pdp-product-media[\s\S]*Caneca personalizada Retrato Pet[\s\S]*pdp-personalization[\s\S]*pdp-add-cart[\s\S]*renderPdpCep\(\)[\s\S]*Clientes Satisfeitos[\s\S]*Itens relacionados que você pode gostar[\s\S]*renderFooter\(\)/.test(js) &&
-      /\.pdp-screen\s*{[\s\S]*height:\s*calc\(4374px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)[\s\S]*min-height:\s*calc\(4374px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
+      /\.pdp-screen\s*{[\s\S]*height:\s*calc\(4384px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)[\s\S]*min-height:\s*calc\(4384px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
       /\.pdp-product-media\s*{[\s\S]*height:\s*366px[\s\S]*left:\s*12px[\s\S]*top:\s*149px[\s\S]*width:\s*366px/.test(css) &&
-      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*calc\(3305px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
+      /\.pdp-screen > \.footer\s*{[\s\S]*top:\s*calc\(3294px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
   ],
   [
     "PDP media controls match Figma node 220:315 coordinates",
@@ -368,7 +368,7 @@ const checks = [
       /Produção, entrega e trocas/.test(js) &&
       /Foto e privacidade/.test(js) &&
       !/Dúvidas\? Fale com a gente/.test(getFunctionSource("renderPdpPage")) &&
-      /Compartilhar produto:/.test(js) &&
+      /class="pdp-share-link"[\s\S]*icon\("pdpShareLink"\)[\s\S]*Compartilhar produto/.test(js) &&
       /\.pdp-product-info-content\s*{[\s\S]*height:\s*84px/.test(css) &&
       /\.pdp-accordion-head \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*margin-left:\s*auto[\s\S]*width:\s*16px/.test(css) &&
       /\.pdp-product-info-head\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*17px/.test(css) &&
@@ -377,13 +377,16 @@ const checks = [
       /\.pdp-details-row\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*17px/.test(css) &&
       /\.pdp-details-item\.is-open \.pdp-details-row\s*{[\s\S]*background:\s*transparent/.test(css) &&
       /\.pdp-details-content\s*{[\s\S]*background:\s*transparent[\s\S]*height:\s*66px[\s\S]*padding:\s*16px 0/.test(css) &&
-      /\.pdp-share\s*{[\s\S]*top:\s*calc\(1885px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css) &&
+      /\.pdp-share\s*{[\s\S]*height:\s*17px[\s\S]*top:\s*calc\(1885px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)[\s\S]*width:\s*366px/.test(css) &&
       /\.pdp-reviews-section\s*{[\s\S]*top:\s*calc\(1973px \+ var\(--pdp-extra, 0px\) \+ var\(--pdp-accordion-extra, 0px\)\)/.test(css),
   ],
   [
     "PDP marked share and reviews details match Figma sizing",
     /\.pdp-contact-service\s*{[\s\S]*display:\s*none/.test(css) &&
-      /\.pdp-share span\s*{[\s\S]*font-weight:\s*400[\s\S]*line-height:\s*17px[\s\S]*white-space:\s*nowrap/.test(css) &&
+      /pdpShareLink:\s*"\.\/assets\/figma\/icon-pdp-share-link\.svg"/.test(js) &&
+      existsSync(resolve("assets/figma/icon-pdp-share-link.svg")) &&
+      /\.pdp-share-link\s*{[\s\S]*display:\s*inline-flex[\s\S]*font-weight:\s*400[\s\S]*gap:\s*4px[\s\S]*line-height:\s*17px[\s\S]*text-decoration:\s*underline[\s\S]*white-space:\s*nowrap/.test(css) &&
+      /\.pdp-share \.svg-icon\s*{[\s\S]*height:\s*16px[\s\S]*width:\s*16px/.test(css) &&
       /pdpContactWhatsapp:\s*"\.\/assets\/figma\/icon-pdp-contact-whatsapp\.svg"/.test(js) &&
       /pdpContactArrow:\s*"\.\/assets\/figma\/icon-pdp-contact-arrow\.svg"/.test(js) &&
       /pdpProductInfoArrow:\s*"\.\/assets\/figma\/icon-pdp-product-info-arrow\.svg"/.test(js) &&
@@ -391,8 +394,7 @@ const checks = [
       !/pdp-contact-service">\s*\$\{icon\("pdpContactWhatsapp"\)\}[\s\S]*\$\{icon\("pdpContactArrow"\)\}/.test(getFunctionSource("renderPdpPage")) &&
       /pdp-product-info-head[\s\S]*\$\{icon\(productInfoOpen \? "pdpProductInfoArrow" : "pdpDetailsArrow"\)\}/.test(js) &&
       /pdp-details-row[\s\S]*\$\{icon\(open \? "pdpProductInfoArrow" : "pdpDetailsArrow"\)\}/.test(js) &&
-      /facebook:\s*"\.\/assets\/figma\/icon-pdp-share-facebook\.svg"/.test(js) &&
-      /pdp-share-facebook/.test(js) &&
+      !/class="pdp-share"[\s\S]*aria-label="Facebook"/.test(getFunctionSource("renderPdpPage")) &&
       /<span class="pdp-review-score-text"><strong>4\.8<\/strong><span>\/5<\/span><\/span>/.test(js) &&
       !/<strong>4\.8\/5<\/strong>/.test(js) &&
       /\.pdp-review-summary\s*{[\s\S]*gap:\s*0/.test(css) &&
@@ -504,13 +506,13 @@ const checks = [
   ],
   [
     "footer screens end at the footer bottom without extra blank space",
-    /\.home-screen\s*{[\s\S]*height:\s*5925px[\s\S]*min-height:\s*5925px/.test(css) &&
-      /\.list-screen\s*{[\s\S]*min-height:\s*2992px/.test(css) &&
-      /\.search-results-screen\s*{[\s\S]*min-height:\s*2846px/.test(css) &&
-      /\.search-empty-screen\s*{[\s\S]*min-height:\s*2888px/.test(css) &&
-      /\.gift-results-screen\s*{[\s\S]*min-height:\s*2794px/.test(css) &&
-      /\.cart-empty-screen\s*{[\s\S]*height:\s*2496px[\s\S]*min-height:\s*2496px/.test(css) &&
-      /\.track-order-screen\s*{[\s\S]*height:\s*1706px[\s\S]*min-height:\s*1706px/.test(css),
+    /\.home-screen\s*{[\s\S]*height:\s*5979px[\s\S]*min-height:\s*5979px/.test(css) &&
+      /\.list-screen\s*{[\s\S]*min-height:\s*3046px/.test(css) &&
+      /\.search-results-screen\s*{[\s\S]*min-height:\s*2900px/.test(css) &&
+      /\.search-empty-screen\s*{[\s\S]*min-height:\s*2942px/.test(css) &&
+      /\.gift-results-screen\s*{[\s\S]*min-height:\s*2848px/.test(css) &&
+      /\.cart-empty-screen\s*{[\s\S]*height:\s*2550px[\s\S]*min-height:\s*2550px/.test(css) &&
+      /\.track-order-screen\s*{[\s\S]*height:\s*1760px[\s\S]*min-height:\s*1760px/.test(css),
   ],
   [
     "newsletter form matches Figma footer node 234:772 and 234:774",
@@ -528,7 +530,15 @@ const checks = [
       js.includes("./assets/figma/trustpilot-logo-white.svg") &&
       existsSync(resolve("assets/figma/logo.svg")) &&
       existsSync(resolve("assets/figma/trustpilot-logo-white.svg")) &&
-      /class="trustpilot-row"[\s\S]*class="trustpilot-logo"[\s\S]*class="trustpilot-review-link"[\s\S]*13,578 review/.test(js) &&
+      /class="trustpilot-row"[\s\S]*class="trustpilot-logo"[\s\S]*class="trustpilot-review-link"[\s\S]*13,578 reviews/.test(js) &&
+      /Razão Social: XXXXX XXXXX LTDA/.test(js) &&
+      /CNPJ: XX\.XXX\.XXX\/0001-XX/.test(js) &&
+      /E-mail: <a href="mailto:atendimento@praemocionar\.com\.br">atendimento@praemocionar\.com\.br<\/a>/.test(js) &&
+      /Todos os direitos reservados/.test(js) &&
+      /\.footer\s*{[\s\S]*height:\s*1090px/.test(css) &&
+      /\.footer-main\s*{[\s\S]*height:\s*875px/.test(css) &&
+      /\.copyright\s*{[\s\S]*border-top:\s*1px solid #f1f3f5[\s\S]*height:\s*107px/.test(css) &&
+      /\.copyright-copy\s*{[\s\S]*flex-direction:\s*column[\s\S]*padding-top:\s*20px/.test(css) &&
       /\.trustpilot-row\s*{[\s\S]*display:\s*flex[\s\S]*gap:\s*4px[\s\S]*width:\s*232px/.test(css) &&
       /\.trustpilot-logo\s*{[\s\S]*height:\s*30px[\s\S]*width:\s*120px/.test(css) &&
       /\.trustpilot-review-link\s*{[\s\S]*text-decoration:\s*underline/.test(css) &&
