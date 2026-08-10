@@ -12,8 +12,8 @@ const html = existsSync(htmlPath) ? readFileSync(htmlPath, "utf8") : "";
 const css = existsSync(cssPath) ? readFileSync(cssPath, "utf8") : "";
 const js = existsSync(jsPath) ? readFileSync(jsPath, "utf8") : "";
 const indexHtml = existsSync(indexPath) ? readFileSync(indexPath, "utf8") : "";
-const whatsappLogoSvg = existsSync(resolve("assets/figma/whatsapp-logo.svg"))
-  ? readFileSync(resolve("assets/figma/whatsapp-logo.svg"), "utf8")
+const whatsappLogoSvg = existsSync(resolve("assets/figma/whatsapp-logo2.svg"))
+  ? readFileSync(resolve("assets/figma/whatsapp-logo2.svg"), "utf8")
   : "";
 
 const webpBudget = [
@@ -1004,14 +1004,16 @@ const checks = [
   ],
   [
     "WhatsApp floating logo is fixed at the lower right without behavior",
-    existsSync(resolve("assets/figma/whatsapp-logo.svg")) &&
+    existsSync(resolve("assets/figma/whatsapp-logo2.svg")) &&
       /class="whatsapp-float"/.test(html) &&
-      /src="\.\/assets\/figma\/whatsapp-logo\.svg"/.test(html) &&
+      /src="\.\/assets\/figma\/whatsapp-logo2\.svg"/.test(html) &&
       /aria-hidden="true"/.test(html) &&
-      /<circle cx="30" cy="31" r="19" fill="white"\/>/.test(whatsappLogoSvg) &&
+      /<svg[\s\S]*<\/svg>/.test(whatsappLogoSvg) &&
       !/whatsapp-float"[^>]*href=/.test(html) &&
-      /\.whatsapp-float\s*{[\s\S]*bottom:\s*20px[\s\S]*height:\s*50px[\s\S]*pointer-events:\s*none[\s\S]*right:\s*16px[\s\S]*width:\s*50px/.test(css) &&
-      /\.whatsapp-float img\s*{[\s\S]*height:\s*50px[\s\S]*width:\s*50px/.test(css),
+      /\.whatsapp-float\s*{[\s\S]*bottom:\s*20px[\s\S]*height:\s*56px[\s\S]*pointer-events:\s*none[\s\S]*right:\s*16px[\s\S]*width:\s*56px/.test(css) &&
+      /height:\s*56px/.test(getCssRule(".whatsapp-float img")) &&
+      /width:\s*56px/.test(getCssRule(".whatsapp-float img")) &&
+      !/box-shadow:/.test(getCssRule(".whatsapp-float img")),
   ],
   [
     "drawers hide the WhatsApp floating logo",

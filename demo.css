@@ -154,18 +154,19 @@ button {
 
 .whatsapp-float {
   bottom: 20px;
-  height: 50px;
+  height: 56px;
   pointer-events: none;
   position: absolute;
   right: 16px;
-  width: 50px;
+  width: 56px;
   z-index: 34;
 }
 
 .whatsapp-float img {
+  border-radius: 50%;
   display: block;
-  height: 50px;
-  width: 50px;
+  height: 56px;
+  width: 56px;
 }
 
 body[data-current-screen="categoryDrawer"] .whatsapp-float,
