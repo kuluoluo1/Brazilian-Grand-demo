@@ -3482,9 +3482,9 @@ body[data-render-motion="static"] .search-layer {
   background: var(--soft);
   border-radius: 8px 8px 0 0;
   bottom: 0;
+  height: 152px;
   left: 0;
   position: absolute;
-  top: 642px;
   width: 390px;
 }
 
