@@ -236,12 +236,19 @@ const firstLevelDrawerItems = [
 ];
 
 const drawerGridItems = [
-  { label: "Para quem", image: "drawer-card-para-quem.webp", target: "categoryLevel2", categoryKey: "paraQuem" },
-  { label: "Ocasiões", image: "drawer-card-ocasioes.webp", target: "categoryFlatList" },
-  { label: "Produtos", image: "drawer-card-produtos.webp", target: "categoryLevel2", categoryKey: "produtos" },
-  { label: "Coleções", image: "drawer-card-colecoes.webp", target: "categoryLevel2", categoryKey: "colecoes" },
-  { label: "Destaques", image: "drawer-card-destaques.webp", target: "categoryLevel2", categoryKey: "destaques" },
-  { label: "Ache seu presente", image: "drawer-card-gift.webp", target: "giftStep1" },
+  { label: "Para quem", iconKey: "drawerWhomV2", target: "categoryLevel2", categoryKey: "paraQuem" },
+  { label: "Ocasiões", iconKey: "drawerOccasionsV2", target: "categoryFlatList" },
+  { label: "Produtos", iconKey: "drawerProductsV2", target: "categoryLevel2", categoryKey: "produtos" },
+  { label: "Coleções", iconKey: "drawerCollectionsV2", target: "categoryLevel2", categoryKey: "colecoes" },
+  { label: "Destaques", iconKey: "drawerHighlightsV2", target: "categoryLevel2", categoryKey: "destaques" },
+  { label: "Ache seu presente", iconKey: "drawerGiftV2", target: "giftStep1" },
+];
+
+const drawerUtilityItems = [
+  { label: "Serviço", iconKey: "drawerServiceV2" },
+  { label: "Acompanhar pedido", iconKey: "drawerTrackOrderV2", target: "trackOrder" },
+  { label: "Lista de Desejos", iconKey: "drawerWishlistV2" },
+  { label: "Avaliações", iconKey: "drawerReviewsV2" },
 ];
 
 const flatDrawerCategories = [
@@ -344,6 +351,19 @@ const assetIcons = {
   drawerServiceArrowFigma: "./assets/figma/icon-drawer-service-arrow-figma.svg",
   drawerTrackOrderFigma: "./assets/figma/icon-drawer-track-order-figma.svg",
   drawerWishlistFigma: "./assets/figma/icon-drawer-wishlist-figma.svg",
+  drawerLoginV2: "./assets/figma/icon-drawer-login-v2.svg",
+  drawerCloseV2: "./assets/figma/icon-drawer-close-v2.svg",
+  drawerWhomV2: "./assets/figma/icon-drawer-category-whom-v2.svg",
+  drawerOccasionsV2: "./assets/figma/icon-drawer-category-occasions-v2.svg",
+  drawerProductsV2: "./assets/figma/icon-drawer-category-products-v2.svg",
+  drawerCollectionsV2: "./assets/figma/icon-drawer-category-collections-v2.svg",
+  drawerHighlightsV2: "./assets/figma/icon-drawer-category-highlights-v2.svg",
+  drawerGiftV2: "./assets/figma/icon-drawer-category-gift-v2.svg",
+  drawerServiceV2: "./assets/figma/icon-drawer-service-v2.svg",
+  drawerTrackOrderV2: "./assets/figma/icon-drawer-track-order-v2.svg",
+  drawerWishlistV2: "./assets/figma/icon-drawer-wishlist-v2.svg",
+  drawerReviewsV2: "./assets/figma/icon-drawer-reviews-v2.svg",
+  drawerViewAllV2: "./assets/figma/icon-drawer-view-all-v2.svg",
   trackOrder: "./assets/figma/icon-track-order.svg",
   stars: "./assets/figma/icon-stars.svg",
 };
@@ -1053,8 +1073,11 @@ function renderCategoryDrawer() {
     <div class="overlay" data-action="close-drawer"></div>
     <aside class="category-drawer drawer-first-level" aria-label="Categorias">
       <div class="drawer-header">
-        <h2 class="drawer-title">Menu</h2>
-        <button class="icon-button" type="button" aria-label="Fechar" data-action="close-drawer">${icon("drawerCloseFigma")}</button>
+        <div class="drawer-account-title">
+          ${icon("drawerLoginV2")}
+          <span>Entrar</span>
+        </div>
+        <button class="icon-button" type="button" aria-label="Fechar" data-action="close-drawer">${icon("drawerCloseV2")}</button>
       </div>
       <button class="drawer-promo-banner" type="button" data-action="navigate" data-target="giftStep1" aria-label="Encontrar um presente">
         ${imageTag("drawer-side-banner.webp", { width: 366, height: 120 })}
@@ -1064,21 +1087,11 @@ function renderCategoryDrawer() {
       <div class="drawer-first-list">
         ${drawerGridItems.map(renderFirstLevelDrawerItem).join("")}
       </div>
-      <button class="drawer-service" type="button">
-        ${icon("drawerServiceFigma")}
-        <span>Serviço</span>
-        ${icon("drawerServiceArrowFigma")}
-      </button>
-      <button class="drawer-service drawer-track-order" type="button" data-action="navigate" data-target="trackOrder">
-        ${icon("drawerTrackOrderFigma")}
-        <span>Acompanhar pedido</span>
-        ${icon("drawerServiceArrowFigma")}
-      </button>
-      <button class="drawer-service drawer-wishlist-link" type="button">
-        ${icon("drawerWishlistFigma")}
-        <span>Lista de Desejos</span>
-        ${icon("drawerServiceArrowFigma")}
-      </button>
+      <div class="drawer-support-panel">
+        <div class="drawer-utility-list">
+          ${drawerUtilityItems.map(renderDrawerUtilityItem).join("")}
+        </div>
+      </div>
     </aside>
   `;
 }
@@ -1113,9 +1126,19 @@ function renderLegacyCategoryDrawer() {
 function renderFirstLevelDrawerItem(item) {
   return `
     <button class="drawer-nav-item" type="button" data-action="navigate" data-target="${item.target}" data-category-key="${item.categoryKey || ""}">
-      ${imageTag(item.image, { className: "drawer-thumb", width: 48, height: 48 })}
+      <span class="drawer-card-icon">${icon(item.iconKey)}</span>
       <span>${escapeHtml(item.label)}</span>
-      ${icon("drawerNavChevron")}
+    </button>
+  `;
+}
+
+function renderDrawerUtilityItem(item) {
+  const actionAttrs = item.target ? ` data-action="navigate" data-target="${item.target}"` : "";
+
+  return `
+    <button class="drawer-utility-item" type="button"${actionAttrs}>
+      ${icon(item.iconKey)}
+      <span>${escapeHtml(item.label)}</span>
     </button>
   `;
 }
@@ -1154,7 +1177,7 @@ function renderCategoryFlatList() {
       <div class="drawer-flat-list">
         ${category.links.map((label) => `<button class="drawer-flat-link" type="button" data-action="navigate" data-target="listPage">${escapeHtml(label)}</button>`).join("")}
         <button class="drawer-flat-link view-all" type="button" data-action="navigate" data-target="listPage">
-          <span>Ver tudo</span>${icon("drawerServiceArrow")}
+          <span>Ver tudo</span>${icon("drawerViewAllV2")}
         </button>
       </div>
     </aside>

@@ -781,34 +781,50 @@ const checks = [
       /\.search-layer\s*{[\s\S]*top:\s*104px/.test(css),
   ],
   [
-    "level 1 category drawer matches side drawer artboard 288:1850",
+    "level 1 category drawer matches side drawer artboard 455:2901",
     /\.category-drawer/.test(css) &&
       /const drawerGridItems = \[/.test(js) &&
       ["Para quem", "Ocasiões", "Produtos", "Coleções", "Destaques", "Ache seu presente"].every((label) => js.includes(label)) &&
       existsSync(resolve("assets/figma/drawer-side-banner.webp")) &&
-      ["para-quem", "ocasioes", "produtos", "colecoes", "destaques", "gift"].every((base) => existsSync(resolve("assets/figma", `drawer-card-${base}.webp`))) &&
-      /drawerCloseFigma:\s*"\.\/assets\/figma\/icon-drawer-close-figma\.svg"/.test(js) &&
-      /drawerServiceFigma:\s*"\.\/assets\/figma\/icon-drawer-service-figma\.svg"/.test(js) &&
-      /drawerTrackOrderFigma:\s*"\.\/assets\/figma\/icon-drawer-track-order-figma\.svg"/.test(js) &&
-      /drawerWishlistFigma:\s*"\.\/assets\/figma\/icon-drawer-wishlist-figma\.svg"/.test(js) &&
+      [
+        "icon-drawer-login-v2.svg",
+        "icon-drawer-close-v2.svg",
+        "icon-drawer-category-whom-v2.svg",
+        "icon-drawer-category-occasions-v2.svg",
+        "icon-drawer-category-products-v2.svg",
+        "icon-drawer-category-collections-v2.svg",
+        "icon-drawer-category-highlights-v2.svg",
+        "icon-drawer-category-gift-v2.svg",
+        "icon-drawer-service-v2.svg",
+        "icon-drawer-track-order-v2.svg",
+        "icon-drawer-wishlist-v2.svg",
+        "icon-drawer-reviews-v2.svg",
+      ].every((name) => existsSync(resolve("assets/figma", name))) &&
+      /drawerLoginV2:\s*"\.\/assets\/figma\/icon-drawer-login-v2\.svg"/.test(js) &&
+      /drawerCloseV2:\s*"\.\/assets\/figma\/icon-drawer-close-v2\.svg"/.test(js) &&
+      /drawerWhomV2:\s*"\.\/assets\/figma\/icon-drawer-category-whom-v2\.svg"/.test(js) &&
+      /drawerReviewsV2:\s*"\.\/assets\/figma\/icon-drawer-reviews-v2\.svg"/.test(js) &&
       /function renderFirstLevelDrawerItem/.test(js) &&
       /class="category-drawer drawer-first-level"/.test(js) &&
+      /class="drawer-account-title"/.test(js) &&
       /class="drawer-promo-banner"/.test(js) &&
       /class="drawer-first-list"/.test(js) &&
       /class="drawer-nav-item"/.test(js) &&
-      /className:\s*"drawer-thumb"/.test(js) &&
-      /class="drawer-service"/.test(js) &&
+      /class="drawer-card-icon"/.test(js) &&
+      /class="drawer-support-panel"/.test(js) &&
+      /class="drawer-utility-list"/.test(js) &&
+      /class="drawer-utility-item"/.test(js) &&
       /data-action="navigate" data-target="\$\{item\.target\}"/.test(js) &&
       /\.drawer-first-level\s*{[\s\S]*border-radius:\s*0[\s\S]*width:\s*390px/.test(css) &&
       /body\[data-current-screen="categoryDrawer"\] \.overlay,\s*\nbody\[data-current-screen="categoryLevel2"\] \.overlay,\s*\nbody\[data-current-screen="categoryFlatList"\] \.overlay\s*{[\s\S]*height:\s*var\(--app-height\)[\s\S]*top:\s*0/.test(css) &&
       !/drawer-status-layer/.test(js) &&
       /\.drawer-promo-banner\s*{[\s\S]*height:\s*120px[\s\S]*left:\s*12px[\s\S]*top:\s*64px[\s\S]*width:\s*366px/.test(css) &&
-      /\.drawer-first-level \.drawer-first-list\s*{[\s\S]*gap:\s*8px[\s\S]*grid-template-columns:\s*repeat\(2, 179px\)[\s\S]*top:\s*208px/.test(css) &&
-      /\.drawer-first-level \.drawer-nav-item\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*64px[\s\S]*width:\s*179px/.test(css) &&
-      /\.drawer-first-level \.drawer-thumb\s*{[\s\S]*height:\s*48px[\s\S]*width:\s*48px/.test(css) &&
-      /\.drawer-first-level \.drawer-service\s*{[\s\S]*top:\s*476px/.test(css) &&
-      /\.drawer-first-level \.drawer-track-order\s*{[\s\S]*top:\s*524px/.test(css) &&
-      /\.drawer-first-level \.drawer-wishlist-link\s*{[\s\S]*top:\s*572px/.test(css) &&
+      /\.drawer-first-level \.drawer-first-list\s*{[\s\S]*gap:\s*12px[\s\S]*grid-template-columns:\s*repeat\(2, 177px\)[\s\S]*top:\s*208px/.test(css) &&
+      /\.drawer-first-level \.drawer-nav-item\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*56px[\s\S]*width:\s*177px/.test(css) &&
+      /\.drawer-card-icon\s*{[\s\S]*height:\s*32px[\s\S]*width:\s*32px/.test(css) &&
+      /\.drawer-support-panel\s*{[\s\S]*background:\s*var\(--soft\)[\s\S]*top:\s*642px[\s\S]*width:\s*390px/.test(css) &&
+      /\.drawer-utility-list\s*{[\s\S]*grid-template-columns:\s*repeat\(2, 179px\)[\s\S]*top:\s*16px/.test(css) &&
+      /\.drawer-utility-item\s*{[\s\S]*background:\s*var\(--bg\)[\s\S]*height:\s*44px[\s\S]*width:\s*179px/.test(css) &&
       /label:\s*"Ocasiões"[\s\S]*target:\s*"categoryFlatList"/.test(js) &&
       /label:\s*"Ache seu presente"[\s\S]*target:\s*"giftStep1"/.test(js),
   ],
@@ -912,7 +928,8 @@ const checks = [
       /data-action="navigate" data-target="listPage"/.test(js) &&
       /action === "toggle-level2-group"[\s\S]*toggleLevel2Group/.test(js) &&
       /\.drawer-level2-list\s*{[\s\S]*gap:\s*12px[\s\S]*top:\s*72px/.test(css) &&
-      /\.drawer-level2-row\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*52px/.test(css) &&
+      /\.drawer-level2-list\s*{[\s\S]*width:\s*366px/.test(css) &&
+      /\.drawer-level2-row\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*font-size:\s*14px[\s\S]*height:\s*52px/.test(css) &&
       /\.drawer-level2-row\.is-open\s*{[\s\S]*background:\s*var\(--soft-blue\)/.test(css) &&
       /\.drawer-level2-row\.is-open \.svg-icon\s*{[\s\S]*transform:\s*rotate\(-90deg\)/.test(css) &&
       /\.drawer-level2-group\.is-open\s*{[\s\S]*gap:\s*16px/.test(css) &&
