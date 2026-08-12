@@ -823,7 +823,7 @@ const checks = [
       /\.drawer-first-level \.drawer-nav-item\s*{[\s\S]*background:\s*#f6f6f6[\s\S]*height:\s*56px[\s\S]*width:\s*177px/.test(css) &&
       /\.drawer-card-icon\s*{[\s\S]*height:\s*32px[\s\S]*width:\s*32px/.test(css) &&
       /\.drawer-support-panel\s*{[\s\S]*background:\s*var\(--soft\)[\s\S]*bottom:\s*0[\s\S]*height:\s*152px[\s\S]*width:\s*390px/.test(css) &&
-      /\.drawer-utility-list\s*{[\s\S]*grid-template-columns:\s*repeat\(2, 179px\)[\s\S]*top:\s*16px/.test(css) &&
+      /\.drawer-utility-list\s*{[\s\S]*bottom:\s*40px[\s\S]*grid-template-columns:\s*repeat\(2, 179px\)/.test(css) &&
       /\.drawer-utility-item\s*{[\s\S]*background:\s*var\(--bg\)[\s\S]*height:\s*44px[\s\S]*width:\s*179px/.test(css) &&
       /label:\s*"Ocasiões"[\s\S]*target:\s*"categoryFlatList"/.test(js) &&
       /label:\s*"Ache seu presente"[\s\S]*target:\s*"giftStep1"/.test(js),
