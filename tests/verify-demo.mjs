@@ -48,10 +48,7 @@ const requiredScreens = [
   "pdpPage",
   "filterDrawer",
   "giftStep1",
-  "giftStep2",
-  "giftStep3",
   "giftFinderResults",
-  "retentionModal",
   "searchTrending",
   "searchSuggest",
   "searchResultsHas",
@@ -72,10 +69,7 @@ const requiredTransitions = [
   ["filter drawer applies selected filters", "filterDrawer", "listPageFiltered"],
   ["home banner opens gift finder", "home", "giftStep1"],
   ["home search opens trending search", "home", "searchTrending"],
-  ["gift step 1 advances to step 2", "giftStep1", "giftStep2"],
-  ["gift step 2 advances to step 3", "giftStep2", "giftStep3"],
-  ["gift step 3 opens gift finder results", "giftStep3", "giftFinderResults"],
-  ["gift close opens retention modal", "giftStep3", "retentionModal"],
+  ["gift finder submit opens results", "giftStep1", "giftFinderResults"],
   ["search input shows fuzzy suggestions", "searchTrending", "searchSuggest"],
   ["search submit opens results", "searchSuggest", "searchResultsHas"],
   ["empty cart icon opens cart empty page", "home", "cartEmpty"],
@@ -576,29 +570,40 @@ const checks = [
       /\.results-title ~ \.list-product-grid\s*{[\s\S]*top:\s*278px/.test(css),
   ],
   [
-    "gift finder steps use distinct Figma sheet heights",
-    /class="gift-modal gift-step-\$\{step\}"/.test(js) &&
-      /\.gift-modal\.gift-step-1\s*{[\s\S]*top:\s*98px[\s\S]*height:\s*746px/.test(css) &&
-      /\.gift-modal\.gift-step-2\s*{[\s\S]*top:\s*434px[\s\S]*height:\s*410px/.test(css) &&
-      /\.gift-modal\.gift-step-3\s*{[\s\S]*top:\s*487px[\s\S]*height:\s*357px/.test(css),
+    "gift finder uses one Figma-sized modal with square carousel",
+    /giftStep1:\s*{[\s\S]*render:\s*renderGiftFinder/.test(js) &&
+      !/giftStep2:\s*{/.test(js) &&
+      !/giftStep3:\s*{/.test(js) &&
+      !/retentionModal:\s*{/.test(js) &&
+      /class="gift-modal gift-unified"/.test(js) &&
+      /\.gift-modal\.gift-unified\s*{[\s\S]*height:\s*740px[\s\S]*top:\s*104px/.test(css) &&
+      /\.gift-unified \.finder-strip\s*{[\s\S]*height:\s*121px/.test(css) &&
+      /\.gift-unified \.finder-photo\s*{[\s\S]*flex:\s*0 0 110px[\s\S]*height:\s*110px[\s\S]*width:\s*110px/.test(css),
   ],
   [
-    "gift finder carries previous selections through steps",
-    /giftSelections:\s*{[\s\S]*recipient:\s*"Mãe"[\s\S]*occasion:\s*"Aniversário"[\s\S]*budget:\s*""/.test(js) &&
-      /function giftSelectionSummary\(step\)/.test(js) &&
-      /class="gift-selection-summary"/.test(js) &&
-      /Para:\s*\$\{escapeHtml\(state\.giftSelections\.recipient\)\}/.test(js) &&
-      /class="selection-dot"/.test(js) &&
-      /data-action="choose-gift"/.test(js) &&
-      /data-gift-key="\$\{config\.selectionKey\}"/.test(js) &&
-      /function chooseGift\(key, value, target\)[\s\S]*state\.giftSelections\[key\] = value[\s\S]*navigateTo\(target\)/.test(js) &&
-      /action === "choose-gift"[\s\S]*chooseGift/.test(js) &&
-      /Quanto quer investir\?/.test(js) &&
-      /choices:\s*\["Até R\$ 70", "R\$ 70 a R\$ 100", "Acima de R\$ 100"\]/.test(js) &&
-      !/step === 3 \? '<div class="step-actions"/.test(js) &&
-      /\.gift-selection-summary\s*{[\s\S]*top:\s*44px/.test(css) &&
-      /\.gift-selection-summary \.svg-icon\s*{[\s\S]*transform:\s*rotate\(180deg\)/.test(css) &&
-      /\.selection-dot\s*{[\s\S]*height:\s*2px[\s\S]*width:\s*2px/.test(css),
+    "gift finder has toggle chips, disabled hint, and sticky submit",
+    /giftSelections:\s*{[\s\S]*recipient:\s*\[\][\s\S]*occasion:\s*\[\]/.test(js) &&
+      /const giftFinderGroups = \[/.test(js) &&
+      /function hasGiftFinderSelection\(\)/.test(js) &&
+      /data-action="toggle-gift-option"/.test(js) &&
+      /function toggleGiftOption\(key, value\)[\s\S]*filter\(\(item\) => item !== value\)[\s\S]*\[\.\.\.currentValues, value\]/.test(js) &&
+      /function submitGiftFinder\(\)[\s\S]*navigateTo\("giftFinderResults"\)/.test(js) &&
+      /data-action="submit-gift-finder"/.test(js) &&
+      /Selecione pelo menos uma opção para ver presentes/.test(js) &&
+      /disabled/.test(js) &&
+      /\.gift-choice-button\.is-selected\s*{[\s\S]*background:\s*var\(--navy\)[\s\S]*color:\s*#ffffff/.test(css) &&
+      /\.gift-confirm-bar\s*{[\s\S]*bottom:\s*0[\s\S]*position:\s*absolute/.test(css) &&
+      /\.gift-confirm-button:disabled\s*{[\s\S]*background:\s*#e5e7eb[\s\S]*color:\s*#9ca3af/.test(css),
+  ],
+  [
+    "old multi-step gift finder code is removed",
+    !/function giftSelectionSummary/.test(js) &&
+      !/function renderRetentionModal/.test(js) &&
+      !/function chooseGift/.test(js) &&
+      !/data-action="choose-gift"/.test(js) &&
+      !/gift-step-[123]/.test(css) &&
+      !/\.retention-card/.test(css) &&
+      !/\.choice-button/.test(css),
   ],
   [
     "gift finder result page matches Figma result layout",
@@ -750,19 +755,6 @@ const checks = [
       existsSync(resolve("assets/figma/icon-filter.svg")),
   ],
   [
-    "retention modal matches Figma confirm card size",
-    /\.retention-card\s*{[\s\S]*height:\s*181px[\s\S]*left:\s*20px[\s\S]*top:\s*332px[\s\S]*width:\s*350px/.test(css),
-  ],
-  [
-    "retention modal internals match Figma coordinates",
-    js.includes("Você está quase lá!") &&
-      js.includes("Continue para ver sugestões de presentes.") &&
-      js.includes("Continuar escolhendo") &&
-    /\.retention-card \.modal-title\s*{[\s\S]*font-size:\s*16px[\s\S]*left:\s*20px[\s\S]*top:\s*44px[\s\S]*width:\s*310px/.test(css) &&
-      /\.retention-actions\s*{[\s\S]*height:\s*41px[\s\S]*left:\s*20px[\s\S]*top:\s*112px[\s\S]*width:\s*310px/.test(css) &&
-      /\.retention-actions \.primary-button\s*{[\s\S]*left:\s*118px[\s\S]*width:\s*192px/.test(css),
-  ],
-  [
     "review copy remains Figma sized and clamps to three lines",
     /\.review-copy p\s*{[\s\S]*-webkit-line-clamp:\s*3/.test(css),
   ],
@@ -880,8 +872,6 @@ const checks = [
       /\.filter-drawer\s*{[\s\S]*animation:\s*drawerSlideInRight 160ms ease-out/.test(css) &&
       /\.gift-modal\s*{[\s\S]*animation:\s*modalSlideIn 180ms ease-out/.test(css) &&
       /\.gift-modal\.is-leaving\s*{[\s\S]*animation:\s*modalSlideOut 160ms ease-in forwards/.test(css) &&
-      /\.retention-card\s*{[\s\S]*animation:\s*modalSlideIn 180ms ease-out/.test(css) &&
-      /\.retention-card\.is-leaving\s*{[\s\S]*animation:\s*modalSlideOut 160ms ease-in forwards/.test(css) &&
       /function closeGiftModal\(target\)[\s\S]*classList\.add\("is-leaving"\)[\s\S]*setTimeout/.test(js) &&
       /data-action="close-gift"/.test(js) &&
       !/animation:/.test(getCssRule(".drawer-level2-children")) &&
@@ -891,7 +881,7 @@ const checks = [
       !/\.product-card:hover\s*{[^}]*transform/.test(css) &&
       !/\.drawer-nav-item:hover,\s*\n\.drawer-level2-row:hover\s*{[^}]*transform/.test(css) &&
       !/\.primary-button:hover,\s*\n\.secondary-button:hover\s*{[^}]*transform/.test(css) &&
-      !/\.choice-button:hover\s*{[^}]*transform/.test(css) &&
+      !/\.gift-choice-button:hover\s*{[^}]*transform/.test(css) &&
       !/\.suggestion-item:hover\s*{[^}]*transform/.test(css) &&
       /@media \(prefers-reduced-motion: reduce\)/.test(css),
   ],
@@ -1026,8 +1016,8 @@ const checks = [
       !/box-shadow:/.test(getCssRule(".whatsapp-float img")),
   ],
   [
-    "drawers hide the WhatsApp floating logo",
-    /body\[data-current-screen="categoryDrawer"\] \.whatsapp-float,\s*\nbody\[data-current-screen="categoryLevel2"\] \.whatsapp-float,\s*\nbody\[data-current-screen="categoryFlatList"\] \.whatsapp-float,\s*\nbody\[data-current-screen="filterDrawer"\] \.whatsapp-float,\s*\nbody\[data-current-screen="searchTrending"\] \.whatsapp-float,\s*\nbody\[data-current-screen="searchSuggest"\] \.whatsapp-float\s*{[\s\S]*display:\s*none/.test(css),
+    "drawers and overlays hide the WhatsApp floating logo",
+    /body\[data-current-screen="categoryDrawer"\] \.whatsapp-float,\s*\nbody\[data-current-screen="categoryLevel2"\] \.whatsapp-float,\s*\nbody\[data-current-screen="categoryFlatList"\] \.whatsapp-float,\s*\nbody\[data-current-screen="filterDrawer"\] \.whatsapp-float,\s*\nbody\[data-current-screen="giftStep1"\] \.whatsapp-float,\s*\nbody\[data-current-screen="searchTrending"\] \.whatsapp-float,\s*\nbody\[data-current-screen="searchSuggest"\] \.whatsapp-float\s*{[\s\S]*display:\s*none/.test(css),
   ],
   [
     "raster images are served as WebP with mobile loading hints",

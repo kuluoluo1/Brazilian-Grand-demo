@@ -2,11 +2,9 @@ const state = {
   currentScreenId: "home",
   history: [],
   searchQuery: "",
-  lastGiftStep: "giftStep1",
   giftSelections: {
-    recipient: "Mãe",
-    occasion: "Aniversário",
-    budget: "",
+    recipient: [],
+    occasion: [],
   },
   filterCount: 1,
   sortLabel: "Relevância",
@@ -377,6 +375,35 @@ const finderImages = [
   "gift-finder-4.webp",
 ];
 
+const giftFinderGroups = [
+  {
+    key: "recipient",
+    title: "Quem vai receber?",
+    options: ["Mãe do pet", "Pai do pet", "Mãe", "Pai", "Avós", "Casal", "Melhores Amigos", "Crianças/Bebês"],
+  },
+  {
+    key: "occasion",
+    title: "Qual é a ocasião?",
+    options: [
+      "Aniversário",
+      "Obrigado",
+      "Só porque",
+      "Natal",
+      "Avós",
+      "Casal",
+      "Dia das mães",
+      "Dia dos pais",
+      "Formatura",
+      "Casamento",
+      "Amizade",
+      "Namorados",
+      "Casa nova",
+      "Boas-vindas",
+      "Despedida",
+    ],
+  },
+];
+
 const screens = {
   home: {
     title: "Home",
@@ -473,28 +500,12 @@ const screens = {
     render: renderFilterDrawer,
   },
   giftStep1: {
-    title: "Gift finder step 1",
+    title: "Gift finder",
     transitions: [
-      { action: "recipient", target: "giftStep2" },
+      { action: "results", target: "giftFinderResults" },
       { action: "back", target: "home" },
     ],
-    render: () => renderGiftFinder(1),
-  },
-  giftStep2: {
-    title: "Gift finder step 2",
-    transitions: [
-      { action: "occasion", target: "giftStep3" },
-      { action: "close", target: "retentionModal" },
-    ],
-    render: () => renderGiftFinder(2),
-  },
-  giftStep3: {
-    title: "Gift finder step 3",
-    transitions: [
-      { action: "close", target: "retentionModal" },
-      { action: "results", target: "giftFinderResults" },
-    ],
-    render: () => renderGiftFinder(3),
+    render: renderGiftFinder,
   },
   giftFinderResults: {
     title: "Gift finder results",
@@ -504,14 +515,6 @@ const screens = {
       { action: "product", target: "pdpPage" },
     ],
     render: renderGiftFinderResults,
-  },
-  retentionModal: {
-    title: "Gift finder retention",
-    transitions: [
-      { action: "continue", target: "giftStep3" },
-      { action: "exit", target: "home" },
-    ],
-    render: renderRetentionModal,
   },
   searchTrending: {
     title: "Search trending",
@@ -912,7 +915,7 @@ function renderFinderStrip() {
   return `
     <div class="finder-strip">
       <div class="finder-track">
-        ${finderLoopImages.map((image) => `<div class="finder-photo">${imageTag(image, { width: 110, height: 146 })}</div>`).join("")}
+        ${finderLoopImages.map((image) => `<div class="finder-photo">${imageTag(image, { width: 110, height: 110 })}</div>`).join("")}
       </div>
     </div>
   `;
@@ -1452,92 +1455,63 @@ function collapsedFilter(title) {
   return filterGroup(title, [], -1, false);
 }
 
-function renderGiftFinder(step) {
-  state.lastGiftStep = `giftStep${step}`;
-  const stepMap = {
-    1: {
-      title: "Quem vai receber?",
-      note: "(Passo 1 de 3) Por favor, escolha apenas 1 opção",
-      choices: ["Mãe do pet", "Pai do pet", "Mãe", "Pai", "Avós", "Casal"],
-      selectionKey: "recipient",
-      target: "giftStep2",
-      closeTarget: "home",
-    },
-    2: {
-      title: "Qual é a ocasião?",
-      note: "(Passo 2 de 3) Por favor, escolha apenas 1 opção",
-      choices: ["Aniversário", "Obrigado", "Só porque", "Natal"],
-      selectionKey: "occasion",
-      target: "giftStep3",
-      closeTarget: "retentionModal",
-    },
-    3: {
-      title: "Quanto quer investir?",
-      note: "(Passo 3 de 3) Por favor, escolha apenas 1 opção",
-      choices: ["Até R$ 70", "R$ 70 a R$ 100", "Acima de R$ 100"],
-      selectionKey: "budget",
-      target: "giftFinderResults",
-      closeTarget: "retentionModal",
-    },
-  };
-  const config = stepMap[step];
-
-  return `
-    <section class="screen gift-modal-screen">
-      ${renderHome({ dimmed: true })}
-      <div class="overlay" data-action="close-gift" data-target="${config.closeTarget}"></div>
-      <section class="gift-modal gift-step-${step}" aria-label="Gift finder">
-        <button class="icon-button gift-close" type="button" aria-label="Fechar gift finder" data-action="close-gift" data-target="${config.closeTarget}">${icon("close")}</button>
-        <div class="gift-title-block">
-          <h1 class="modal-title">Encontre o presente perfeito</h1>
-          <p class="modal-subtitle">Descubra seu presente ideal em segundos</p>
-        </div>
-        ${renderFinderStrip()}
-        ${giftSelectionSummary(step)}
-        <div class="step-title">
-          <h2>${config.title}</h2>
-          <p><strong>${config.note.split(")")[0]})</strong>${config.note.slice(config.note.indexOf(")") + 1)}</p>
-        </div>
-        <div class="choice-list">
-          ${config.choices.map((choice) => `<button class="choice-button" type="button" data-action="choose-gift" data-gift-key="${config.selectionKey}" data-gift-value="${escapeHtml(choice)}" data-target="${config.target}">${escapeHtml(choice)}</button>`).join("")}
-        </div>
-      </section>
-    </section>
-  `;
+function getGiftSelectionValues(key) {
+  const value = state.giftSelections[key];
+  if (Array.isArray(value)) {
+    return value;
+  }
+  return value ? [value] : [];
 }
 
-function giftSelectionSummary(step) {
-  if (step < 2) {
-    return "";
-  }
+function hasGiftFinderSelection() {
+  return giftFinderGroups.some((group) => getGiftSelectionValues(group.key).length > 0);
+}
 
-  const parts = [`Para: ${escapeHtml(state.giftSelections.recipient)}`];
-  if (step > 2) {
-    parts.push(escapeHtml(state.giftSelections.occasion));
-  }
+function renderGiftFinderChoice(group, option) {
+  const selected = getGiftSelectionValues(group.key).includes(option);
+  const escapedOption = escapeHtml(option);
 
   return `
-    <button class="gift-selection-summary" type="button" data-action="back" aria-label="Voltar">
-      ${icon("drawerBack")}
-      <span>${parts.join(' <span class="selection-dot"></span> ')}</span>
+    <button class="gift-choice-button ${selected ? "is-selected" : ""}" type="button" data-action="toggle-gift-option" data-gift-key="${group.key}" data-gift-value="${escapedOption}" aria-pressed="${selected}">
+      <span>${escapedOption}</span>
+      <span class="gift-choice-remove">${icon("chipClose")}</span>
     </button>
   `;
 }
 
-function renderRetentionModal() {
-  const resumeTarget = state.lastGiftStep || "giftStep3";
+function renderGiftFinderGroup(group) {
+  return `
+    <section class="gift-filter-group">
+      <h2>${escapeHtml(group.title)}</h2>
+      <div class="gift-choice-list">
+        ${group.options.map((option) => renderGiftFinderChoice(group, option)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderGiftFinder() {
+  const hasSelection = hasGiftFinderSelection();
 
   return `
     <section class="screen gift-modal-screen">
       ${renderHome({ dimmed: true })}
-      <div class="overlay"></div>
-      <section class="retention-card" aria-label="Continuar gift finder">
-        <button class="icon-button modal-close" type="button" aria-label="Fechar" data-action="close-gift" data-target="home">${icon("close")}</button>
-        <h2 class="modal-title">Você está quase lá!</h2>
-        <p class="modal-subtitle">Continue para ver sugestões de presentes.</p>
-        <div class="retention-actions">
-          <button class="secondary-button" type="button" data-action="close-gift" data-target="home">Sair</button>
-          <button class="primary-button" type="button" data-action="close-gift" data-target="${resumeTarget}">Continuar escolhendo</button>
+      <div class="overlay" data-action="close-gift" data-target="home"></div>
+      <section class="gift-modal gift-unified" aria-label="Gift finder">
+        <button class="icon-button gift-close" type="button" aria-label="Fechar gift finder" data-action="close-gift" data-target="home">${icon("close")}</button>
+        <div class="gift-modal-scroll">
+          <div class="gift-title-block">
+            <h1 class="modal-title">Encontre o presente perfeito</h1>
+            <p class="modal-subtitle">Descubra seu presente ideal em segundos</p>
+          </div>
+          ${renderFinderStrip()}
+          <div class="gift-filter-stack">
+            ${giftFinderGroups.map((group) => renderGiftFinderGroup(group)).join("")}
+          </div>
+        </div>
+        <div class="gift-confirm-bar ${hasSelection ? "is-enabled" : ""}">
+          <p class="gift-disabled-hint">Selecione pelo menos uma opção para ver presentes</p>
+          <button class="gift-confirm-button" type="button" data-action="submit-gift-finder" ${hasSelection ? "" : "disabled"}>Ver presentes</button>
         </div>
       </section>
     </section>
@@ -2052,15 +2026,44 @@ function applyFilters() {
   navigateTo(filterCount ? "listPageFiltered" : "listPage");
 }
 
-function chooseGift(key, value, target) {
-  if (Object.prototype.hasOwnProperty.call(state.giftSelections, key)) {
-    state.giftSelections[key] = value;
+function toggleGiftOption(key, value) {
+  if (!giftFinderGroups.some((group) => group.key === key)) {
+    return;
   }
-  navigateTo(target);
+
+  const currentValues = getGiftSelectionValues(key);
+  const selected = currentValues.includes(value);
+  state.giftSelections[key] = selected
+    ? currentValues.filter((item) => item !== value)
+    : [...currentValues, value];
+
+  appRoot.querySelectorAll(".gift-choice-button").forEach((button) => {
+    if (button.dataset.giftKey !== key || button.dataset.giftValue !== value) {
+      return;
+    }
+    const isSelected = !selected;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+  });
+
+  const hasSelection = hasGiftFinderSelection();
+  const confirmBar = appRoot.querySelector(".gift-confirm-bar");
+  const confirmButton = appRoot.querySelector(".gift-confirm-button");
+  confirmBar?.classList.toggle("is-enabled", hasSelection);
+  if (confirmButton) {
+    confirmButton.disabled = !hasSelection;
+  }
+}
+
+function submitGiftFinder() {
+  if (!hasGiftFinderSelection()) {
+    return;
+  }
+  navigateTo("giftFinderResults");
 }
 
 function closeGiftModal(target) {
-  const modal = appRoot.querySelector(".gift-modal, .retention-card");
+  const modal = appRoot.querySelector(".gift-modal");
   if (!modal) {
     navigateTo(target || "home");
     return;
@@ -2198,8 +2201,10 @@ appRoot.addEventListener("click", (event) => {
     applyFilters();
   } else if (action === "clear-filter") {
     clearFilters();
-  } else if (action === "choose-gift") {
-    chooseGift(actionElement.dataset.giftKey, actionElement.dataset.giftValue, actionElement.dataset.target);
+  } else if (action === "toggle-gift-option") {
+    toggleGiftOption(actionElement.dataset.giftKey, actionElement.dataset.giftValue);
+  } else if (action === "submit-gift-finder") {
+    submitGiftFinder();
   }
 });
 
